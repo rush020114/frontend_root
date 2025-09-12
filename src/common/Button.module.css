@@ -1,0 +1,36 @@
+.btn{
+  border: none;
+  border-radius: 3px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.blue{
+  background-color: #496be9;
+}
+
+.blue:hover{
+  background-color: #5a7cfa;
+}
+
+.green{
+  background-color: #467b53;
+}
+
+.green:hover{
+  background-color: #578c64;
+}
+
+.red{
+  background-color: #b84247;
+}
+
+.red:hover{
+  background-color: #c95358;
+}
+
+.disabled{
+  cursor: default;
+  opacity: 0.3;
+}
