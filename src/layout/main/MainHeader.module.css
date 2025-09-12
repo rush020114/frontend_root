@@ -1,0 +1,40 @@
+.container{
+  width: 100%;
+}
+
+.member{
+  background-color: #f2f2f2;
+  padding: 10px 300px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.member > div{
+  cursor: pointer;
+}
+
+.menu_div{
+  padding: 10px 300px;
+  background-color: white;
+  display: flex;
+}
+
+.logo{
+  width: 150px;
+}
+
+.logo > img{
+  width: 100%;
+}
+
+.menu{
+  display: flex;
+  margin-left: auto;
+  gap: 100px;
+  align-items: center;
+}
+
+.menu > li > a:hover{
+  color: #555555;
+}

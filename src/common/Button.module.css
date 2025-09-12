@@ -7,19 +7,27 @@
 }
 
 .blue{
-  background-color: #496be9;
+  background-color: #3c83f6;
 }
 
 .blue:hover{
-  background-color: #5a7cfa;
+  background-color: #4d94f7;
+}
+
+.blue:active{
+  background-color: #2b73e5;
 }
 
 .green{
-  background-color: #467b53;
+  background-color: #4dab28;
 }
 
 .green:hover{
-  background-color: #578c64;
+  background-color: #5ebc39;
+}
+
+.green:active{
+  background-color: #3c9a17;
 }
 
 .red{
@@ -30,7 +38,21 @@
   background-color: #c95358;
 }
 
+.red:active{
+  background-color: #a73126;
+}
+
 .disabled{
   cursor: default;
-  opacity: 0.3;
+  background-color: #cccccc;
+}
+
+.disabled:hover{
+  cursor: default;
+  background-color: #cccccc;
+}
+
+.disabled:active{
+  cursor: default;
+  background-color: #cccccc;
 }
