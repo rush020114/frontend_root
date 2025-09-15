@@ -16,11 +16,34 @@
   margin-bottom: 7px;
 }
 
+.title_div{
+  display: flex;
+  justify-content: space-between;
+}
+
+.title_div > div{
+  font-size: 0.8rem;
+  align-self: flex-end;
+} 
+
+.span{
+  font-size: 0.8rem;
+  color: red;
+}
+
 .table_div{
   background-color: #f7f7f7;
   padding: 10px;
   border: 1px solid #777777;
   border-radius: 3px;
+}
+
+.table_div > table{
+  width: 100%;
+}
+
+.table_div td{
+  padding: 3px;
 }
 
 .radio_div > div{
@@ -48,4 +71,8 @@
 .addr_div > div > div{
   display: flex;
   gap: 10px;
+}
+
+.addr_div > div > div input{
+  cursor: pointer;
 }
