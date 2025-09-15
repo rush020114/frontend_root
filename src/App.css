@@ -1,3 +1,10 @@
+@font-face {
+     font-family: 'S-CoreDream-3Light';
+     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -48,8 +55,17 @@ table {
 /*  * -> 에스테리스크 (모든, 전부, all)   */
 *{
   box-sizing: border-box;
-	
+	font-family: 'S-CoreDream-3Light';
 }
 
+.error{
+	color: red;
+	font-size: 0.8rem;
+	margin-top: -2px;
+}
 
+a{
+	color: black;
+	text-decoration: none;
+}
 
