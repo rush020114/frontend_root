@@ -22,7 +22,7 @@ const RegService = () => {
   // 서비스 신청 등록 데이터를 저장할 state 변수
   const [serviceData, setServiceData] = useState({
     applRole: ''
-    , businessTel: ['', '', '']
+    , businessTelArr: ['', '', '']
     , applAddr: ''
     , addrDetail: ''
     , content: ''
@@ -38,10 +38,10 @@ const RegService = () => {
 
   // 서비스 신청 전화번호 데이터를 세팅할 함수
   const handleServiceTel = (index, e) => {
-    serviceData.businessTel.splice(index, 1, e.target.value);
+    serviceData.businessTelArr.splice(index, 1, e.target.value);
     setServiceData({
       ...serviceData
-      , businessTel: serviceData.businessTel
+      , businessTelArr: serviceData.businessTelArr
     })
   }
 
@@ -58,9 +58,9 @@ const RegService = () => {
   // 버튼 활성화를 결정할 useEffect
   useEffect(() => {
     if(serviceData.applRole &&
-      serviceData.businessTel[0] &&
-      serviceData.businessTel[1] &&
-      serviceData.businessTel[2] &&
+      serviceData.businessTelArr[0] &&
+      serviceData.businessTelArr[1] &&
+      serviceData.businessTelArr[2] &&
       serviceData.applAddr &&
       serviceData.addrDetail
     ){
@@ -144,13 +144,13 @@ const RegService = () => {
           <div>
             <Input
               size='30%'
-              name='businessTel'
-              value={serviceData.businessTel[0]}
+              name='businessTelArr'
+              value={serviceData.businessTelArr[0]}
               onChange={e => {
                 handleServiceTel(0, e)
                 setErrorMsg({
                   ...errorMsg
-                  , businessTel: e.target.value 
+                  , businessTelArr: e.target.value 
                   ? 
                   '' 
                   : 
@@ -162,13 +162,13 @@ const RegService = () => {
             -
             <Input 
               size='30%'
-              name='businessTel'
-              value={serviceData.businessTel[1]}
+              name='businessTelArr'
+              value={serviceData.businessTelArr[1]}
               onChange={e => {
                 handleServiceTel(1, e)
                 setErrorMsg({
                   ...errorMsg
-                  , businessTel: e.target.value 
+                  , businessTelArr: e.target.value 
                   ? 
                   '' 
                   : 
@@ -180,13 +180,13 @@ const RegService = () => {
             -
             <Input 
               size='30%'
-              name='businessTel'
-              value={serviceData.businessTel[2]}
+              name='businessTelArr'
+              value={serviceData.businessTelArr[2]}
               onChange={e => {
                 handleServiceTel(2, e)
                 setErrorMsg({
                   ...errorMsg
-                  , businessTel: e.target.value 
+                  , businessTelArr: e.target.value 
                   ? 
                   '' 
                   : 
