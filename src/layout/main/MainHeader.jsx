@@ -16,7 +16,8 @@ const MainHeader = () => {
         </div>
         <ul className={styles.menu}>
           <li>
-            <NavLink>회사소개</NavLink>
+            <NavLink
+            >회사소개</NavLink>
           </li>
           <li>
             <NavLink>서비스 신청</NavLink>
