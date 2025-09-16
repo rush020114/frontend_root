@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Cloud, Sun, CloudRain, CloudSnow, Eye, Wind, Droplets, Thermometer } from 'lucide-react';
+import styles from './WeatherWidget.module.css';
 
 const WeatherWidget = () => {
   const [weather, setWeather] = useState(null);
@@ -92,17 +93,22 @@ const WeatherWidget = () => {
   }, []);
 
   const getWeatherIcon = (iconType) => {
+    const iconStyle = {
+      width: '64px',
+      height: '64px'
+    };
+    
     switch(iconType) {
       case 'clear':
-        return <Sun className="w-16 h-16 text-yellow-500" />;
+        return <Sun style={{...iconStyle, color: '#eab308'}} />;
       case 'clouds':
-        return <Cloud className="w-16 h-16 text-gray-500" />;
+        return <Cloud style={{...iconStyle, color: '#6b7280'}} />;
       case 'rain':
-        return <CloudRain className="w-16 h-16 text-blue-500" />;
+        return <CloudRain style={{...iconStyle, color: '#3b82f6'}} />;
       case 'snow':
-        return <CloudSnow className="w-16 h-16 text-blue-200" />;
+        return <CloudSnow style={{...iconStyle, color: '#bfdbfe'}} />;
       default:
-        return <Sun className="w-16 h-16 text-yellow-500" />;
+        return <Sun style={{...iconStyle, color: '#eab308'}} />;
     }
   };
 
@@ -116,25 +122,25 @@ const WeatherWidget = () => {
 
   if (loading) {
     return (
-      <div className="bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg p-6 text-white shadow-lg max-w-md">
-        <div className="animate-pulse">
-          <div className="h-4 bg-blue-300 rounded w-3/4 mb-4"></div>
-          <div className="h-8 bg-blue-300 rounded w-1/2 mb-2"></div>
-          <div className="h-4 bg-blue-300 rounded w-2/3"></div>
+      <div className={styles.loading}>
+        <div className={styles.loadingContent}>
+          <div className={styles.loadingBar}></div>
+          <div className={styles.loadingBar}></div>
+          <div className={styles.loadingBar}></div>
         </div>
-        <div className="mt-4 text-center text-blue-100">실시간 날씨 정보를 가져오는 중...</div>
+        <div className={styles.loadingText}>실시간 날씨 정보를 가져오는 중...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="bg-red-500 rounded-lg p-6 text-white shadow-lg max-w-md">
-        <h3 className="font-bold text-lg mb-2">날씨 정보 오류</h3>
-        <p className="mb-4">{error}</p>
+      <div className={styles.error}>
+        <h3 className={styles.errorTitle}>날씨 정보 오류</h3>
+        <p className={styles.errorMessage}>{error}</p>
         <button 
           onClick={handleRefresh}
-          className="w-full bg-red-600 hover:bg-red-700 transition-colors rounded-lg py-2 px-4 text-sm font-medium"
+          className={styles.errorButton}
         >
           다시 시도
         </button>
@@ -143,52 +149,53 @@ const WeatherWidget = () => {
   }
 
   return (
-    <div className="bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg p-6 text-white shadow-lg max-w-md">
+    <div className={styles.weatherContainer}>
       {/* 헤더 */}
-      <div className="flex justify-between items-start mb-4">
+      <div className={styles.header}>
         <div>
-          <h2 className="text-2xl font-bold">{weather.location}</h2>
-          <p className="text-blue-100">{weather.date}</p>
-          <p className="text-blue-100 text-sm">{weather.time}</p>
+          <h2 className={styles.locationTitle}>{weather.location}</h2>
+          <p className={styles.date}>{weather.date}</p>
+          <p className={styles.time}>{weather.time}</p>
         </div>
-        <div className="text-right">
+        <div className={styles.iconContainer}>
           {getWeatherIcon(weather.icon)}
         </div>
       </div>
 
       {/* 온도 */}
-      <div className="mb-6">
-        <div className="text-5xl font-light mb-2">{weather.temperature}°</div>
-        <div className="text-xl text-blue-100">{weather.description}</div>
+      <div className={styles.temperatureSection}>
+        <div className={styles.temperature}>{weather.temperature}°</div>
+        <div className={styles.description}>{weather.description}</div>
       </div>
 
       {/* 상세 정보 */}
-      <div className="grid grid-cols-3 gap-4 mt-4">
-        <div className="text-center">
-          <Droplets className="w-6 h-6 mx-auto mb-1 text-blue-200" />
-          <div className="text-sm text-blue-100">습도</div>
-          <div className="font-semibold">{weather.humidity}%</div>
+      <div className={styles.details}>
+        <div className={styles.detailItem}>
+          <Droplets className={styles.detailIcon} />
+          <div className={styles.detailLabel}>습도</div>
+          <div className={styles.detailValue}>{weather.humidity}%</div>
         </div>
         
-        <div className="text-center">
-          <Wind className="w-6 h-6 mx-auto mb-1 text-blue-200" />
-          <div className="text-sm text-blue-100">바람</div>
-          <div className="font-semibold">{weather.windSpeed}m/s</div>
+        <div className={styles.detailItem}>
+          <Wind className={styles.detailIcon} />
+          <div className={styles.detailLabel}>바람</div>
+          <div className={styles.detailValue}>{weather.windSpeed}m/s</div>
         </div>
         
-        <div className="text-center">
-          <Eye className="w-6 h-6 mx-auto mb-1 text-blue-200" />
-          <div className="text-sm text-blue-100">가시거리</div>
-          <div className="font-semibold">{weather.visibility}km</div>
+        <div className={styles.detailItem}>
+          <Eye className={styles.detailIcon} />
+          <div className={styles.detailLabel}>가시거리</div>
+          <div className={styles.detailValue}>{weather.visibility}km</div>
         </div>
       </div>
 
       {/* 새로고침 버튼 */}
       <button 
-        className="w-full mt-4 bg-white bg-opacity-20 hover:bg-opacity-30 transition-all duration-200 rounded-lg py-2 px-4 text-sm font-medium"
+        className={styles.refreshButton}
         onClick={handleRefresh}
       >
-        새로고침
+        <span><i className="bi bi-arrow-counterclockwise"></i></span>
+        &nbsp;새로고침
       </button>
     </div>
   );

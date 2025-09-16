@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom'
 import MainLayout from './layout/main/MainLayout'
 import Home from './pages/main/Home'
 import UserControl from './pages/user/UserControl'
+import RegService from './pages/servicePage/RegService'
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
           <Route path='bar-chart' element={<UserControl />}/>
           {/* 첫 화면 */}
           <Route path='' element={<Home />} />
+          {/* 서비스 신청 화면 */}
+          <Route path='service' element={<RegService />} />
         </Route>
       </Routes>
     </>

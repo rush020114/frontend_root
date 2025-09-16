@@ -1,0 +1,119 @@
+.content{
+  border: 1px solid white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px #cccccc;
+  background-color: white;
+  width: 1000px;
+  margin: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.content b{
+  display: block;
+  margin-bottom: 7px;
+}
+
+.flex_div{
+  display: flex;
+  gap: 20px;
+}
+
+.flex_div > div{
+  width: 100%;
+}
+
+.title_div{
+  display: flex;
+  justify-content: space-between;
+}
+
+.title_div > div{
+  font-size: 0.8rem;
+  align-self: flex-end;
+} 
+
+.span{
+  font-size: 0.8rem;
+  color: red;
+}
+
+.table_div{
+  background-color: #f7f7f7;
+  padding: 10px;
+  border: 1px solid #777777;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.table_div > table{
+  width: 100%;
+}
+
+.terms_div{
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.terms_title > span{
+  color: #4dab28;
+  font-size: 0.8rem;
+}
+
+.terms{
+  padding: 5px;
+  border: 1px solid black;
+  overflow: auto;
+  height: 70px;
+  background-color: white;
+  font-size: 0.86rem;
+  border: 1px solid #777777;
+  border-radius: 3px;
+}
+
+.table_div td{
+  padding: 3px;
+  font-size: 0.9rem;
+}
+
+.form_div{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.radio_div > div{
+  display: flex;
+  gap: 20px;
+}
+
+.radio_div > div > div{
+  display: flex;
+  gap: 5px;
+}
+
+.tel_div > div{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.addr_div > div{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.addr_div > div > div{
+  display: flex;
+  gap: 10px;
+}
+
+.addr_div > div > div input{
+  cursor: pointer;
+}
