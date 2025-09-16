@@ -4,6 +4,7 @@ import Input from '../../common/Input'
 import Button from '../../common/Button'
 import Textarea from '../../common/Textarea'
 import { useDaumPostcodePopup } from 'react-daum-postcode'
+import WeatherWidget from '../../component/WeatherWidget'
 
 const RegService = () => {
 

@@ -1,0 +1,181 @@
+/* WeatherWidget.module.css */
+.weatherContainer {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border-radius: 12px;
+  padding: 24px;
+  color: white;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  max-width: 384px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.locationTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.date {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  margin: 4px 0 0 0;
+}
+
+.time {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.8rem;
+  margin: 2px 0 0 0;
+}
+
+.iconContainer {
+  width: 64px;
+  height: 64px;
+}
+
+.temperatureSection {
+  margin-bottom: 24px;
+}
+
+.temperature {
+  font-size: 3rem;
+  font-weight: 300;
+  margin: 0 0 8px 0;
+  line-height: 1;
+}
+
+.description {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.detailItem {
+  text-align: center;
+}
+
+.detailIcon {
+  width: 24px;
+  height: 24px;
+  margin: 0 auto 4px auto;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.detailLabel {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 2px 0;
+}
+
+.detailValue {
+  font-weight: 600;
+  margin: 0;
+}
+
+.refreshButton {
+  width: 100%;
+  margin-top: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.refreshButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.loading {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border-radius: 12px;
+  padding: 24px;
+  color: white;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  max-width: 384px;
+  margin: 0 auto;
+}
+
+.loadingContent {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.loadingBar {
+  height: 16px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.loadingBar:nth-child(1) { width: 75%; }
+.loadingBar:nth-child(2) { width: 50%; }
+.loadingBar:nth-child(3) { width: 66%; }
+
+.loadingText {
+  margin-top: 16px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.error {
+  background: #ef4444;
+  border-radius: 12px;
+  padding: 24px;
+  color: white;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  max-width: 384px;
+  margin: 0 auto;
+}
+
+.errorTitle {
+  font-weight: bold;
+  font-size: 1.125rem;
+  margin: 0 0 8px 0;
+}
+
+.errorMessage {
+  margin: 0 0 16px 0;
+}
+
+.errorButton {
+  width: 100%;
+  background: #dc2626;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.errorButton:hover {
+  background: #b91c1c;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
