@@ -1,0 +1,43 @@
+.dashboard {
+  display: grid;
+  grid-template-columns: 300px 300px 300px; /* 3열 고정 */
+  grid-template-rows: 200px 200px;          /* 2행 고정 */
+  gap: 20px;
+  width: 960px;
+  margin: 20px auto;
+  background: url('/background.jpg') no-repeat center/cover;
+}
+
+/* 기본 카드 */
+.card {
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px) saturate(180%);
+  -webkit-backdrop-filter: blur(15px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+/* 온도: 세로 2칸 */
+.tall {
+  grid-row: span 2;
+}
+
+/* 조도: 가로 2칸 */
+.wide {
+  grid-column: span 2;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
