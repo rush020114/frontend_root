@@ -22,6 +22,7 @@
 
 .logo{
   width: 150px;
+  cursor: pointer;
 }
 
 .logo > img{
@@ -36,5 +37,9 @@
 }
 
 .menu > li > a:hover{
+  color: #4dab28;
+}
+
+.active{
   color: #4dab28;
 }
