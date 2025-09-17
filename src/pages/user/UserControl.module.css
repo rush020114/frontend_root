@@ -1,10 +1,10 @@
-.dashboard {
+.container {
   display: grid;
-  grid-template-columns: 300px 300px 300px; /* 3열 고정 */
-  grid-template-rows: 200px 200px;          /* 2행 고정 */
+  grid-template-columns: 300px 400px 400px;
+  grid-template-rows: 300px 370px 360px;
   gap: 20px;
-  width: 960px;
-  margin: 20px auto;
+  width: 1160px;   /* 전체 폭 늘림 */
+  margin: -30px auto;
   background: url('/background.jpg') no-repeat center/cover;
 }
 
@@ -30,7 +30,7 @@
   grid-row: span 2;
 }
 
-/* 조도: 가로 2칸 */
+/* 조도: 가로 2칸 (이제 800px 차지) */
 .wide {
   grid-column: span 2;
 }
@@ -41,3 +41,13 @@
   object-fit: cover;
   border-radius: 16px;
 }
+
+.card > div {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  border-radius: 0 !important; 
+}
+
+

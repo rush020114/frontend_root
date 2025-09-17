@@ -1,5 +1,7 @@
 import React from 'react'
 import styles from './UserControl.module.css'
+import { Bar } from 'react-chartjs-2'
+import WeatherWidget from '../../component/WeatherWidget';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,7 +11,6 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
-import { Bar } from 'react-chartjs-2'
 
 ChartJS.register(
   CategoryScale,
@@ -23,6 +24,7 @@ ChartJS.register(
 const UserControl = () => {
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { position: 'bottom' },
       title: { display: true, text: 'Chart.js Bar Chart' },
@@ -35,44 +37,49 @@ const UserControl = () => {
       {
         label: '재배량 (그램)',
         data: [10, 20, 5, 300, 700, 900, 150],
-        backgroundColor: 'rgba(0, 255, 55, 0.7)',
+        backgroundColor: 'rgba(0, 255, 55)',
       },
       {
         label: '습도 (시간)',
         data: [14, 29, 10, 200, 400, 500, 340],
-        backgroundColor: 'rgba(255, 195, 67, 0.98)',
+        backgroundColor: 'rgba(59, 130, 246)',
       },
     ],
   };
 
-  return (
-    <div className={styles.dashboard}>
-      {/* 1열 전체: 온도 (row-span 2) */}
-      <div className={`${styles.card} ${styles.tall}`}>
-        <Bar options={options} data={data} />
-      </div>
-      {/* 2열 1행: Control 이미지 */}
-      <div className={styles.card}>
-        <img src="public/control.png" alt="control" />
-      </div>
-      {/* 3열 1행: 토양 */}
-      <div className={styles.card}>
-        <Bar options={options} data={data} />
-      </div>
-      {/* 2열~3열 2행: 조도 (col-span 2) */}
-      <div className={`${styles.card} ${styles.wide}`}>
-        <Bar options={options} data={data} />
-      </div>
-      {/* 2열~3열 2행: 조도 (col-span 2) */}
-      <div className={`${styles.card} ${styles.wide}`}>
-        <Bar options={options} data={data} />
-      </div>     
-      {/* 3열 2행: 날씨 */}
-      <div className={styles.card}>
-        <p>날씨 위젯</p>
-      </div>
+return (
+  <div className={styles.container}>
+    {/* 1열 전체: 사진 (row-span 2) */}
+    <div className={`${styles.card} ${styles.tall}`}>
+      <img src="public/control.png" alt="control" />
     </div>
-  )
+
+    {/* 2열~3열 2행: 조도 (col-span 2) */}
+    <div className={`${styles.card} ${styles.wide}`}>
+      <Bar options={options} data={data} />
+    </div>
+
+    {/* 3열 2행: 날씨 */}
+    <div className={styles.card}>
+      <WeatherWidget />
+    </div>
+
+    {/* 3열 1행: 토양 */}
+    <div className={styles.card}>
+      <Bar options={options} data={data} />
+    </div>
+
+    {/* 2열~3열 2행: 조도 (col-span 2) */}
+    <div className={`${styles.card} ${styles.wide}`}>
+      <Bar options={options} data={data} />
+    </div>     
+
+    {/* 2열 1행: 온도 그래프 */}
+    <div className={styles.card}>
+      <Bar options={options} data={data} />
+    </div>
+  </div>
+)
 }
 
 export default UserControl
