@@ -36,6 +36,10 @@
   align-items: center;
 }
 
+.menu a{
+  font-size: 1.1rem;
+}
+
 .menu > li > a:hover{
   color: #4dab28;
 }

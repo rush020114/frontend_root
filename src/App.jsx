@@ -10,6 +10,8 @@ import RegService from './pages/menu/RegService'
 import CompanyProfile from './pages/menu/CompanyProfile'
 import CustomerService from './pages/menu/CustomerService'
 import AdminHome from './pages/admin/AdminHome'
+import ManageUser from './pages/admin/ManageUser'
+import AdminQnA from './pages/admin/AdminQnA'
 
 function App() {
   return (
@@ -32,6 +34,10 @@ function App() {
         <Route path='/admin' element={<MainLayout />}>
           {/* 메인 */}
           <Route path='home' element={<AdminHome />} />
+          {/* 회원관리  */}
+          <Route path='manage-user' element={<ManageUser />} />
+          {/* Q & A */}
+          <Route path='qna' element={<AdminQnA />} />
         </Route>
       </Routes>
     </>
