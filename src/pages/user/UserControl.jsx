@@ -1,85 +1,119 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 import styles from './UserControl.module.css'
-import { Bar } from 'react-chartjs-2'
-import WeatherWidget from '../../component/WeatherWidget';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js'
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import VerticalBarChart from '../../component/charts/VerticalBarChart'
+import LineChart from '../../component/charts/LineChart'
+import DoughnutChart from '../../component/charts/DoughnutChart'
+import WeatherWidget from '../../component/widgets/WeatherWidget'
 
 const UserControl = () => {
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { position: 'bottom' },
-      title: { display: true, text: 'Chart.js Bar Chart' },
-    },
-  };
+  const [labels, setLabels] = useState([])
+  const [temper, setTemper] = useState([])
+  const [humidity, setHumidity] = useState([])
+  const [soilHumidity, setSoilHumidity] = useState([])
+  const [illumination, setIllumination] = useState([])
 
-  const data = {
-    labels : ['상추', '배추', '딸기', '감자', '고구마', '방울토마토'],
-    datasets: [
-      {
-        label: '재배량 (그램)',
-        data: [10, 20, 5, 300, 700, 900, 150],
-        backgroundColor: 'rgba(0, 255, 55)',
-      },
-      {
-        label: '습도 (시간)',
-        data: [14, 29, 10, 200, 400, 500, 340],
-        backgroundColor: 'rgba(59, 130, 246)',
-      },
-    ],
-  };
+  useEffect(() => {
+    axios.get('/api/growings')
+      .then(res => {
+        const data = res.data
 
-return (
-  <div className={styles.container}>
-    {/* 1열 전체: 사진 (row-span 2) */}
-    <div className={`${styles.card} ${styles.tall}`}>
-      <img src="public/control.png" alt="control" />
+        // X축 라벨 (시간만 추출 HH:mm)
+        setLabels(data.map(d => d.createDate.substring(11, 16)))
+
+        // Y축 데이터
+        setTemper(data.map(d => d.temper))
+        setHumidity(data.map(d => d.humidity))
+        setSoilHumidity(data.map(d => d.soilHumidity))
+        setIllumination(data.map(d => d.illumination))
+      })
+      .catch(error => console.error(error))
+  }, [])
+
+  return (
+    <div className={styles.container}>
+      {/* 1열 전체: 사진 */}
+      <div className={`${styles.card} ${styles.tall}`}>
+        <img src="/control.png" alt="control" />
+      </div>
+
+      {/* 온도 (Line) 그래프 */}
+      <div className={`${styles.card} ${styles.wide}`}>
+        <LineChart
+          title="온도"
+          labels={labels}
+          datasets={[
+            {
+              label: '온도 (℃)',
+              data: temper,
+              borderColor: '#f87171',
+              backgroundColor: 'rgba(248, 113, 113, 0.2)',
+              tension: 0.4,
+            },
+          ]}
+        /> 
+      </div>
+
+      {/* 날씨 위젯 */}
+      <div className={styles.card}>
+        <WeatherWidget />
+      </div>
+
+      {/* 토양 (Doughnut) 그래프 */}
+      <div className={styles.card}>
+        {soilHumidity.length > 0 && ( // 데이터가 있을 때만 렌더
+          <DoughnutChart
+            key={soilHumidity[soilHumidity.length - 1]} // 값이 바뀌면 차트 다시 그림
+            title="토양 습도"
+            labels={['토양습도']}
+            value={soilHumidity[soilHumidity.length - 1].toFixed(1)} // 소수점 1자리
+            datasets={[
+              {
+                data: [
+                  soilHumidity[soilHumidity.length - 1],
+                  100 - soilHumidity[soilHumidity.length - 1],
+                ],
+                backgroundColor: ['#60a5fa', '#a56e1cff'],
+                borderColor: ['#60a5fa', '#a56e1cff'],
+                borderWidth: 1,
+              },
+            ]}
+          />
+        )}
+      </div>
+
+
+      {/* 조도 (Bar) 그래프 */}
+      <div className={`${styles.card} ${styles.wide}`}>
+        <VerticalBarChart
+          title="조도"
+          labels={labels}
+          datasets={[
+            {
+              label: '조도 (lx)',
+              data: illumination,
+              backgroundColor: 'rgba(255, 240, 108, 1)',
+            },
+          ]}
+        /> 
+      </div>     
+
+      {/* 습도 (Bar) 그래프 */}
+      <div className={styles.card}>
+        <VerticalBarChart
+          title="습도"
+          labels={labels}
+          datasets={[
+            {
+              label: '습도 (%)',
+              data: humidity,
+              backgroundColor: 'rgba(53, 162, 235, 0.5)',
+            },
+          ]}
+        /> 
+      </div>
     </div>
-
-    {/* 2열~3열 2행: 조도 (col-span 2) */}
-    <div className={`${styles.card} ${styles.wide}`}>
-      <Bar options={options} data={data} />
-    </div>
-
-    {/* 3열 2행: 날씨 */}
-    <div className={styles.card}>
-      <WeatherWidget />
-    </div>
-
-    {/* 3열 1행: 토양 */}
-    <div className={styles.card}>
-      <Bar options={options} data={data} />
-    </div>
-
-    {/* 2열~3열 2행: 조도 (col-span 2) */}
-    <div className={`${styles.card} ${styles.wide}`}>
-      <Bar options={options} data={data} />
-    </div>     
-
-    {/* 2열 1행: 온도 그래프 */}
-    <div className={styles.card}>
-      <Bar options={options} data={data} />
-    </div>
-  </div>
-)
+  )
 }
 
 export default UserControl
