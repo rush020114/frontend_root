@@ -3,7 +3,9 @@ import styles from './MainFooter.module.css'
 
 const MainFooter = () => {
   return (
-    <div>MainFooter</div>
+    <div className={styles.container}>
+      d
+    </div>
   )
 }
 
