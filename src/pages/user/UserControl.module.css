@@ -30,7 +30,7 @@
   grid-row: span 2;
 }
 
-/* 조도: 가로 2칸 (이제 800px 차지) */
+/* 조도: 가로 2칸 */
 .wide {
   grid-column: span 2;
 }

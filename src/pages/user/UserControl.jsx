@@ -7,21 +7,24 @@ import DoughnutChart from '../../component/charts/DoughnutChart'
 import WeatherWidget from '../../component/widgets/WeatherWidget'
 
 const UserControl = () => {
+  // labels : 표 정보 담기
   const [labels, setLabels] = useState([])
+  // temper : 온도 데이터 담기
   const [temper, setTemper] = useState([])
+  // humidity : 습도 데이터 담기
   const [humidity, setHumidity] = useState([])
+  // soilHumidity : (토양)습도 데이터 담기
   const [soilHumidity, setSoilHumidity] = useState([])
+  // illumination : 조도 데이터 담기
   const [illumination, setIllumination] = useState([])
 
   useEffect(() => {
     axios.get('/api/growings')
       .then(res => {
         const data = res.data
-
-        // X축 라벨 (시간만 추출 HH:mm)
+        // X축 라벨 (시간 HH:mm)
         setLabels(data.map(d => d.createDate.substring(11, 16)))
-
-        // Y축 데이터
+        // Y축 라벨 ( 온도/습도/토양습도/조도 데이터 )
         setTemper(data.map(d => d.temper))
         setHumidity(data.map(d => d.humidity))
         setSoilHumidity(data.map(d => d.soilHumidity))
@@ -32,12 +35,11 @@ const UserControl = () => {
 
   return (
     <div className={styles.container}>
-      {/* 1열 전체: 사진 */}
+      {/* 세로 사진 */}
       <div className={`${styles.card} ${styles.tall}`}>
-        <img src="/control.png" alt="control" />
+        <img src="/controltest.png" alt="control" />
       </div>
-
-      {/* 온도 (Line) 그래프 */}
+      {/* 온도 (LineChart) 그래프 */}
       <div className={`${styles.card} ${styles.wide}`}>
         <LineChart
           title="온도"
@@ -53,13 +55,11 @@ const UserControl = () => {
           ]}
         /> 
       </div>
-
       {/* 날씨 위젯 */}
       <div className={styles.card}>
         <WeatherWidget />
       </div>
-
-      {/* 토양 (Doughnut) 그래프 */}
+      {/* 토양 (DoughnutChart) 그래프 */}
       <div className={styles.card}>
         {soilHumidity.length > 0 && ( // 데이터가 있을 때만 렌더
           <DoughnutChart
@@ -73,17 +73,15 @@ const UserControl = () => {
                   soilHumidity[soilHumidity.length - 1],
                   100 - soilHumidity[soilHumidity.length - 1],
                 ],
-                backgroundColor: ['#60a5fa', '#a56e1cff'],
-                borderColor: ['#60a5fa', '#a56e1cff'],
+                backgroundColor: ['#60a5fa', '#e9c38aff'],
+                borderColor: ['#60a5fa', '#e9c38aff'],
                 borderWidth: 1,
               },
             ]}
           />
         )}
       </div>
-
-
-      {/* 조도 (Bar) 그래프 */}
+      {/* 조도 (VerticalBarChart) 그래프 */}
       <div className={`${styles.card} ${styles.wide}`}>
         <VerticalBarChart
           title="조도"
@@ -107,7 +105,7 @@ const UserControl = () => {
             {
               label: '습도 (%)',
               data: humidity,
-              backgroundColor: 'rgba(53, 162, 235, 0.5)',
+              backgroundColor: '#60a5fa',
             },
           ]}
         /> 
