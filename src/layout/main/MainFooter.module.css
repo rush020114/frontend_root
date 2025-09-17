@@ -8,18 +8,18 @@
   display: flex;
   gap: 30px;
   font-size: 0.85rem;
-  color: #555555;
+  color: #333333;
 }
 
 .bottom_footer{
   border-top: 1px solid #e5e5e5;
-  padding: 20px 300px;
+  padding: 20px 300px 50px 300px;
   display: flex;
 }
 
 .meta_info{
   display: flex;
-  gap: 10px;
+  gap: 20px;
 }
 
 .logo{
@@ -35,7 +35,7 @@
   flex-direction: column;
   justify-content: space-between;
   font-size: 0.85rem;
-  color: #555555;
+  color: #333333;
 }
 
 .icon_div{
