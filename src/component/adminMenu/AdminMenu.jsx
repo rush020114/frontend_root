@@ -30,6 +30,17 @@ const AdminMenu = () => {
         </li>
         <li>
           <NavLink
+            to={'/admin/manage-service'}
+            className={({isActive}) => isActive ? styles.active : null}
+          >
+            <span>
+              <i className="bi bi-clipboard-fill"></i>
+            </span>
+            <p>신청자</p>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
             to={'/admin/qna'}
             className={({isActive}) => isActive ? styles.active : null}
           >
