@@ -290,11 +290,12 @@ const RegService = () => {
                   maxLength={100}
               />
             </div>
-            <div>
+            <div >
               <Button 
                 content='신청하기'
                 size='100%'
                 disabled={isDisable}
+                onClick={() => isDisable ? alert('약관 또는 필수입력사항을 확인하십시오.') : null}
               />
             </div>
           </div>
