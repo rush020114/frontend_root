@@ -12,6 +12,8 @@ import CustomerService from './pages/menu/CustomerService'
 import AdminHome from './pages/admin/AdminHome'
 import ManageUser from './pages/admin/ManageUser'
 import AdminQnA from './pages/admin/AdminQnA'
+import ManageService from './pages/admin/ManageService'
+import MyPageLayout from './layout/mypage/MyPageLayout'
 
 function App() {
   return (
@@ -36,8 +38,13 @@ function App() {
           <Route path='home' element={<AdminHome />} />
           {/* 회원관리  */}
           <Route path='manage-user' element={<ManageUser />} />
+          {/* 서비스 신청 관리  */}
+          <Route path='manage-service' element={<ManageService />} />
           {/* Q & A */}
           <Route path='qna' element={<AdminQnA />} />
+        </Route>
+        {/* 마이 페이지 */}
+        <Route path='/user' element={<MyPageLayout />}>
         </Route>
       </Routes>
     </>
