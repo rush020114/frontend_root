@@ -1,0 +1,35 @@
+.userTable{
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.userThead{
+  background-color: #d2f3b5;
+}
+
+.userTable tr{
+  border-bottom: 1px solid black;
+}
+
+.userTable td{
+  padding: 7px 5px
+}
+
+.btn_div{
+  display: flex;
+  justify-content: end;
+  gap: 8px;
+}
+
+.search_div{
+  display: flex;
+  justify-content: end;
+  gap: 6px
+}
+
+
+.totalUsers{
+  margin-top: 30px;
+}
