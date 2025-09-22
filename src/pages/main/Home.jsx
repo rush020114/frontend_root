@@ -1,6 +1,5 @@
 import React from 'react'
 import styles from './Home.module.css'
-import WeatherWidget from '../../component/widgets/WeatherWidget'
 
 const Home = () => {
   return (
