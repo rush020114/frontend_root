@@ -26,9 +26,6 @@ const Home = () => {
         <div className={styles.notice}>공지사항 영역</div>
         <div>미정의 영역</div>
       </div>
-      <WeatherWidget 
-        backgroundColor='teal'
-      />
     </div>
   )
 }
