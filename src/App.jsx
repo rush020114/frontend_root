@@ -5,6 +5,7 @@ import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from './layout/main/MainLayout'
 import Home from './pages/main/Home'
+import Join from './pages/user/Join'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path='/' element={<MainLayout />}>
           {/* 첫 화면 */}
           <Route path='' element={<Home />} />
+          <Route path='join' element={<Join />} />
         </Route>
       </Routes>
     </>
