@@ -1,19 +1,28 @@
-//  높이 지정 시 - 내용이 균등하게 분산됨
-// <WeatherWidget height="500px" />
+{/*
+높이 지정 시 - 내용이 균등하게 분산됨
+<WeatherWidget height="500px" />
 
-// 크기와 높이 조합
-// <WeatherWidget 
-//   size="large"
-//   height="600px"
-//   backgroundColor="purple"
-// />
+크기와 높이 조합
+<WeatherWidget 
+  size="large"
+  height="600px"
+  backgroundColor="purple"
+/>
 
-// 폭과 높이 모두 지정
-// <WeatherWidget 
-//   width="400px"
-//   height="450px"
-//   backgroundColor="teal" // teal은 그라데이션 기본색
-// />
+폭과 높이 모두 지정
+<WeatherWidget 
+  width="400px"
+  height="450px"
+  backgroundColor="teal" // teal은 그라데이션 기본색
+/>
+
+// 커스텀 색상/그라데이션
+<WeatherWidget 
+  customColors={{
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+  }}
+/>
+*/}
 
 import React, { useState, useEffect } from 'react';
 import { Cloud, Sun, CloudRain, CloudSnow, Eye, Wind, Droplets, Thermometer } from 'lucide-react';
