@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './Home.module.css'
+import WeatherWidget from '../../component/widgets/WeatherWidget'
 
 const Home = () => {
   return (
@@ -25,6 +26,9 @@ const Home = () => {
         <div className={styles.notice}>공지사항 영역</div>
         <div>미정의 영역</div>
       </div>
+      <WeatherWidget 
+        backgroundColor='teal'
+      />
     </div>
   )
 }
