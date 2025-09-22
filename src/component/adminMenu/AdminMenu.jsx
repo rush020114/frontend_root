@@ -48,7 +48,6 @@ const AdminMenu = () => {
               <i className="bi bi-question-circle-fill"></i>
             </span>
             <p>Q & A</p>
-            
           </NavLink>
         </li>
       </ul>
