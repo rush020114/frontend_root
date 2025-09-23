@@ -3,11 +3,20 @@ import styles from './userQnA.module.css'
 import Input from '../../common/Input'
 import Button from '../../common/Button'
 import Textarea from '../../common/Textarea'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 const UserQnA = () => {
+  const nav = useNavigate();
 
   // 등록할 파일들을 저장할 state 변수 
   const [fileList, setFileList] = useState([]);
+
+  // 문의 데이터를 저장할 state 변수
+  const [qstData, setQstData] = useState({
+    qstTitle: ''
+    , qstContent: ''
+  });
 
   // 파일 제목을 반환할 함수
   const getFileName = files => {
@@ -15,6 +24,37 @@ const UserQnA = () => {
            ? files[0].name 
            : `${files[0].name} 외 ${files.length - 1}개의 첨부파일`
   }
+
+  // 문의 등록 함수
+  const regQst = () => {
+    const fileConfig = {'Content-Type': 'multipart/form-data'}
+
+    const formData = new FormData();
+    for(const img of fileList){
+      formData.append('questionImgs', img);
+    };
+    formData.append('qstTitle', qstData.qstTitle);
+    formData.append('qstContent', qstData.qstContent);
+    formData.append('userId', 'user');
+
+    axios.post('/api/questions', formData, fileConfig)
+    .then(res => {
+      alert('등록완료');
+      nav('/user/info')
+    })
+    .catch();
+  };
+
+  // 문의 데이터를 세팅할 함수
+  const handleQstData = e => {
+    setQstData({
+      ...qstData
+      , [e.target.name]: e.target.value
+    });
+  };
+
+  console.log(fileList)
+  console.log(qstData)
 
   return (
     <div className={styles.container}>
@@ -35,6 +75,9 @@ const UserQnA = () => {
           <p>제목</p>
           <Input 
             size='100%'
+            name='qstTitle'
+            value={qstData.qstTitle}
+            onChange={e => handleQstData(e)}
           />
         </div>
         <div>
@@ -42,6 +85,9 @@ const UserQnA = () => {
           <Textarea 
             size='100%'
             rows='10'
+            name='qstContent'
+            value={qstData.qstContent}
+            onChange={e => handleQstData(e)}
           />
         </div>
         <div className={styles.file}>
@@ -68,6 +114,11 @@ const UserQnA = () => {
             </div>
             }
           </label>
+        </div>
+        <div className={styles.btn_div}>
+          <Button 
+            onClick={() => regQst()}
+          />
         </div>
       </div>
     </div>

@@ -62,3 +62,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }
+
+.btn_div{
+  text-align: end;
+}
