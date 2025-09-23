@@ -1,9 +1,76 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './userQnA.module.css'
+import Input from '../../common/Input'
+import Button from '../../common/Button'
+import Textarea from '../../common/Textarea'
 
 const UserQnA = () => {
+
+  // 등록할 파일들을 저장할 state 변수 
+  const [fileList, setFileList] = useState([]);
+
+  // 파일 제목을 반환할 함수
+  const getFileName = files => {
+    return files.length === 1 
+           ? files[0].name 
+           : `${files[0].name} 외 ${files.length - 1}개의 첨부파일`
+  }
+
   return (
-    <div>UserQnA</div>
+    <div className={styles.container}>
+      <div className={styles.title}>
+        <h1>
+          <span>
+            📝
+          </span>
+          문의하기
+        </h1>
+        <p>
+          스마트팜 서비스에 대한 궁금한 점이나 문의사항을 남겨주세요.<br />
+          전문 상담팀이 빠르고 정확한 답변을 드리겠습니다.
+        </p>
+      </div>
+      <div className={styles.content}>
+        <div>
+          <p>제목</p>
+          <Input 
+            size='100%'
+          />
+        </div>
+        <div>
+          <p>내용</p>
+          <Textarea 
+            size='100%'
+            rows='10'
+          />
+        </div>
+        <div className={styles.file}>
+          <p>관련파일 첨부</p>
+          <input 
+            type="file" 
+            id='qna-file-upload'
+            multiple
+            style={{display: 'none'}}
+            onChange={e => setFileList(Array.from(e.target.files))}
+          />
+          <label htmlFor="qna-file-upload">
+            <span className={styles.icon_span}>
+              <i className="bi bi-paperclip"></i>
+            </span>
+            {
+            fileList.length
+            ?
+            '📁 ' + getFileName(fileList)
+            :
+            <div>
+              파일을 선택해주세요.
+              <span className={styles.file_info}> (사진, 문서 파일 / 최대 10MB)</span>
+            </div>
+            }
+          </label>
+        </div>
+      </div>
+    </div>
   )
 }
 

@@ -1,0 +1,64 @@
+.container{
+  border: 1px solid white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px #cccccc;
+  background-color: white;
+  padding: 20px;
+}
+
+.title{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title > h1{
+  display: flex;
+  gap: 10px;
+}
+
+.title > p{
+  color: #555555;
+}
+
+.content{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.content > div > p{
+  margin-bottom: 5px;
+}
+
+.icon_span{
+  color: #555555;
+  font-size: 1.1rem;
+}
+
+.file_info{
+  font-size: 0.8rem;
+}
+
+.file > label{
+  border-radius: 5px;
+  padding: 12px;
+  display: block;
+  width: 100%;
+  border: 2px dashed #4dab28;
+  background-color: #dcffcb;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+}
+
+.file_list{
+  margin-top: 10px;
+  border: 1px solid black;
+}
+
+.file_list > ul{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
