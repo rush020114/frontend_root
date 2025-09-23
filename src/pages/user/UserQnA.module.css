@@ -53,14 +53,9 @@
   gap: 10px;
 }
 
-.file_list{
-  margin-top: 10px;
-  border: 1px solid black;
-}
-
-.file_list > ul{
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+.file > label > div{
+  display: flex;
+  align-items: center;
 }
 
 .btn_div{
