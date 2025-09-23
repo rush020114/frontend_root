@@ -27,6 +27,14 @@ const UserQnA = () => {
 
   // 문의 등록 함수
   const regQst = () => {
+    if(!qstData.qstTitle.trim()){
+      alert('제목을 입력해주세요.');
+      return;
+    };
+    if(!qstData.qstContent.trim()){
+      alert('내용을 입력해주세요.')
+      return;
+    };
     const fileConfig = {'Content-Type': 'multipart/form-data'}
 
     const formData = new FormData();
@@ -117,6 +125,7 @@ const UserQnA = () => {
         </div>
         <div className={styles.btn_div}>
           <Button 
+            content='등 록'
             onClick={() => regQst()}
           />
         </div>

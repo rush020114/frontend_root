@@ -19,6 +19,7 @@ import SoilHumDetail from './pages/user/SoilHumDetail'
 import IllumDetail from './pages/user/IllumDetail'
 import UserInfo from './pages/user/UserInfo'
 import UserQnA from './pages/user/UserQnA'
+import UserQnADetail from './pages/user/UserQnADetail'
 
 function App() {
   return (
@@ -49,7 +50,7 @@ function App() {
         {/* 마이 페이지 */}
         <Route path='/user' element={<MyPageLayout />}>
           {/* 내 정보 */}
-          <Route path='info' element={<UserInfo />}/>
+          <Route path='' element={<UserInfo />}/>
           {/* 농장 모니터링 페이지 */}
           <Route path='bar-chart' element={<UserControl />}/>
           {/* 온/습도 */}
@@ -60,6 +61,8 @@ function App() {
           <Route path='illum' element={<IllumDetail />}/>
           {/* 문의 */}
           <Route path='qna' element={<UserQnA />}/>
+          {/* 문의 상세 */}
+          <Route path='qna/:qstId' element={<UserQnADetail />}/>
         </Route >
       </Routes>
     </>

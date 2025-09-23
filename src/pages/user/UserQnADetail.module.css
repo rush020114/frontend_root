@@ -1,0 +1,101 @@
+.container{
+  border: 1px solid white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px #cccccc;
+  background-color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 1px solid #cccccc;
+}
+
+.container > div{
+  padding-bottom: 20px;
+}
+
+.qst_info{
+  display: flex;
+  font-size: 0.9rem;
+}
+
+.user_info{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #555555;
+}
+
+.qst_status{
+  margin-left: auto;
+  background-color: #fbf3d1;
+  color: #7c6521;
+  border-radius: 25px;
+  padding: 7px 20px;
+  font-weight: 700;
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-bottom: 1px solid #cccccc;
+}
+
+.content_div{
+  line-height: 25px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  border-left: 3px solid #4dab28;
+}
+
+.img_div{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.img{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.img > div{
+  background-color: #eeeeee;
+  height: 100px;
+}
+
+.answer_div{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 1px solid #cccccc;
+}
+
+.ans_content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px 0px;
+}
+
+.ans_content span{
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.btn_div{
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}

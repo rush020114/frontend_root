@@ -8,14 +8,14 @@ const MyPageMenu = () => {
   // 경로와 메뉴 이름 매핑
   const getMenuNameByPath = (pathname) => {
     const pathMap = {
-      '/user/info': '내 정보',
+      '/user': '내 정보',
       '/user/bar-chart': '마이팜',
       '/user/tempHum': '온/습도',
       '/user/soilHum': '토양습도',
       '/user/illum': '조도',
       '/user/qna': '문의'
     };
-    return pathMap[pathname] || '내 정보';
+    return pathMap[pathname] || '문의';
   };
 
   // 현재 경로에 따라 초기값 설정
@@ -24,7 +24,7 @@ const MyPageMenu = () => {
   // 함수 호출을 초기값으로 잡을 시 다른 리렌더링 시 최근값 규칙으로 호출이 되어도 반영이 되진 않지만 호출 자체는 되어 비효율적이다.
   const [menuName, setMenuName] = useState(() => getMenuNameByPath(location.pathname));
 
-  // 경로가 변경될 때마다 메뉴 이름 업데이트(경로 변경은 리렌더링으로 간주)
+  // 경로가 변경될 때마다 메뉴 이름 업데이트
   useEffect(() => {
     setMenuName(getMenuNameByPath(location.pathname));
   }, [location.pathname]);
@@ -38,7 +38,8 @@ const MyPageMenu = () => {
         <ul className={styles.menu}>
           <li onClick={() => setMenuName('내 정보')}>
             <NavLink
-              to={'/user/info'}
+              to={'/user'} 
+              end
               className={({isActive}) => isActive ? styles.active : null}
             >내 정보</NavLink>
           </li>
