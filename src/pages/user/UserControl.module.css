@@ -1,14 +1,14 @@
 .container {
   display: grid;
-  grid-template-columns: 300px 400px 400px;
-  grid-template-rows: 300px 370px 360px;
+  grid-template-columns: 1fr 1fr;     /* 2열 레이아웃 */
+  grid-template-rows: 250px 250px 250px;  /* 높이 동일 */
   gap: 20px;
-  width: 1160px;   /* 전체 폭 늘림 */
-  margin: -30px auto;
+  width: 1000px;
+  margin: 0 auto;
   background: url('/background.jpg') no-repeat center/cover;
 }
 
-/* 기본 카드 */
+/* 공통 카드 */
 .card {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.1);
@@ -25,29 +25,7 @@
   overflow: hidden;
 }
 
-/* 온도: 세로 2칸 */
-.tall {
-  grid-row: span 2;
-}
-
-/* 조도: 가로 2칸 */
+/* 습도: 가로 2칸 차지 */
 .wide {
   grid-column: span 2;
 }
-
-.card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 16px;
-}
-
-.card > div {
-  width: 100% !important;
-  height: 100% !important;
-  max-width: none !important;
-  margin: 0 !important;
-  border-radius: 0 !important; 
-}
-
-

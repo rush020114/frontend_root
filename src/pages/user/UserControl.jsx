@@ -9,22 +9,16 @@ import WeatherWidget from '../../component/widgets/WeatherWidget'
 const UserControl = () => {
   // labels : 표 정보 담기
   const [labels, setLabels] = useState([])
-  // temper : 온도 데이터 담기
   const [temper, setTemper] = useState([])
-  // humidity : 습도 데이터 담기
   const [humidity, setHumidity] = useState([])
-  // soilHumidity : (토양)습도 데이터 담기
   const [soilHumidity, setSoilHumidity] = useState([])
-  // illumination : 조도 데이터 담기
   const [illumination, setIllumination] = useState([])
 
   useEffect(() => {
     axios.get('/api/growings')
       .then(res => {
         const data = res.data
-        // X축 라벨 (시간 HH:mm)
         setLabels(data.map(d => d.createDate.substring(11, 16)))
-        // Y축 라벨 ( 온도/습도/토양습도/조도 데이터 )
         setTemper(data.map(d => d.temper))
         setHumidity(data.map(d => d.humidity))
         setSoilHumidity(data.map(d => d.soilHumidity))
@@ -35,12 +29,8 @@ const UserControl = () => {
 
   return (
     <div className={styles.container}>
-      {/* 세로 사진 */}
-      <div className={`${styles.card} ${styles.tall}`}>
-        <img src="/controltest.png" alt="control" />
-      </div>
-      {/* 온도 (LineChart) 그래프 */}
-      <div className={`${styles.card} ${styles.wide}`}>
+      {/* 온도 (LineChart) */}
+      <div className={styles.card}>
         <LineChart
           title="온도"
           labels={labels}
@@ -55,18 +45,19 @@ const UserControl = () => {
           ]}
         /> 
       </div>
+
       {/* 날씨 위젯 */}
       <div className={styles.card}>
         <WeatherWidget />
       </div>
-      {/* 토양 (DoughnutChart) 그래프 */}
+
+      {/* 토양 습도 */}
       <div className={styles.card}>
-        {soilHumidity.length > 0 && ( // 데이터가 있을 때만 렌더
+        {soilHumidity.length > 0 && (
           <DoughnutChart
-            key={soilHumidity[soilHumidity.length - 1]} // 값이 바뀌면 차트 다시 그림
-            title="토양 습도"
+            title="[ 최신 ] 토양 습도"
             labels={['토양습도']}
-            value={soilHumidity[soilHumidity.length - 1].toFixed(1)} // 소수점 1자리
+            value={(soilHumidity[soilHumidity.length - 1]).toFixed(1)}
             datasets={[
               {
                 data: [
@@ -81,34 +72,24 @@ const UserControl = () => {
           />
         )}
       </div>
-      {/* 조도 (VerticalBarChart) 그래프 */}
-      <div className={`${styles.card} ${styles.wide}`}>
+
+      {/* 조도 */}
+      <div className={styles.card}>
         <VerticalBarChart
           title="조도"
           labels={labels}
           datasets={[
             {
-              label: '조도 (lx)',
+              label: '',
               data: illumination,
               backgroundColor: 'rgba(255, 240, 108, 1)',
             },
           ]}
         /> 
-      </div>     
+      </div>
 
-      {/* 습도 (Bar) 그래프 */}
-      <div className={styles.card}>
-        <VerticalBarChart
-          title="습도"
-          labels={labels}
-          datasets={[
-            {
-              label: '습도 (%)',
-              data: humidity,
-              backgroundColor: '#60a5fa',
-            },
-          ]}
-        /> 
+      {/* 보안 모션 감지 (가로 2칸) */}
+      <div className={`${styles.card} ${styles.wide}`}>
       </div>
     </div>
   )
