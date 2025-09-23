@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import axios from 'axios'
 import Input from '../../common/Input'
 import Button from '../../common/Button'
 import Select from '../../common/Select'
@@ -11,7 +12,7 @@ const Join = () => {
     'userId' : '',
     'userPw' : '',
     'userPwConfirm' : '',
-    'userTelArr' : ['', '', ''],
+    'userTelArr' : ['010', '', ''],
     'firstEmail' : '',
     'secondEmail' : '',
     'userEmail' : ''
@@ -24,6 +25,82 @@ const Join = () => {
     setUserData({
       ...userData,
       [e.target.name] : e.target.value
+    })
+  };
+
+    //아이디 정규 표현식 (조건 : 4~10자 / 영문, 숫자만 허용)
+    const idRegex = /^[a-zA-Z0-9]{4,10}$/;
+
+
+    //비밀번호 정규 표현식 (조건 : 6~12자 / 영문 + 숫자 + 특수문자 허용)
+    const pwRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,12}$/;
+  
+    //유효성 검사 결과 에러 메세지를 저장할 state 변수
+    const[errorMsg, setErrorMsg] = useState({
+      'userName' : '',
+      'userId' : '',
+      'userPw' : '',
+      'userPwConfirm' : ''
+    });
+
+    //유효성 검사 함수
+    const handleErrorMsg = (e) => {
+      switch(e.target.name){
+        //이름
+        case 'userName' :
+          return e.target.value === ''
+            ?
+            <span>
+              <i className="bi bi-info-circle-fill"></i>
+              이름을 입력해 주세요.
+            </span>
+            : '' ;
+        //아이디
+        case 'userId' :
+          return !idRegex.test(e.target.value)
+            ?
+            <span>
+              <i className="bi bi-info-circle-fill"></i>
+              아이디는 4~10자까지 영문, 숫자만 허용됩니다.
+            </span>
+            : '' ;
+        //비밀번호
+        case 'userPw' :
+          return !pwRegex.test(e.target.value)
+            ?
+            <span>
+              <i className="bi bi-info-circle-fill"></i>
+              비밀번호는 6~12자까지 영문, 숫자, 특수문자만 허용됩니다.
+            </span>
+            : '' ; 
+      }
+    }
+
+  //아이디 중복확인 실행할 함수
+  const handleCheckId = () => {
+    axios
+    .get(`/api/users/${userData.userId}`)
+    .then(res => {
+      console.log(res.data)
+      
+      if(!res.data){
+        alert("사용 가능한 아이디입니다.")
+      }
+      else{
+        alert("입력하신 아이디는 이미 사용 중입니다.\n다시 입력해 주세요.")
+      }
+    })
+    .catch(error => console.log(error))
+  };
+  
+  //연락처 입력값 변경 시 실행할 함수
+  const handleChangeTel = (e, i) => {
+    const newTelArr = [...userData.userTelArr];
+    newTelArr.splice(i, 1, e.target.value);
+
+    setUserData({
+      ...userData,
+      'userTelArr' : newTelArr
     })
   };
 
@@ -41,7 +118,7 @@ const Join = () => {
         'userId' : '',
         'userPw' : '',
         'userPwConfirm' : '',
-        'userTelArr' : ['', '', ''],
+        'userTelArr' : ['010', '', ''],
         'firstEmail' : '',
         'secondEmail' : '',
         'userEmail' : ''
@@ -50,55 +127,104 @@ const Join = () => {
     .catch(error => console.log(error))
   };
 
-  //유효성 검사
-  const[errorMsg, setErrorMsg] = useState();
-
   return (
     <div className={styles.container}>
+
+      <div>
+        <h3>회원가입</h3>
+        <div>
+          <div>
+            <p>1단계</p>
+            <p>약관동의</p>
+          </div>
+          <div>
+            <p>2단계</p>
+            <p>회원정보입력</p>
+          </div>
+          <div>
+            <p>3단계</p>
+            <p>회원가입완료</p>
+          </div>
+        </div>
+      </div>
 
       <div className={styles.form}>
         <p>기본정보</p>
         <div>
-          <p>이름</p>
+          <div className={styles.form_title}>
+            <p>이름</p>
+            <span>(필수)</span>
+          </div>
           <Input
             type="text"
             size='100%'
             name='userName'
             value={userData.userName}
-            onChange={e => handleChange(e)}
+            onChange={e => {
+              handleChange(e)
+              setErrorMsg({
+                ...errorMsg,
+                'userName' : handleErrorMsg(e)
+              })
+            }}
           />
+          <p className="error">{errorMsg.userName}</p>
         </div>
 
         <div>
-          <p>아이디</p>
+          <div className={styles.form_title}>
+            <p>아이디</p>
+            <span>(필수)</span>
+          </div>
           <div>
             <Input
               type="text"
               size='100%'
               name='userId'
               value={userData.userId}
-              onChange={e => handleChange(e)}
+              onChange={e => {
+                handleChange(e)
+                setErrorMsg({
+                  ...errorMsg,
+                  'userId' : handleErrorMsg(e)
+                })
+              }}
             />
             <Button
-              title='중복확인'
+              content='중복확인'
               size='20%'
+              onClick={() => handleCheckId()}
             />
           </div>
+          <p className="error">{errorMsg.userId}</p>
         </div>
 
         <div>
-          <p>비밀번호</p>
+          <div className={styles.form_title}>
+            <p>비밀번호</p>
+            <span>(필수)</span>
+          </div>
           <Input
             type="password"
             size='100%'
             name='userPw'
             value={userData.userPw}
-            onChange={e => handleChange(e)}
+            onChange={e => {
+              handleChange(e)
+              setErrorMsg({
+                  ...errorMsg,
+                  'userPw' : handleErrorMsg(e)
+                })
+            }}
           />
+          <p className="error">{errorMsg.userPw}</p>
         </div>
 
         <div>
-          <p>비밀번호 확인</p>
+          <div className={styles.form_title}>
+            <p>비밀번호 확인</p>
+            <span>(필수)</span>
+          </div>
           <Input
             type="password"
             size='100%'
@@ -109,13 +235,16 @@ const Join = () => {
         </div>
 
         <div>
-          <p>연락처</p>
+          <div className={styles.form_title}>
+            <p>연락처</p>
+            <span>(필수)</span>
+          </div>
           <div>
             <Select
               size='100%'
-              name=''
+              name='userTelArr'
               value={userData.userTelArr[0]}
-              onChange={e => handleChange(e)}
+              onChange={e => handleChangeTel(e, 0)}
             >
               <option value="010">010</option>
               <option value="011">011</option>
@@ -128,23 +257,27 @@ const Join = () => {
             <Input
               type="text"
               size='100%'
-              name=''
+              name='userTelArr'
               value={userData.userTelArr[1]}
-              onChange={e => handleChange(e)}
+              onChange={e => handleChangeTel(e, 1)}
             />
             <span>-</span>
             <Input
               type="text"
               size='100%'
-              name=''
+              name='userTelArr'
               value={userData.userTelArr[2]}
-              onChange={e => handleChange(e)}
+              onChange={e => handleChangeTel(e, 2)}
             />
           </div>
         </div>
 
         <div>
-          <p>이메일</p>
+          <div className={styles.form_title}>
+            <p>이메일</p>
+            <span>(필수)</span>
+          </div>
+
           <div>
             <Input
               type="text"
@@ -178,11 +311,11 @@ const Join = () => {
 
       <div className={styles.btn}>
         <Button
-          title='취소하기'
-            size='15%'
+          content='취소하기'
+          size='15%'
         />
         <Button
-          title='가입완료'
+          content='가입완료'
           size='15%'
           onClick={() => signup()}
         />
