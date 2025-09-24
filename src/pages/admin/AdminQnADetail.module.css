@@ -20,6 +20,10 @@
   padding-bottom: 20px;
 }
 
+.qst_title{
+  display: flex;
+}
+
 .qst_info{
   display: flex;
   font-size: 0.9rem;
@@ -27,8 +31,9 @@
 
 .user_info{
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  gap: 80px;
   color: #555555;
 }
 
@@ -42,18 +47,21 @@
 }
 
 .content{
+  padding: 20px;
+  background-color: #f9f9f9;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  border-bottom: 1px solid #cccccc;
+  border-left: 3px solid #4dab28;
+  border-radius: 10px;
 }
 
 .content_div{
+  background-color: white;
+  box-shadow: 0px 0px 7px #cccccc;
   line-height: 25px;
-  background-color: #f9f9f9;
   padding: 20px;
   border-radius: 10px;
-  border-left: 3px solid #4dab28;
 }
 
 .img_div{
@@ -77,6 +85,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  background-color: white;
 }
 
 .img_info > img{
@@ -84,16 +93,18 @@
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   width: 100%;
-  height: 350px;
+  height: 450px;
   object-fit: cover;
   border: 1px solid #cccccc;
 }
 
 .answer_div{
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  border-bottom: 1px solid #cccccc;
+  gap: 20px;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
 }
 
 .ans_content{
@@ -102,16 +113,8 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 20px 0px;
-}
-
-.ans_content span{
-  font-size: 2.5rem;
-  margin-bottom: 10px;
 }
 
 .btn_div{
-  display: flex;
-  justify-content: center;
-  gap: 20px;
+  text-align: end;
 }

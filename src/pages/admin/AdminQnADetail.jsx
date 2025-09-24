@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import styles from './UserQnADetail.module.css'
+import styles from './AdminQnADetail.module.css'
+import Textarea from '../../common/Textarea'
 import Button from '../../common/Button'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import dayjs from 'dayjs'
 
-const UserQnADetail = () => {
+const AdminQnADetail = () => {
+
   const nav = useNavigate();
 
   // url로 문의 번호를 받아올 params
   const {qstId} = useParams();
+
+  // 답변 데이터를 저장할 state 변수
+  const [ansContent, setAnsContent] = useState('');
 
   // 문의 상세 데이터를 저장할 state 변수
   const [qstDetail, setQstDetail] = useState({});
@@ -36,27 +41,40 @@ const UserQnADetail = () => {
       return [];
     }
     return qstDetail.questionImgDTOList.filter(img => img.imgNum !== 0);
-  }
+  };
 
-  console.log(qstDetail)
+  const regAns = () => {
+    axios.post('/api/answers', {
+      ansContent
+      , qstId
+      , userId: 'admin'
+    })
+    .then(res => alert('답변 완료'))
+    .catch(e => console.log(e));
+  };
 
   return (
     <div className={styles.container}>
       <div className={styles.title}>
         <h1>
-          {qstDetail.qstTitle}
+          💬 문의 답변하기
         </h1>
-        <div className={styles.qst_info}>
-          <div className={styles.user_info}>
-            <p>{`👤 ${qstDetail.userId}`}</p>
-            <p>{`📅 ${dayjs(qstDetail.qstDate).format('YYYY-MM-DD HH:mm:ss')}`}</p>
-          </div>
+      </div>
+      <div className={styles.content}>
+        <div className={styles.qst_title}>
+          <h2>{qstDetail.qstTitle}</h2>
           <div className={styles.qst_status}>
             {qstDetail.qstStatus}
           </div>
         </div>
-      </div>
-      <div className={styles.content}>
+        <div className={styles.qst_info}>
+          <div className={styles.user_info}>
+            <p>{`👤 진짜이름(${qstDetail.userId})`}</p>
+            <p>{`📅 ${dayjs(qstDetail.qstDate).format('YYYY-MM-DD HH:mm:ss')}`}</p>
+            <p>{`📞 전화번호`}</p>
+            <p>{`✉️ 이메일`}</p>
+          </div>
+        </div>
         <div className={styles.content_div}>
           {qstDetail.qstContent}
         </div>
@@ -89,28 +107,26 @@ const UserQnADetail = () => {
         </div>
       </div>
       <div className={styles.answer_div}>
-        <h3>💬 관리자 답변</h3>
+        <h2>✍️ 답변 작성</h2>
         <div className={styles.ans_content}>
-          <span>⏳</span>
-          관리자 답변이 등록되지 않았습니다. <br />
-          빠른 시일 내에 답변 드리겠습니다.
+          <Textarea
+            size='100%'
+            rows='10'
+            placeholder='답변을 작성해주세요.'
+            value={ansContent}
+            onChange={e => setAnsContent(e.target.value)}
+          />
         </div>
       </div>
       <div className={styles.btn_div}>
         <Button 
-          color='blue'
-          content='목 록'
-        />
-        <Button 
-          content='수 정'
-        />
-        <Button 
-          color='red'
-          content='삭 제'
+          content='답변'
+          
+          onClick={() => regAns()}
         />
       </div>
     </div>
   )
 }
 
-export default UserQnADetail
+export default AdminQnADetail
