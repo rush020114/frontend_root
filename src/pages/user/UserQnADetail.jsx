@@ -11,13 +11,22 @@ const UserQnADetail = () => {
   // url로 문의 번호를 받아올 params
   const {qstId} = useParams();
 
+  // 답변 데이터를 받아올 state 변수
+  const [ansData, setAnsData] = useState({});
+
   // 문의 상세 데이터를 저장할 state 변수
   const [qstDetail, setQstDetail] = useState({});
 
   // 문의 상세 데이터를 조회할 useEffect
   useEffect(() => {
-    axios.get('/api/questions/detail', {params: {qstId}})
-    .then(res => setQstDetail(res.data))
+    axios.all([axios.get('/api/questions/detail', {params: {qstId}}), axios.get(`/api/answers/${qstId}`)])
+    .then(axios.spread((res1, res2) => {
+      setQstDetail(res1.data);
+      if(!res2.data.ansId){
+        return;
+      };
+      setAnsData(res2.data);
+    }))
     .catch(e => console.log(e));
   }, []);
 
@@ -39,6 +48,7 @@ const UserQnADetail = () => {
   }
 
   console.log(qstDetail)
+  console.log(ansData)
 
   return (
     <div className={styles.container}>
@@ -90,11 +100,25 @@ const UserQnADetail = () => {
       </div>
       <div className={styles.answer_div}>
         <h3>💬 관리자 답변</h3>
+        {
+        qstDetail.qstStatus === '진행중'
+        ?
         <div className={styles.ans_content}>
           <span>⏳</span>
           관리자 답변이 등록되지 않았습니다. <br />
           빠른 시일 내에 답변 드리겠습니다.
         </div>
+        :
+        <div className={styles.ans_complete}>
+          <div className={styles.ans_title}>
+            <p>👨‍💻 {ansData.userId}</p>
+            <p>📅 {dayjs(ansData.ansDate).format('YYYY-MM-DD HH:mm:ss')}</p>
+          </div>
+          <div className={styles.complete_content}>
+            {ansData.ansContent}
+          </div>
+        </div>
+        }
       </div>
       <div className={styles.btn_div}>
         <Button 

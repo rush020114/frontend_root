@@ -110,6 +110,34 @@
   margin-bottom: 10px;
 }
 
+.ans_complete{
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  border-left: 3px solid #4d4fc9;
+}
+
+.ans_title{
+  display: flex;
+  justify-content: space-between;
+  color: #555555;
+  font-size: 0.9rem;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 0px 5px #eeeeee;
+  margin-bottom: 20px;
+}
+
+.complete_content{
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 0px 5px #eeeeee;
+  height: 500px;
+  overflow: auto;
+}
+
 .btn_div{
   display: flex;
   justify-content: center;
