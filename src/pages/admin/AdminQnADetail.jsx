@@ -49,7 +49,10 @@ const AdminQnADetail = () => {
       , qstId
       , userId: 'admin'
     })
-    .then(res => alert('답변 완료'))
+    .then(res => {
+      alert('답변 완료');
+      nav('/admin/qna')
+    })
     .catch(e => console.log(e));
   };
 
@@ -121,7 +124,6 @@ const AdminQnADetail = () => {
       <div className={styles.btn_div}>
         <Button 
           content='답변'
-          
           onClick={() => regAns()}
         />
       </div>

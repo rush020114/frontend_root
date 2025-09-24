@@ -3,7 +3,7 @@ import styles from './AdminQnA.module.css'
 import Select from '../../common/Select'
 import Input from '../../common/Input'
 import Button from '../../common/Button'
-import axios from 'axios'
+import axios, { spread } from 'axios'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router-dom'
 
@@ -13,10 +13,16 @@ const AdminQnA = () => {
   // 문의 목록을 받아올 state 변수
   const [qstList, setQstList] = useState([]);
 
+  // 진행중 상태를 조회할 state 변수
+  const [qstStatusCnt, setQstStatusCnt] = useState(0);
+
   // 문의 목록을 세팅할 useEffect
   useEffect(() => {
-    axios.get('/api/questions')
-    .then(res => setQstList(res.data))
+    axios.all([axios.get('/api/questions', {params: {memRole: 'ADMIN'}}), axios.get('/api/questions/status-cnt')])
+    .then(axios.spread((res1, res2) => {
+      setQstList(res1.data);
+      setQstStatusCnt(res2.data);
+    }))
     .catch(e => console.log(e));
   }, []);
 
@@ -26,16 +32,22 @@ const AdminQnA = () => {
         <h1>📝 문의 관리</h1>
       </div>
       <div className={styles.qna_info}>
-        <div>
-          <h1>23</h1>
+        <div 
+          style={{background: 'linear-gradient(135deg, #6c757d, #8d959e)'}}
+        >
+          <h1>{qstList.length}</h1>
           <p>전체 관리</p>
         </div>
-        <div>
-          <h1>2</h1>
+        <div
+          style={{background: 'linear-gradient(135deg, #ffc107, #ffcd39)'}}
+        >
+          <h1>{qstStatusCnt}</h1>
           <p>진행중</p>
         </div>
-        <div>
-          <h1>21</h1>
+        <div
+          style={{background: 'linear-gradient(135deg, #4dab28, #6bc247)'}}
+        >
+          <h1>{qstList.length - qstStatusCnt}</h1>
           <p>답변완료</p>
         </div>
       </div>
@@ -96,9 +108,11 @@ const AdminQnA = () => {
           </thead>
           <tbody>
           {
+            qstList.length
+            ?
             qstList.map((qst, i) => {
               return(
-                <tr>
+                <tr key={i}>
                   <td>{qstList.length - i}</td>
                   <td>{qst.qstTitle}</td>
                   <td>{qst.userId}</td>
@@ -115,6 +129,12 @@ const AdminQnA = () => {
                 </tr>
               )
             })
+            :
+            <tr>
+              <td colSpan={6}>
+                조회된 문의가 없습니다.
+              </td>
+            </tr>
           }
           </tbody>
         </table>

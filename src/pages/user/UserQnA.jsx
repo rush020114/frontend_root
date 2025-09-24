@@ -48,7 +48,7 @@ const UserQnA = () => {
     axios.post('/api/questions', formData, fileConfig)
     .then(res => {
       alert('등록완료');
-      nav('/user/info')
+      nav('/user')
     })
     .catch();
   };
