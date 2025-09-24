@@ -20,6 +20,7 @@ import IllumDetail from './pages/user/IllumDetail'
 import UserInfo from './pages/user/UserInfo'
 import UserQnA from './pages/user/UserQnA'
 import UserQnADetail from './pages/user/UserQnADetail'
+import AdminQnADetail from './pages/admin/AdminQnADetail'
 
 function App() {
   return (
@@ -44,8 +45,10 @@ function App() {
           <Route path='manage-user' element={<ManageUser />} />
           {/* 서비스 신청 관리  */}
           <Route path='manage-service' element={<ManageService />} />
-          {/* Q & A */}
+          {/* 관리자 문의 목록 */}
           <Route path='qna' element={<AdminQnA />} />
+          {/* 관리자 문의 답변 */}
+          <Route path='qna/:qstId' element={<AdminQnADetail />} />
         </Route>
         {/* 마이 페이지 */}
         <Route path='/user' element={<MyPageLayout />}>
@@ -61,7 +64,7 @@ function App() {
           <Route path='illum' element={<IllumDetail />}/>
           {/* 문의 */}
           <Route path='qna' element={<UserQnA />}/>
-          {/* 문의 상세 */}
+          {/* 이용자 문의 상세 */}
           <Route path='qna/:qstId' element={<UserQnADetail />}/>
         </Route >
       </Routes>
