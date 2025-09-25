@@ -21,6 +21,7 @@ import UserInfo from './pages/user/UserInfo'
 import UserQnA from './pages/user/UserQnA'
 import UserQnADetail from './pages/user/UserQnADetail'
 import AdminQnADetail from './pages/admin/AdminQnADetail'
+import UserQnAUpdate from './pages/user/UserQnAUpdate'
 
 function App() {
   return (
@@ -66,6 +67,8 @@ function App() {
           <Route path='qna' element={<UserQnA />}/>
           {/* 이용자 문의 상세 */}
           <Route path='qna/:qstId' element={<UserQnADetail />}/>
+          {/* 이용자 문의 수정 */}
+          <Route path='qna/update/:qstId' element={<UserQnAUpdate />}/>
         </Route >
       </Routes>
     </>
