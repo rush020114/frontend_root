@@ -1,3 +1,30 @@
+{/* -- 사용 예시 -- 
+chart가 안 보일 땐 부모 태그에 height 명시
+datasets엔 스마트팜 센서 데이터나 작물 현황 데이터 사용
+
+<DoughnutChart 
+  title="토양 습도 현황"
+  value={75}
+  labels={['정상', '주의', '위험']}
+  datasets={[
+    {
+      data: [75, 15, 10],
+      backgroundColor: [
+        '#4CAF50',  // 초록 - 정상
+        '#FF9800',  // 주황 - 주의  
+        '#F44336'   // 빨강 - 위험
+      ],
+      borderColor: [
+        '#45a049',
+        '#f57c00', 
+        '#d32f2f'
+      ],
+      borderWidth: 2,
+    }
+  ]}
+/>
+*/}
+
 import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';

@@ -26,7 +26,7 @@ const RegService = () => {
     , businessTelArr: ['', '', '']
     , applAddr: ''
     , addrDetail: ''
-    , content: ''
+    , applContent: ''
   });
 
   // 서비스 신청 등록 데이터를 세팅할 함수
@@ -72,6 +72,7 @@ const RegService = () => {
   // 버튼 활성화를 결정할 useEffect
   useEffect(() => {
     if(serviceData.applRole &&
+      serviceData.farmName &&
       serviceData.businessTelArr[0] &&
       serviceData.businessTelArr[1] &&
       serviceData.businessTelArr[2] &&
@@ -90,41 +91,43 @@ const RegService = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.title_div}>
-          <h2>스마트팜 서비스 신청</h2>
+          <h2>🌱 스마트팜 서비스 신청</h2>
           <div>
             <span className={styles.span}>* </span>
             &#40;필수입력사항&#41;
           </div>
         </div>
         <div className={styles.flex_div}>
-          <div className={styles.table_div}>
-            <h3>
-              📋 회원 기본 정보 
-            </h3>
-            <table>
-              <colgroup>
-                <col width='20%' />
-                <col width='80%' />
-              </colgroup>
-              <tbody>
-                <tr>
-                  <td>이름</td>
-                  <td>홍길동</td>
-                </tr>
-                <tr>
-                  <td>아이디</td>
-                  <td>hong1234</td>
-                </tr>
-                <tr>
-                  <td>이메일</td>
-                  <td>hong1234@gmail.com</td>
-                </tr>
-                <tr>
-                  <td>연락처</td>
-                  <td>010-1234-1234</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className={styles.flex2_div}>
+            <div className={styles.table_div}>
+              <h3>
+                📋 회원 기본 정보 
+              </h3>
+              <table className={styles.table}>
+                <colgroup>
+                  <col width='20%' />
+                  <col width='80%' />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td>이름</td>
+                    <td>홍길동</td>
+                  </tr>
+                  <tr>
+                    <td>아이디</td>
+                    <td>hong1234</td>
+                  </tr>
+                  <tr>
+                    <td>이메일</td>
+                    <td>hong1234@gmail.com</td>
+                  </tr>
+                  <tr>
+                    <td>연락처</td>
+                    <td>010-1234-1234</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <div className={styles.terms_div}>
               <h3>📜 약관 동의</h3>
               <div className={styles.terms_title}>
@@ -284,8 +287,8 @@ const RegService = () => {
               <b>상담 내용</b>
               <Textarea
                 size='100%'
-                name='content'
-                  value={serviceData.content}
+                name='applContent'
+                  value={serviceData.applContent}
                   onChange={e => handleService(e)}
                   maxLength={100}
               />

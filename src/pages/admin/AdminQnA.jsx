@@ -6,12 +6,29 @@ import Button from '../../common/Button'
 import axios, { spread } from 'axios'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router-dom'
+import Pagination from '../../component/pagination/Pagination'
 
 const AdminQnA = () => {
   const nav = useNavigate();
 
   // 문의 목록을 받아올 state 변수
   const [qstList, setQstList] = useState([]);
+
+  // 활성 페이지 세팅
+  const [currentPage, setCurrentPage] = useState(0);
+
+  // 보여줄 페이지
+  const itemsPerPage = 5;
+
+  // 현재 페이지 보여줄 데이터 계산
+  const startIndex = currentPage * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentQstList = qstList.slice(startIndex, endIndex);
+
+  // 페이지를 변경시켜줄 함수
+  const handlePageChange = selectPage => {
+    setCurrentPage(selectPage);
+  };
 
   // 진행중 상태를 조회할 state 변수
   const [qstStatusCnt, setQstStatusCnt] = useState(0);
@@ -108,12 +125,12 @@ const AdminQnA = () => {
           </thead>
           <tbody>
           {
-            qstList.length
+            currentQstList.length
             ?
-            qstList.map((qst, i) => {
+            currentQstList.map((qst, i) => {
               return(
                 <tr key={i}>
-                  <td>{qstList.length - i}</td>
+                  <td>{currentPage * itemsPerPage + i + 1}</td>
                   <td>{qst.qstTitle}</td>
                   <td>{qst.userId}</td>
                   <td>{dayjs(qst.qstDate).format('YYYY-MM-DD HH:mm:ss')}</td>
@@ -138,6 +155,15 @@ const AdminQnA = () => {
           }
           </tbody>
         </table>
+        <Pagination 
+          totalItems={qstList.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+          currentPage={currentPage}
+          nextLabel='>'
+          previousLabel='<'
+          color='green'
+        />
       </div>
     </div>
   )
