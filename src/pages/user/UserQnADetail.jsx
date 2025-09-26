@@ -11,6 +11,9 @@ const UserQnADetail = () => {
   // url로 문의 번호를 받아올 params
   const {qstId} = useParams();
 
+  // 답변 수정을 판단할 state 변수
+  const [isEditing, setIsEditing] = useState(false);
+
   // 답변 데이터를 받아올 state 변수
   const [ansData, setAnsData] = useState({});
 
@@ -45,16 +48,27 @@ const UserQnADetail = () => {
       return [];
     }
     return qstDetail.questionImgDTOList.filter(img => img.imgNum !== 0);
-  }
+  };
 
-  console.log(qstDetail)
-  console.log(ansData)
+  // 문의 수정
+  const updateQst = () => {
+    alert(1)
+    setIsEditing(false)
+    axios.get()
+    .then()
+    .catch();
+  };
+
+  console.log(isEditing)
 
   return (
     <div className={styles.container}>
       <div className={styles.title}>
         <h1>
-          {qstDetail.qstTitle}
+        {
+          
+          qstDetail.qstTitle
+        }
         </h1>
         <div className={styles.qst_info}>
           <div className={styles.user_info}>
@@ -125,9 +139,22 @@ const UserQnADetail = () => {
           color='blue'
           content='목 록'
         />
+      {
+        qstDetail.qstStatus === '진행중'
+        ?
         <Button 
           content='수 정'
+          onClick={() => {
+            isEditing
+            ?
+            updateQst()
+            :
+            setIsEditing(true);
+          }}
         />
+        :
+        null
+      }
         <Button 
           color='red'
           content='삭 제'

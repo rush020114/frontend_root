@@ -13,16 +13,33 @@ const AdminQnADetail = () => {
   // url로 문의 번호를 받아올 params
   const {qstId} = useParams();
 
+  // 답변 수정을 판단할 state 변수
+  const [isEditing, setIsEditing] = useState(false);
+
+  // 답변 수정 데이터를 저장할 state 변수
+  const [editAns, setEditAns] = useState('');
+
+  // 답변 데이터 조회를 저장할 state 변수
+  const [ansData, setAnsData] = useState({});
+
   // 답변 데이터를 저장할 state 변수
   const [ansContent, setAnsContent] = useState('');
 
   // 문의 상세 데이터를 저장할 state 변수
   const [qstDetail, setQstDetail] = useState({});
 
-  // 문의 상세 데이터를 조회할 useEffect
+  // 수정 데이터를 세팅할 useEffect
   useEffect(() => {
-    axios.get('/api/questions/detail', {params: {qstId}})
-    .then(res => setQstDetail(res.data))
+    setEditAns(ansData.ansContent)
+  }, [ansData])
+
+  // 문의 상세 데이터와 답변 데이터를 조회할 useEffect
+  useEffect(() => {
+    axios.all([axios.get('/api/questions/detail', {params: {qstId}}), axios.get(`/api/answers/${qstId}`)])
+    .then(axios.spread((res1, res2) => {
+      setQstDetail(res1.data);
+      setAnsData(res2.data);
+    }))
     .catch(e => console.log(e));
   }, []);
 
@@ -55,6 +72,9 @@ const AdminQnADetail = () => {
     })
     .catch(e => console.log(e));
   };
+
+  console.log(ansData)
+  console.log(isEditing)
 
   return (
     <div className={styles.container}>
@@ -112,19 +132,51 @@ const AdminQnADetail = () => {
       <div className={styles.answer_div}>
         <h2>✍️ 답변 작성</h2>
         <div className={styles.ans_content}>
+        {
+          qstDetail.qstStatus === '진행중' || isEditing
+          ?
           <Textarea
             size='100%'
             rows='10'
             placeholder='답변을 작성해주세요.'
-            value={ansContent}
-            onChange={e => setAnsContent(e.target.value)}
+            value={
+              qstDetail.qstStatus === '진행중' || isEditing
+              ?
+              editAns
+              :
+              ansContent
+            }
+            onChange={e => {
+              qstDetail.qstStatus === '진행중' || isEditing
+              ?
+              setEditAns(e.target.value)
+              :
+              setAnsContent(e.target.value)
+            }}
           />
+          :
+          <div className={styles.complete_ans}>
+            {ansData.ansContent}
+          </div>
+        }
         </div>
       </div>
       <div className={styles.btn_div}>
         <Button 
-          content='답변'
-          onClick={() => regAns()}
+          content={
+            qstDetail.qstStatus === '진행중' || isEditing
+            ?
+            '답 변'
+            :
+            '수 정'
+          }
+          onClick={() => {
+            qstDetail.qstStatus === '진행중' || isEditing
+            ?
+            regAns()
+            :
+            setIsEditing(true);
+          }}
         />
       </div>
     </div>
