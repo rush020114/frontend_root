@@ -10,7 +10,8 @@ const MyPageMenu = () => {
     const pathMap = {
       '/user': '내 정보',
       '/user/bar-chart': '마이팜',
-      '/user/tempHum': '온/습도',
+      '/user/temp': '온도',
+      '/user/hum': '습도',
       '/user/soilHum': '토양습도',
       '/user/illum': '조도',
       '/user/qna': '문의'
@@ -49,11 +50,17 @@ const MyPageMenu = () => {
               className={({isActive}) => isActive ? styles.active : null}
             >마이팜</NavLink>
           </li>
-          <li onClick={() => setMenuName('온/습도')}>
+          <li onClick={() => setMenuName('온도')}>
             <NavLink
-              to={'/user/tempHum'}
+              to={'/user/temp'}
               className={({isActive}) => isActive ? styles.active : null}
-            >온/습도</NavLink>
+            >온도</NavLink>
+          </li>
+          <li onClick={() => setMenuName('습도')}>
+            <NavLink
+              to={'/user/hum'}
+              className={({isActive}) => isActive ? styles.active : null}
+            >습도</NavLink>
           </li>
           <li onClick={() => setMenuName('토양습도')}>
             <NavLink

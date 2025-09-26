@@ -14,7 +14,8 @@ import ManageUser from './pages/admin/ManageUser'
 import AdminQnA from './pages/admin/AdminQnA'
 import ManageService from './pages/admin/ManageService'
 import MyPageLayout from './layout/mypage/MyPageLayout'
-import TempHumDetail from './pages/user/TempHumDetail'
+import TempDetail from './pages/user/TempDetail'
+import HumDetail from './pages/user/HumDetail'
 import SoilHumDetail from './pages/user/SoilHumDetail'
 import IllumDetail from './pages/user/IllumDetail'
 import UserInfo from './pages/user/UserInfo'
@@ -57,8 +58,10 @@ function App() {
           <Route path='' element={<UserInfo />}/>
           {/* 농장 모니터링 페이지 */}
           <Route path='bar-chart' element={<UserControl />}/>
-          {/* 온/습도 */}
-          <Route path='tempHum' element={<TempHumDetail />}/>
+          {/* 온도 */}
+          <Route path='temp' element={<TempDetail />}/>
+          {/* 습도 */}
+          <Route path='hum' element={<HumDetail />}/>
           {/* 토양습도 */}
           <Route path='soilHum' element={<SoilHumDetail />}/>
           {/* 조도 */}
