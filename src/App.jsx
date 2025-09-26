@@ -14,6 +14,7 @@ import ManageUser from './pages/admin/ManageUser'
 import AdminQnA from './pages/admin/AdminQnA'
 import ManageService from './pages/admin/ManageService'
 import MyPageLayout from './layout/mypage/MyPageLayout'
+import PlantChatbot from './pages/menu/PlantChatbot'
 import TempDetail from './pages/user/TempDetail'
 import HumDetail from './pages/user/HumDetail'
 import SoilHumDetail from './pages/user/SoilHumDetail'
@@ -38,6 +39,8 @@ function App() {
           <Route path='company-profile' element={<CompanyProfile />} />
           {/* 고객센터 */}
           <Route path='customer-service' element={<CustomerService />} />
+          {/* 식물 검색 페이지 (챗봇) */}
+          <Route path='plant-chat' element={ <PlantChatbot/> }/>
         </Route>
         {/* 관리자 페이지 */}
         <Route path='/admin' element={<MainLayout />}>

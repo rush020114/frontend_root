@@ -19,8 +19,8 @@ const ManageUser = () => {
         />
       </div>
       <div>
-        <table className={styles.userTable}>
-          <thead className={styles.userThead}>
+        <table className={styles.user_table}>
+          <thead className={styles.user_thead}>
             <tr>
               <td><input type="checkbox" /></td>
               <td>권한</td>

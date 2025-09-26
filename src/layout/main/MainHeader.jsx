@@ -30,8 +30,14 @@ const MainHeader = () => {
             <NavLink
               to={'/service'}
               className={({isActive}) => isActive ? styles.active : null}
-            >서비스 신청</NavLink>
+            >서비스 신청</NavLink>  
           </li>
+          <li>
+            <NavLink
+              to={'/plant-chat'}
+              className={({isActive}) => isActive ? styles.active : null}
+            >AI 검색</NavLink>
+          </li>          
           <li>
             <NavLink
               to={'/customer-service'}
