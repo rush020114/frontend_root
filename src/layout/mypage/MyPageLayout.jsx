@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom'
 import MainHeader from '../main/MainHeader'
 import AdminMenu from '../../component/adminMenu/AdminMenu'
 import MainFooter from '../main/MainFooter'
+import MyPageMenu from './MyPageMenu'
 
 const MyPageLayout = () => {
   return (
@@ -12,7 +13,12 @@ const MyPageLayout = () => {
         <MainHeader />
       </div>
       <div className={styles.content}>
-        <Outlet />
+        <div className={styles.mypage_menu}>
+          <MyPageMenu />
+        </div>
+        <div className={styles.content_div}>
+          <Outlet />
+        </div>
         <AdminMenu />
       </div>
       <div className={styles.footer}>

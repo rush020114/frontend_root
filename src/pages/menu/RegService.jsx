@@ -22,10 +22,11 @@ const RegService = () => {
   // 서비스 신청 등록 데이터를 저장할 state 변수
   const [serviceData, setServiceData] = useState({
     applRole: ''
+    , farmName: ''
     , businessTelArr: ['', '', '']
     , applAddr: ''
     , addrDetail: ''
-    , content: ''
+    , applContent: ''
   });
 
   // 서비스 신청 등록 데이터를 세팅할 함수
@@ -71,6 +72,7 @@ const RegService = () => {
   // 버튼 활성화를 결정할 useEffect
   useEffect(() => {
     if(serviceData.applRole &&
+      serviceData.farmName &&
       serviceData.businessTelArr[0] &&
       serviceData.businessTelArr[1] &&
       serviceData.businessTelArr[2] &&
@@ -89,43 +91,45 @@ const RegService = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.title_div}>
-          <h2>스마트팜 서비스 신청</h2>
+          <h2>🌱 스마트팜 서비스 신청</h2>
           <div>
             <span className={styles.span}>* </span>
             &#40;필수입력사항&#41;
           </div>
         </div>
         <div className={styles.flex_div}>
-          <div className={styles.table_div}>
-            <h3>
-              <span><i className="bi bi-person-fill"></i></span> 회원 기본 정보 
-            </h3>
-            <table>
-              <colgroup>
-                <col width='20%' />
-                <col width='80%' />
-              </colgroup>
-              <tbody>
-                <tr>
-                  <td>이름</td>
-                  <td>홍길동</td>
-                </tr>
-                <tr>
-                  <td>아이디</td>
-                  <td>hong1234</td>
-                </tr>
-                <tr>
-                  <td>이메일</td>
-                  <td>hong1234@gmail.com</td>
-                </tr>
-                <tr>
-                  <td>연락처</td>
-                  <td>010-1234-1234</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className={styles.flex2_div}>
+            <div className={styles.table_div}>
+              <h3>
+                📋 회원 기본 정보 
+              </h3>
+              <table className={styles.table}>
+                <colgroup>
+                  <col width='20%' />
+                  <col width='80%' />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td>이름</td>
+                    <td>홍길동</td>
+                  </tr>
+                  <tr>
+                    <td>아이디</td>
+                    <td>hong1234</td>
+                  </tr>
+                  <tr>
+                    <td>이메일</td>
+                    <td>hong1234@gmail.com</td>
+                  </tr>
+                  <tr>
+                    <td>연락처</td>
+                    <td>010-1234-1234</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <div className={styles.terms_div}>
-              <h3><span><i className="bi bi-person-fill"></i></span> 약관</h3>
+              <h3>📜 약관 동의</h3>
               <div className={styles.terms_title}>
                 <input 
                   type="checkbox" 
@@ -135,7 +139,7 @@ const RegService = () => {
                 전체 동의하기
               </div>
               <span style={{fontSize: '0.86rem'}}>
-                실명 인증된 아이디로 가입 동의를 포함합니다.
+                위 모든 약관에 동의하며, 스마트팜 서비스 이용을 신청합니다.
               </span>
               <div className={styles.terms_title}>
                 <input 
@@ -145,20 +149,15 @@ const RegService = () => {
                   onChange={e => handleCheckbox(e)}
                 />
                 <span>&#91;필수&#93; </span> 
-                이용약관
+                 서비스 이용약관
               </div>
               <div className={styles.terms}>
-                이용약관
-                1. 약관의 동의  
-                본 사이트를 이용함으로써 이용자는 본 약관에 동의하는 것으로 간주됩니다.
-                2. 이용자의 의무  
-                이용자는 불법적이거나 금지된 행위로 사이트를 이용해서는 안 됩니다.
-                3. 지적재산권  
-                본 사이트의 모든 콘텐츠는 회사에 귀속되며 저작권법의 보호를 받습니다.
-                4. 책임의 제한  
-                회사는 사이트 이용으로 인한 손해에 대해 책임지지 않습니다.
-                5. 약관의 변경  
-                회사는 사전 통지 없이 언제든지 약관을 변경할 수 있습니다.
+                당사는 스마트팜 서비스 제공을 위해 아래와 같이 개인정보를 수집·이용합니다. <br />
+                - 수집목적: 스마트팜 서비스 제공, 고객 상담, 서비스 이용료 정산, 농작물 관리 지원 <br />
+                - 수집항목: 성명, 연락처(휴대폰, 이메일), 주소, 농장정보, 서비스 이용기록 <br />
+                - 보유기간: 서비스 이용 종료 후 3년 (관계법령에 따른 보존 의무 기간) <br />
+                - 거부권리: 개인정보 수집에 거부하실 수 있으나, 이 경우 서비스 이용이 제한될 수 있습니다. <br />
+                개인정보 처리방침에 따라 안전하게 관리되며, 목적 외 용도로는 사용되지 않습니다.
               </div>
               <div className={styles.terms_title}>
                 <input 
@@ -168,26 +167,16 @@ const RegService = () => {
                   onChange={e => handleCheckbox(e)}
                 />
                 <span style={{color: '#777777'}}>&#91;선택&#93; </span> 
-                수집
+                마케팅 정보 수신 동의
               </div>
               <div className={styles.terms}>
-                이용약관
-                1. 서문  
-                본 서비스를 이용함으로써 이용자는 본 이용약관에 동의하는 것으로 간주됩니다.
-                2. 이용 자격  
-                본 서비스는 만 18세 이상의 이용자만 사용할 수 있습니다.
-                3. 계정 보안  
-                이용자는 자신의 계정 정보에 대한 보안 유지 책임이 있습니다.
-                4. 금지 행위  
-                이용자는 서비스나 다른 이용자에게 피해를 주는 행위를 해서는 안 됩니다.
-                5. 서비스 이용 제한  
-                약관 위반 시 회사는 계정을 정지하거나 이용을 제한할 수 있습니다.
-                6. 개인정보  
-                본 서비스의 이용은 개인정보 처리방침에도 따릅니다.
-                7. 준거법  
-                본 약관은 [관할지역] 법률에 따라 해석되고 적용됩니다.
-                8. 문의  
-                약관에 관한 문의는 support@example.com 으로 연락해 주시기 바랍니다.
+                더 나은 농업 정보와 혜택을 제공하기 위한 마케팅 정보 발송에 동의합니다. <br />
+                - 발송    내용: 신규 서비스 안내, 할인 이벤트, 농업 기술 정보, 수확 시기 알림, 계절별 재배 팁 <br />
+                - 발송 방법: SMS, 이메일, 카카오톡, 앱 푸시알림 <br />
+                - 발송 주기: 주 1-2회 (중요 정보는 수시), 이벤트성 정보는 월 2-3회 <br />
+                - 철회 방법: 언제든지 수신거부 가능 (문자 수신거부, 이메일 구독취소, 고객센터 연락) <br />
+                - 위탁 업체: 마케팅 발송을 위해 전문 업체에 위탁할 수 있으며, 개인정보 보호를 위한 계약을 체결합니다. <br />
+                동의하지 않으셔도 서비스 이용에는 전혀 제한이 없습니다.
               </div>
             </div>
           </div>
@@ -214,6 +203,20 @@ const RegService = () => {
                   />
                   <p>개인</p>
                 </div>
+              </div>
+            </div>
+            <div>
+              <b>
+                농장 이름
+                <span className={styles.span}> *</span>
+              </b>
+              <div>
+                <Input 
+                  size='100%'
+                  name='farmName'
+                  value={serviceData.farmName}
+                  onChange={e => handleService(e)}
+                />
               </div>
             </div>
             <div className={styles.tel_div}>
@@ -284,8 +287,8 @@ const RegService = () => {
               <b>상담 내용</b>
               <Textarea
                 size='100%'
-                name='content'
-                  value={serviceData.content}
+                name='applContent'
+                  value={serviceData.applContent}
                   onChange={e => handleService(e)}
                   maxLength={100}
               />

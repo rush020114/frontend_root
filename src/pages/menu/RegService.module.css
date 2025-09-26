@@ -40,7 +40,7 @@
   color: red;
 }
 
-.table_div{
+.flex2_div{
   background-color: #f7f7f7;
   padding: 10px;
   border: 1px solid #777777;
@@ -50,14 +50,23 @@
   gap: 5px;
 }
 
-.table_div > table{
+.flex2_div h3{
+  margin-bottom: 7px;
+}
+
+.table{
   width: 100%;
 }
 
 .terms_div{
+  margin-top: auto;
   display: flex;
   flex-direction: column;
   gap: 3px;
+}
+
+.terms_title{
+  margin: 3px 0px;
 }
 
 .terms_title > span{
@@ -69,7 +78,7 @@
   padding: 5px;
   border: 1px solid black;
   overflow: auto;
-  height: 70px;
+  height: 90px;
   background-color: white;
   font-size: 0.86rem;
   border: 1px solid #777777;
