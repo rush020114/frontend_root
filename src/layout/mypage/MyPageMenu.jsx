@@ -77,6 +77,7 @@ const MyPageMenu = () => {
           <li onClick={() => setMenuName('문의')}>
             <NavLink
               to={'/user/qna'}
+              end
               className={({isActive}) => isActive ? styles.active : null}
             >문의</NavLink>
           </li>
