@@ -1,19 +1,19 @@
-.userTable{
+.user_table{
   width: 100%;
   margin-top: 30px;
   margin-bottom: 30px;
   text-align: center;
 }
 
-.userThead{
+.user_thead{
   background-color: #d2f3b5;
 }
 
-.userTable tr{
+.user_table tr{
   border-bottom: 1px solid black;
 }
 
-.userTable td{
+.user_table td{
   padding: 7px 5px
 }
 
