@@ -133,7 +133,10 @@ const UserInfo = () => {
                 return(
                   <tr 
                     key={i}
-                    onClick={() => nav(`/user/qna/${qst.qstId}`)}
+                    onClick={() =>{
+                       nav(`/user/qna/${qst.qstId}`);
+                       window.scrollTo(0, 0); 
+                      }}
                   >
                     <td>{currentPage * itemsPerPage + i + 1}</td>
                     <td>{qst.qstTitle}</td>

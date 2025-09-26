@@ -13,6 +13,9 @@ const AdminQnADetail = () => {
   // url로 문의 번호를 받아올 params
   const {qstId} = useParams();
 
+  // 리렌더링을 도와줄 state 변수
+  const [reload, setReload] = useState();
+
   // 답변 수정을 판단할 state 변수
   const [isEditing, setIsEditing] = useState(false);
 
@@ -41,7 +44,7 @@ const AdminQnADetail = () => {
       setAnsData(res2.data);
     }))
     .catch(e => console.log(e));
-  }, []);
+  }, [reload]);
 
   // 이미지 개수 계산 함수
   const getImgCnt = () => {
@@ -60,6 +63,7 @@ const AdminQnADetail = () => {
     return qstDetail.questionImgDTOList.filter(img => img.imgNum !== 0);
   };
 
+  // 답변 등록
   const regAns = () => {
     axios.post('/api/answers', {
       ansContent
@@ -68,7 +72,21 @@ const AdminQnADetail = () => {
     })
     .then(res => {
       alert('답변 완료');
-      nav('/admin/qna')
+      nav('/admin/qna');
+    })
+    .catch(e => console.log(e));
+  };
+
+  // 답변 수정
+  const updateAns = () => {
+    axios.put('/api/answers', {
+      ansContent: editAns
+      , ansId: ansData.ansId
+    })
+    .then(res => {
+      alert('수정완료');
+      setReload(reload + 1);
+      setIsEditing(false);
     })
     .catch(e => console.log(e));
   };
@@ -173,7 +191,7 @@ const AdminQnADetail = () => {
           onClick={() => {
             qstDetail.qstStatus === '진행중' || isEditing
             ?
-            regAns()
+            (isEditing ? updateAns() : regAns())
             :
             setIsEditing(true);
           }}
