@@ -17,6 +17,16 @@ const AdminQnA = () => {
   // 활성 페이지 세팅
   const [currentPage, setCurrentPage] = useState(0);
 
+  // 문의 세팅을 저장할 state 변수
+  const [searchData, setSearchData] = useState({
+    qstId: ''
+    , qstStatus: ''
+    , qstTitle: ''
+    , userId: ''
+    , qstDate: ''
+    , userRole: 'ADMIN'
+  });
+
   // 보여줄 페이지
   const itemsPerPage = 5;
 
@@ -35,13 +45,40 @@ const AdminQnA = () => {
 
   // 문의 목록을 세팅할 useEffect
   useEffect(() => {
-    axios.all([axios.get('/api/questions', {params: {memRole: 'ADMIN'}}), axios.get('/api/questions/status-cnt')])
+    axios.all([axios.get('/api/questions', {params: {userRole: 'ADMIN'}}), axios.get('/api/questions/status-cnt')])
     .then(axios.spread((res1, res2) => {
       setQstList(res1.data);
       setQstStatusCnt(res2.data);
     }))
     .catch(e => console.log(e));
   }, []);
+
+  // 검색 데이터를 세팅할 함수
+  const handleSearch = e => {
+    setSearchData({
+      ...searchData
+      , [e.target.name]: e.target.value
+    });
+  };
+
+  // 검색 시 실행할 함수
+  const searchQstList = () => {
+    axios.get('/api/questions', {params: searchData})
+    .then(res => {
+      setQstList(res.data);
+      setSearchData({
+        qstId: ''
+        , qstStatus: ''
+        , qstTitle: ''
+        , userId: ''
+        , qstDate: ''
+        , userRole:   'ADMIN'
+      });
+    })
+    .catch(e => console.log(e));
+  };
+
+  console.log(searchData)
 
   return (
     <div className={styles.container}>
@@ -70,21 +107,43 @@ const AdminQnA = () => {
       </div>
       <div className={styles.search_qna}>
         <div>
+          <p>문의 번호</p>
+          <Input 
+            size='100%'
+            name='qstId'
+            value={searchData.qstId}
+            onChange={e => handleSearch(e)}
+          />
+        </div>
+        <div>
           <p>문의 상태</p>
           <Select 
             size='100%'
-          />
+            name='qstStatus'
+            value={searchData.qstStatus}
+            onChange={e => handleSearch(e)}
+          >
+            <option value="">선택</option>
+            <option value="진행중">진행중</option>
+            <option value="답변완료">답변완료</option>
+          </Select>
         </div>
         <div>
           <p>제목</p>
           <Input 
             size='100%'
+            name='qstTitle'
+            value={searchData.qstTitle}
+            onChange={e => handleSearch(e)}
           />
         </div>
         <div>
           <p>작성자</p>
           <Input 
             size='100%'
+            name='userId'
+            value={searchData.userId}
+            onChange={e => handleSearch(e)}
           />
         </div>
         <div>
@@ -93,6 +152,9 @@ const AdminQnA = () => {
             type='date'
             size='100%'
             padding='6px'
+            name='qstDate'
+            value={searchData.qstDate}
+            onChange={e => handleSearch(e)}
           />
         </div>
         <div className={styles.search_btn}>
@@ -100,10 +162,12 @@ const AdminQnA = () => {
             size='100%'
             content='검 색'
             padding='4px'
+            onClick={() => searchQstList()}
           />
         </div>
       </div>
       <div className={styles.qna_list}>
+        <h2>{`🔍 총 ${qstList.length}건 검색되었습니다.`}</h2>
         <table className={styles.qna_table}>
           <colgroup>
             <col width='5%' />

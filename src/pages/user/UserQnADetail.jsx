@@ -75,10 +75,19 @@ const UserQnADetail = () => {
 
   // 문의 수정
   const updateQst = () => {
+    if(!updateQstData.qstTitle.trim()){
+      alert('제목을 입력해주세요.');
+      return;
+    };
+
+    if(!updateQstData.qstContent.trim()){
+      alert('내용을 입력해주세요.');
+      return;
+    };
     axios.put(`/api/questions/${qstId}`, updateQstData)
     .then(res => {
       window.scrollTo(0, 0);
-      alert('수정완료');
+      alert(res.data);
       setReload(reload + 1);
       setIsEditing(false);
     })
@@ -87,10 +96,13 @@ const UserQnADetail = () => {
 
   // 답변 삭제
   const delQst = () => {
+    if(!confirm('삭제하시겠습니까?')){
+      return;
+    }
     axios.delete(`/api/questions/${qstId}`)
     .then(res => {
-      confirm('삭제하시겠습니까?')
-      nav('/user')
+      alert(res.data);
+      nav('/user');
     })
     .catch(e => console.log(e));
   };
