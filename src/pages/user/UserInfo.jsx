@@ -30,7 +30,7 @@ const UserInfo = () => {
   // 문의 목록을 세팅할 useEffect
   useEffect(() => {
     axios.get('/api/questions', {params: {
-      memRole: 'USER'
+      userRole: 'USER'
       , userId: 'user'
     }})
     .then(res => setQstList(res.data))

@@ -65,26 +65,34 @@ const AdminQnADetail = () => {
 
   // 답변 등록
   const regAns = () => {
+    if(!ansContent.trim()){
+      alert('답변을 작성해주세요.')
+      return;
+    }
     axios.post('/api/answers', {
       ansContent
       , qstId
       , userId: 'admin'
     })
     .then(res => {
-      alert('답변 완료');
+      alert(res.data);
       nav('/admin/qna');
     })
     .catch(e => console.log(e));
   };
-
+  
   // 답변 수정
   const updateAns = () => {
+    alert('답변을 작성해주세요.')
+    if(!editAns.trim()){
+      return;
+    }
     axios.put('/api/answers', {
       ansContent: editAns
       , ansId: ansData.ansId
     })
     .then(res => {
-      alert('수정완료');
+      alert(res.data);
       setReload(reload + 1);
       setIsEditing(false);
     })
