@@ -1,0 +1,310 @@
+/* 기본 컨테이너 (medium 사이즈) */
+.forecastContainer {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border-radius: 12px;
+  padding: 24px;
+  color: white;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Small 사이즈 컨테이너 */
+.forecastContainerSmall {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border-radius: 10px;
+  padding: 16px;
+  color: white;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+/* Large 사이즈 컨테이너 */
+.forecastContainerLarge {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border-radius: 16px;
+  padding: 32px;
+  color: white;
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* 높이가 지정된 경우를 위한 flex 컨테이너 */
+.flexContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 제목 */
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.titleSmall {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0 0 16px 0;
+  text-align: center;
+}
+
+.titleLarge {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0 0 24px 0;
+  text-align: center;
+}
+
+/* 예보 리스트 */
+.forecastList {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.forecastContainerSmall .forecastList {
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.forecastContainerLarge .forecastList {
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* 날짜 카드 */
+.dayCard {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 12px 8px;
+  text-align: center;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.dayCard:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-4px);
+}
+
+.forecastContainerSmall .dayCard {
+  padding: 8px 6px;
+  border-radius: 10px;
+}
+
+.forecastContainerLarge .dayCard {
+  padding: 16px 12px;
+  border-radius: 14px;
+}
+
+/* 날짜 */
+.date {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 8px;
+}
+
+.forecastContainerSmall .date {
+  font-size: 0.75rem;
+  margin-bottom: 6px;
+}
+
+.forecastContainerLarge .date {
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+/* 아이콘 컨테이너 */
+.iconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.forecastContainerSmall .iconContainer {
+  margin: 6px 0;
+}
+
+.forecastContainerLarge .iconContainer {
+  margin: 12px 0;
+}
+
+/* 온도 */
+.temp {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+.forecastContainerSmall .temp {
+  font-size: 1.25rem;
+  margin: 6px 0;
+}
+
+.forecastContainerLarge .temp {
+  font-size: 2rem;
+  margin: 12px 0;
+}
+
+/* 날씨 설명 */
+.description {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.2;
+}
+
+.forecastContainerSmall .description {
+  font-size: 0.7rem;
+}
+
+.forecastContainerLarge .description {
+  font-size: 0.875rem;
+}
+
+/* 새로고침 버튼 */
+.refreshButton {
+  width: 100%;
+  margin-top: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.refreshButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.forecastContainerSmall .refreshButton {
+  margin-top: 12px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+}
+
+.forecastContainerLarge .refreshButton {
+  margin-top: 24px;
+  padding: 12px 20px;
+  font-size: 1rem;
+}
+
+/* 높이 지정 시 새로고침 버튼 간격 조정 */
+.flexContainer .refreshButton {
+  margin-top: 0;
+}
+
+/* 로딩 */
+.loading {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border-radius: 12px;
+  padding: 24px;
+  color: white;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.loadingContent {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.loadingBar {
+  height: 16px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.loadingBar:nth-child(1) { width: 75%; }
+.loadingBar:nth-child(2) { width: 50%; }
+.loadingBar:nth-child(3) { width: 66%; }
+
+.loadingText {
+  margin-top: 16px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* 에러 */
+.error {
+  background: #ef4444;
+  border-radius: 12px;
+  padding: 24px;
+  color: white;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.errorTitle {
+  font-weight: bold;
+  font-size: 1.125rem;
+  margin: 0 0 8px 0;
+}
+
+.errorMessage {
+  margin: 0 0 16px 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.errorButton {
+  width: 100%;
+  background: #dc2626;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.errorButton:hover {
+  background: #b91c1c;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* 반응형 */
+@media (max-width: 640px) {
+  .forecastList {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .dayCard:nth-child(4),
+  .dayCard:nth-child(5) {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .forecastList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .dayCard:nth-child(5) {
+    grid-column: span 2;
+  }
+}

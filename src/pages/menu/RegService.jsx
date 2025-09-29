@@ -4,8 +4,11 @@ import Input from '../../common/Input'
 import Button from '../../common/Button'
 import Textarea from '../../common/Textarea'
 import { useDaumPostcodePopup } from 'react-daum-postcode'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const RegService = () => {
+  const nav = useNavigate();
 
   // 다음 주소록 팝업 생성 함수
   const open = useDaumPostcodePopup('//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js');
@@ -87,6 +90,16 @@ const RegService = () => {
     };
   }, [serviceData, checkData]);
 
+  // 서비스 신청 함수
+  const regService = () => {
+    axios.post('/api/applications', {...serviceData, userId: 'user'})
+    .then(res => {
+      alert(res.data);
+      nav('/user')
+    })
+    .catch(e => console.log(e));
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -153,9 +166,9 @@ const RegService = () => {
               </div>
               <div className={styles.terms}>
                 당사는 스마트팜 서비스 제공을 위해 아래와 같이 개인정보를 수집·이용합니다. <br />
-                - 수집목적: 스마트팜 서비스 제공, 고객 상담, 서비스 이용료 정산, 농작물 관리 지원 <br />
-                - 수집항목: 성명, 연락처(휴대폰, 이메일), 주소, 농장정보, 서비스 이용기록 <br />
-                - 보유기간: 서비스 이용 종료 후 3년 (관계법령에 따른 보존 의무 기간) <br />
+                - 수집목적: 딸기 재배 스마트팜 서비스 제공, 고객 상담, 서비스 이용료 정산, 딸기 재배 관리 지원 <br />
+                - 수집항목: 성명, 연락처(휴대폰, 이메일), 주소, 농장이름, 서비스 이용기록 <br />
+                - 제공서비스: 온도·습도·조도·토양습도 센서 모니터링, 물펌프·선풍기 자동제어, 모션감지 알림 기능 <br />
                 - 거부권리: 개인정보 수집에 거부하실 수 있으나, 이 경우 서비스 이용이 제한될 수 있습니다. <br />
                 개인정보 처리방침에 따라 안전하게 관리되며, 목적 외 용도로는 사용되지 않습니다.
               </div>
@@ -190,7 +203,7 @@ const RegService = () => {
                 <div>
                   <input type="radio" 
                     name='applRole'
-                    value={'personal'}
+                    value={'corporate'}
                     onChange={e => handleService(e)}
                   />
                   <p>법인</p>
@@ -198,7 +211,7 @@ const RegService = () => {
                 <div>
                   <input type="radio" 
                     name='applRole'
-                    value={'corporate'}
+                    value={'personal'}
                     onChange={e => handleService(e)}
                   />
                   <p>개인</p>
@@ -298,7 +311,7 @@ const RegService = () => {
                 content='신청하기'
                 size='100%'
                 disabled={isDisable}
-                onClick={() => isDisable ? alert('약관 또는 필수입력사항을 확인하십시오.') : null}
+                onClick={() => isDisable ? alert('약관 또는 필수입력사항을 확인하십시오.') : regService()}
               />
             </div>
           </div>
