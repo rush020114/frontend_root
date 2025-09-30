@@ -9,6 +9,12 @@ import ForecastWidget from '../../component/widgets/ForeCastWidget';
 const UserInfo = () => {
   const nav = useNavigate();
 
+  // 로그인 정보를 저장할 state 변수
+  const loginInfo = sessionStorage.getItem('loginInfo');
+
+  // 로그인 정보 객체화
+  const loginData = JSON.parse(loginInfo);
+
   // 서비스 기본 정보를 저장할 state 변수
   const [serviceInfo, setServiceInfo] = useState({});
 
@@ -35,7 +41,7 @@ const UserInfo = () => {
   useEffect(() => {
     axios.get('/api/questions', {params: {
       userRole: 'USER'
-      , userId: 'user'
+      , userId: loginData.userId
     }})
     .then(res => setQstList(res.data))
     .catch(e => console.log(e));
@@ -43,18 +49,19 @@ const UserInfo = () => {
 
   // 서비스 기본 정보 조회 useEffect
   useEffect(() => {
-    axios.get(`/api/applications/user`)
+    axios.get(`/api/applications/${loginData.userID}`)
     .then(res => setServiceInfo(res.data))
     .catch(e => console.log(e));
   }, []);
 
   console.log(serviceInfo)
+  
 
   return (
     <div className={styles.container}>
       <div className={styles.title_div}>
         <h1>👤 내 정보</h1>
-        <p>안녕하세요, {serviceInfo.userId}님! 스마트팜 관리 현황을 확인해보세요.</p>
+        <p>안녕하세요. {loginData.userId}님! 스마트팜 관리 현황을 확인해보세요.</p>
       </div>
       <div className={styles.info_div}>
         <div className={styles.info_title}>
@@ -63,7 +70,7 @@ const UserInfo = () => {
         <div className={styles.user_info}>
           <div>
             <p>이름</p>
-            <p>{`${serviceInfo.userDTO && serviceInfo.userDTO.userName} (${serviceInfo.userId})`}</p>
+            <p>{`${serviceInfo.userDTO ? serviceInfo.userDTO.userName : '-'} (${loginData.userId})`}</p>
           </div>
           <div>
             <p>농장명</p>

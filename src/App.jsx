@@ -28,14 +28,40 @@ import AdminQnADetail from './pages/admin/AdminQnADetail'
 import UserQnAUpdate from './pages/user/UserQnAUpdate'
 
 function App() {
+
+  // 로그인 정보를 세팅할 state 변수
+  const [loginData, setLoginData] = useState(() => {
+    const loginInfo = sessionStorage.getItem('loginInfo');
+    return loginInfo ? JSON.parse(loginInfo) : null;
+  });
+
+  // 로그인 처리 함수
+  const handleLogin = () => {
+    const loginInfo = sessionStorage.getItem('loginInfo');
+    loginInfo
+    if(loginInfo){
+      setLoginData(JSON.parse(loginInfo));
+    };
+  };
+
+  // 로그아웃 처리 함수
+  const handleLogout = () => {
+    setLoginData(null);
+  }
+
   return (
     <>
       <Routes>
         {/* 메인 페이지 */}
-        <Route path='/' element={<MainLayout />}>
+        <Route path='/' element={<MainLayout 
+          loginData={loginData}
+          onLogout={handleLogout}
+        />}>
           {/* 첫 화면 */}
           <Route path='join'          element={ <Join /> } />
-          <Route path='login'         element={ <Login /> } />
+          <Route path='login'         element={ <Login 
+            onLogin={handleLogin}
+          /> } />
           <Route path='' element={<Home />} />
           {/* 서비스 신청 화면 */}
           <Route path='service' element={<RegService />} />
@@ -47,7 +73,10 @@ function App() {
           <Route path='plant-chat' element={ <PlantChatbot/> }/>
         </Route>
         {/* 관리자 페이지 */}
-        <Route path='/admin' element={<MainLayout />}>
+        <Route path='/admin' element={<MainLayout 
+          loginData={loginData}
+          onLogout={handleLogout}
+        />}>
           {/* 메인 */}
           <Route path='home' element={<AdminHome />} />
           {/* 회원관리  */}
@@ -60,7 +89,10 @@ function App() {
           <Route path='qna/:qstId' element={<AdminQnADetail />} />
         </Route>
         {/* 마이 페이지 */}
-        <Route path='/user' element={<MyPageLayout />}>
+        <Route path='/user' element={<MyPageLayout 
+          loginData={loginData}
+          onLogout={handleLogout}
+        />}>
           {/* 내 정보 */}
           <Route path='' element={<UserInfo />}/>
           {/* 농장 모니터링 페이지 */}

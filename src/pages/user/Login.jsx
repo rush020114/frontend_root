@@ -5,7 +5,7 @@ import Button from '../../common/Button'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
-const Login = () => {
+const Login = ({onLogin}) => {
   //회원 로그인 시, 입력하는 아이디와 비밀번호를 저장하는 변수
   const[loginData, setLoginData] = useState({
     'userId' : '',
@@ -49,6 +49,7 @@ const Login = () => {
 
         //로그인 정보를 세션 스토리지에 JSON 문자열로 저장
         sessionStorage.setItem('loginInfo', JSON.stringify(loginInfo));
+        onLogin();
       }
       else{
         alert('아이디 또는 비밀번호가 일치하지 않습니다.')

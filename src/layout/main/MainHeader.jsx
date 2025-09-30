@@ -1,17 +1,55 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './MainHeader.module.css'
 import { NavLink, useNavigate } from 'react-router-dom'
 
-const MainHeader = () => {
+const MainHeader = ({onLogout}) => {
 
   const nav = useNavigate();
+
+  // 로그인 정보를 저장할 state 변수
+  const loginInfo = sessionStorage.getItem('loginInfo');
+
+  // 로그인 정보 객체화
+  const loginData = JSON.parse(loginInfo);
 
   return (
     <div className={styles.container}>
       <div className={styles.member}>
-        <div>회원가입</div>
-        |
-        <div>로그인</div>
+        {
+          !loginData
+          ?
+          <>
+          <div>회원가입</div>
+          |
+          <div
+            onClick={() => nav('/login')}
+          >로그인</div>
+          </>
+          :
+          <>
+          <div
+            style={{cursor: 'default'}}
+          >
+            {`${loginData.userId}님 환영합니다.`}
+          </div>
+          |
+          <div
+            onClick={() => nav('/user')}
+            >
+            👩‍🌾 내 농장
+          </div>
+          |
+          <div
+            onClick={() => {
+              nav('/');
+              sessionStorage.removeItem('loginInfo');
+              onLogout();
+            }}
+          >
+            로그아웃
+          </div>
+          </>
+        }
       </div>
       <div className={styles.menu_div}>
         <div className={styles.logo}>

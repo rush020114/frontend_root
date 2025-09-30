@@ -16,9 +16,6 @@ const AdminQnADetail = () => {
   // 리렌더링을 도와줄 state 변수
   const [reload, setReload] = useState();
 
-  // 회원 기본 정보를 저장할 state 변수
-  const [userInfo, setUserInfo] = useState();
-
   // 답변 수정을 판단할 state 변수
   const [isEditing, setIsEditing] = useState(false);
 

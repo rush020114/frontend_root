@@ -5,15 +5,21 @@ import MainHeader from './MainHeader'
 import AdminMenu from '../../component/adminMenu/AdminMenu'
 import MainFooter from './MainFooter'
 
-const MainLayout = () => {
+const MainLayout = ({loginData, onLogout}) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <MainHeader />
+        <MainHeader 
+          onLogout={onLogout}
+        />
       </div>
       <div className={styles.content}>
         <Outlet />
-        <AdminMenu />
+        {
+          loginData?.userRole === 'ADMIN'
+          &&
+          <AdminMenu />
+        }
       </div>
       <div className={styles.footer}>
         <MainFooter />

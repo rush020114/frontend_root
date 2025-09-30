@@ -6,11 +6,13 @@ import AdminMenu from '../../component/adminMenu/AdminMenu'
 import MainFooter from '../main/MainFooter'
 import MyPageMenu from './MyPageMenu'
 
-const MyPageLayout = () => {
+const MyPageLayout = ({loginData, onLogout}) => {
   return (
      <div className={styles.container}>
       <div className={styles.header}>
-        <MainHeader />
+        <MainHeader 
+          onLogout={onLogout}
+        />
       </div>
       <div className={styles.content}>
         <div className={styles.mypage_menu}>
@@ -19,7 +21,11 @@ const MyPageLayout = () => {
         <div className={styles.content_div}>
           <Outlet />
         </div>
-        <AdminMenu />
+        {
+          loginData?.userRole === 'ADMIN'
+          &&
+          <AdminMenu />
+        }
       </div>
       <div className={styles.footer}>
         <MainFooter />
