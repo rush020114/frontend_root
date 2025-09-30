@@ -80,6 +80,6 @@
   background-color: #eeeeee;
 }
 
-.qna_table > tbody > tr > td:not(:nth-child(2)) {
+.qna_table > tbody > tr > td:not(:nth-child(3)) {
   text-align: center;
 }

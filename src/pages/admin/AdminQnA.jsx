@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './AdminQnA.module.css'
 import Select from '../../common/Select'
 import Input from '../../common/Input'
@@ -13,6 +13,9 @@ const AdminQnA = () => {
 
   // 문의 목록을 받아올 state 변수
   const [qstList, setQstList] = useState([]);
+
+  // 문의 목록 검색 시 목록의 길이를 변하지 않게 하기 위한 hook
+  const qstLength = useRef(0);
 
   // 활성 페이지 세팅
   const [currentPage, setCurrentPage] = useState(0);
@@ -48,6 +51,7 @@ const AdminQnA = () => {
     axios.all([axios.get('/api/questions', {params: {userRole: 'ADMIN'}}), axios.get('/api/questions/status-cnt')])
     .then(axios.spread((res1, res2) => {
       setQstList(res1.data);
+      qstLength.current = res1.data.length;
       setQstStatusCnt(res2.data);
     }))
     .catch(e => console.log(e));
@@ -72,7 +76,7 @@ const AdminQnA = () => {
         , qstTitle: ''
         , userId: ''
         , qstDate: ''
-        , userRole:   'ADMIN'
+        , userRole: 'ADMIN'
       });
     })
     .catch(e => console.log(e));
@@ -89,7 +93,7 @@ const AdminQnA = () => {
         <div 
           style={{background: 'linear-gradient(135deg, #6c757d, #8d959e)'}}
         >
-          <h1>{qstList.length}</h1>
+          <h1>{qstLength.current}</h1>
           <p>전체 관리</p>
         </div>
         <div
@@ -101,7 +105,7 @@ const AdminQnA = () => {
         <div
           style={{background: 'linear-gradient(135deg, #4dab28, #6bc247)'}}
         >
-          <h1>{qstList.length - qstStatusCnt}</h1>
+          <h1>{qstLength.current - qstStatusCnt}</h1>
           <p>답변완료</p>
         </div>
       </div>
@@ -171,7 +175,8 @@ const AdminQnA = () => {
         <table className={styles.qna_table}>
           <colgroup>
             <col width='5%' />
-            <col width='45%' />
+            <col width='7%' />
+            <col width='38%' />
             <col width='10%' />
             <col width='20%' />
             <col width='10%' />
@@ -179,6 +184,7 @@ const AdminQnA = () => {
           <thead>
             <tr>
               <td>No</td>
+              <td>QstNo</td>
               <td>제목</td>
               <td>작성자</td>
               <td>등록일</td>
@@ -196,6 +202,7 @@ const AdminQnA = () => {
                   onClick={() => nav(`/admin/qna/${qst.qstId}`)}
                 >
                   <td>{currentPage * itemsPerPage + i + 1}</td>
+                  <td>{qst.qstId}</td>
                   <td>{qst.qstTitle}</td>
                   <td>{qst.userId}</td>
                   <td>{dayjs(qst.qstDate).format('YYYY-MM-DD HH:mm:ss')}</td>

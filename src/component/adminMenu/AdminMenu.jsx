@@ -42,6 +42,7 @@ const AdminMenu = () => {
         <li>
           <NavLink
             to={'/admin/qna'}
+            end
             className={({isActive}) => isActive ? styles.active : null}
           >
             <span>
