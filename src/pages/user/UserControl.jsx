@@ -44,7 +44,7 @@ const UserControl = () => {
       >
         {/* 조건부 날씨 아이콘 */}
         {latestTemper >= 25 && (
-          <img src="/temHigh" alt="temHigh" className={styles.iconTemHigh} />
+          <img src="/temHigh.png" alt="temHigh" className={styles.iconTemHigh} />
         )}
         {latestTemper >= 20 && latestTemper < 25 && (
           <img src="/temNormal.png" alt="temNormal" className={styles.iconTemNormal} />
