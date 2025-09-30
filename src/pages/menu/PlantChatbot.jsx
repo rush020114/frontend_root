@@ -22,7 +22,10 @@ const PlantChatbot = () => {
   }, [messages]);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesEndRef.current) {
+      const container = messagesEndRef.current.parentNode; // 메시지 영역 div
+      container.scrollTop = container.scrollHeight;
+    }
   };
 
   const createSession = async () => {
@@ -193,23 +196,6 @@ const PlantChatbot = () => {
       {/* 메인 컨텐츠 */}
       <main className={styles.main_content}>
         
-        {/* 웰컴 섹션 - 메시지가 없을 때만 표시
-        {messages.length === 0 && (
-          <div className={styles.welcome_section}>
-            <div className={styles.welcome_icon}>
-              <span>🌱</span>
-            </div>
-            <h2 className={styles.welcome_title}>어떤 식물이 궁금하신가요?</h2>
-            <p className={styles.welcome_description}>
-              식물 사진을 업로드하시면 AI가 식물의 종류를 알려드립니다
-            </p>
-            <div className={styles.feature_tags}>
-              <div className={styles.feature_tag}>📸 사진 업로드</div>
-              <div className={styles.feature_tag}>🔍 AI 분석</div>
-              <div className={styles.feature_tag}>📋 상세 정보</div>
-            </div>
-          </div>
-        )} */}
 
         {/* 채팅 메시지 영역 */}
         {messages.length > 0 && (
