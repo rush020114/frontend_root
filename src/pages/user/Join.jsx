@@ -6,7 +6,7 @@ import Select from '../../common/Select'
 import styles from './Join.module.css'
 
 const Join = () => {
-  //회원가입 데이터를 저장할 state 변수
+  //회원가입 시, 입력하는 모든 데이터를 저장하는 변수
   const[userData, setUserData] = useState({
     'userName' : '',
     'userId' : '',
@@ -20,7 +20,7 @@ const Join = () => {
 
   console.log(userData);
 
-  //입력값 변경 처리 함수
+  //입력한 데이터를 저장하는 함수
   const handleChange = (e) => {
     setUserData({
       ...userData,
@@ -28,22 +28,25 @@ const Join = () => {
     })
   };
 
-    //아이디 정규 표현식 (조건 : 4~10자 / 영문, 숫자만 허용)
-    const idRegex = /^[a-zA-Z0-9]{4,10}$/;
+  //아이디 정규 표현식 (4~10자 / 영문, 숫자만 허용)
+  const idRegex = /^[a-zA-Z0-9]{4,10}$/;
 
+  //비밀번호 정규 표현식 (6~12자 / 영문 + 숫자 + 특수문자 포함 허용)
+  const pwRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,12}$/;
 
-    //비밀번호 정규 표현식 (조건 : 6~12자 / 영문 + 숫자 + 특수문자 허용)
-    const pwRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,12}$/;
-  
-    //유효성 검사 결과 에러 메세지를 저장할 state 변수
-    const[errorMsg, setErrorMsg] = useState({
-      'userName' : '',
-      'userId' : '',
-      'userPw' : '',
-      'userPwConfirm' : ''
-    });
+  //연락처 정규 표현식 (4자리 숫자만 허용)
+  const numberRegex = /^\d{4}$/;
 
-    //유효성 검사 함수
+  //유효성 검사 결과 에러 메세지를 저장하는 변수
+  const[errorMsg, setErrorMsg] = useState({
+    'userName' : '',
+    'userId' : '',
+    'userPw' : '',
+    'userPwConfirm' : '',
+    'userTelArr' : ''
+  });
+
+    //유효성 검사 실행 함수
     const handleErrorMsg = (e) => {
       switch(e.target.name){
         //이름
@@ -72,11 +75,39 @@ const Join = () => {
               <i className="bi bi-info-circle-fill"></i>
               비밀번호는 6~12자까지 영문, 숫자, 특수문자만 허용됩니다.
             </span>
-            : '' ; 
-      }
-    }
+            : '' ;
+        //비밀번호와 비밀번호 확인이 일치하는지
+        case 'userPwConfirm' :
+          return userData.userPw && e.target.value && userData.userPw !== e.target.value
+          ?
+          <span>
+              <i className="bi bi-info-circle-fill"></i>
+              비밀번호와 동일하게 입력해 주세요.
+            </span>
+            : '' ;
 
-  //아이디 중복확인 실행할 함수
+        //연락처
+        case 'userTelArr' :
+          //빈 값 체크
+          if(e.target.value === ''){
+            return <span>
+              <i className="bi bi-info-circle-fill"></i>
+              연락처를 입력해 주세요.
+            </span>
+          }
+
+        //숫자만 입력 허용
+        if(!numberRegex.test(e.target.value)){
+          return <span>
+            <i className="bi bi-info-circle-fill"></i>
+            4자리 숫자만 입력해 주세요.
+          </span>
+        }
+        return '';
+      }
+    };
+
+  //서버에 아이디 중복 확인 요청하는 함수
   const handleCheckId = () => {
     axios
     .get(`/api/users/${userData.userId}`)
@@ -93,9 +124,11 @@ const Join = () => {
     .catch(error => console.log(error))
   };
   
-  //연락처 입력값 변경 시 실행할 함수
+  //연락처 입력할 때 실행하는 함수
   const handleChangeTel = (e, i) => {
+    //기존 연락처 배열을 복사
     const newTelArr = [...userData.userTelArr];
+    //i번째 위치의 값을 새로운 값으로 교체
     newTelArr.splice(i, 1, e.target.value);
 
     setUserData({
@@ -104,7 +137,7 @@ const Join = () => {
     })
   };
 
-  //회원가입 요청 실행 함수
+  //서버에 회원가입 정보를 전송하는 함수
   const signup = () => {
     axios
     .post('/api/users', userData)
@@ -112,7 +145,7 @@ const Join = () => {
       console.log(res.data);
       setUserData(res.data);
 
-      //입력 데이터 초기화
+      //회원가입 완료 후 모든 입력 데이터 초기화
       setUserData({
         'userName' : '',
         'userId' : '',
@@ -193,6 +226,7 @@ const Join = () => {
             <Button
               content='중복확인'
               size='20%'
+              color='blue'
               onClick={() => handleCheckId()}
             />
           </div>
@@ -230,8 +264,15 @@ const Join = () => {
             size='100%'
             name='userPwConfirm'
             value={userData.userPwConfirm}
-            onChange={e => handleChange(e)}
+            onChange={e => {
+              handleChange(e)
+              setErrorMsg({
+                ...errorMsg,
+                'userPwConfirm' : handleErrorMsg(e)
+              })
+            }}
           />
+          <p className="error">{errorMsg.userPwConfirm}</p>
         </div>
 
         <div>
@@ -244,14 +285,15 @@ const Join = () => {
               size='100%'
               name='userTelArr'
               value={userData.userTelArr[0]}
-              onChange={e => handleChangeTel(e, 0)}
+              onChange={e => {
+                handleChangeTel(e, 0)
+                setErrorMsg({
+                ...errorMsg,
+                'userTelArr' : handleErrorMsg(e)
+                })
+              }}
             >
               <option value="010">010</option>
-              <option value="011">011</option>
-              <option value="016">016</option>
-              <option value="017">017</option>
-              <option value="018">018</option>
-              <option value="019">019</option>
             </Select>
             <span>-</span>
             <Input
@@ -259,7 +301,13 @@ const Join = () => {
               size='100%'
               name='userTelArr'
               value={userData.userTelArr[1]}
-              onChange={e => handleChangeTel(e, 1)}
+              onChange={e => {
+                handleChangeTel(e, 1)
+                setErrorMsg({
+                ...errorMsg,
+                'userTelArr' : handleErrorMsg(e)
+                })
+              }}
             />
             <span>-</span>
             <Input
@@ -267,9 +315,16 @@ const Join = () => {
               size='100%'
               name='userTelArr'
               value={userData.userTelArr[2]}
-              onChange={e => handleChangeTel(e, 2)}
+              onChange={e => {
+                handleChangeTel(e, 2)
+                setErrorMsg({
+                ...errorMsg,
+                'userTelArr' : handleErrorMsg(e)
+                })
+              }}
             />
           </div>
+          <p className="error">{errorMsg.userTelArr}</p>
         </div>
 
         <div>
@@ -317,6 +372,7 @@ const Join = () => {
         <Button
           content='가입완료'
           size='15%'
+          color='blue'
           onClick={() => signup()}
         />
       </div>
