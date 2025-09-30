@@ -1,43 +1,43 @@
-{/* 
-  -- 사용 방법 --
+// {/* 
+//   -- 사용 방법 --
 
-  // 목록 조회를 저장할 state 변수
-  const [목록, 목록 state 변경 함수] = useState([]);
+//   // 목록 조회를 저장할 state 변수
+//   const [목록, 목록 state 변경 함수] = useState([]);
 
-  // 활성 페이지 세팅
-  const [currentPage, setCurrentPage] = useState(0);
+//   // 활성 페이지 세팅
+//   const [currentPage, setCurrentPage] = useState(0);
 
-  // 보여줄 페이지
-  const itemsPerPage = 5;
+//   // 보여줄 페이지
+//   const itemsPerPage = 5;
 
-  // 현재 페이지 보여줄 데이터 계산
-  const startIndex = currentPage * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const 목록을 잘라 저장할 변수 = 목록.slice(startIndex, endIndex);
+//   // 현재 페이지 보여줄 데이터 계산
+//   const startIndex = currentPage * itemsPerPage;
+//   const endIndex = startIndex + itemsPerPage;
+//   const 목록을 잘라 저장할 변수 = 목록.slice(startIndex, endIndex);
 
-  // 페이지를 변경시켜줄 함수
-  const handlePageChange = selectedPage => {
-    setCurrentPage(selectedPage);
-  };
+//   // 페이지를 변경시켜줄 함수
+//   const handlePageChange = selectedPage => {
+//     setCurrentPage(selectedPage);
+//   };
 
-  // 보여줄 목록을 화면에 띄우는 방법
-  목록을 잘라 저장할 변수.map((qst, i) => {
-    return(
-      html 내용
-    )
-  })
+//   // 보여줄 목록을 화면에 띄우는 방법
+//   목록을 잘라 저장할 변수.map((qst, i) => {
+//     return(
+//       html 내용
+//     )
+//   })
 
-  // 컴포넌트 렌더링
-  <Pagination 
-    totalItems={조회된 목록.length}
-    itemsPerPage={itemsPerPage}
-    onPageChange={handlePageChange}
-    currentPage={currentPage}
-    nextLabel='>>'
-    previousLabel='<<'
-    color='gray'
-  />
-*/}
+//   // 컴포넌트 렌더링
+//   <Pagination 
+//     totalItems={조회된 목록.length}
+//     itemsPerPage={itemsPerPage}
+//     onPageChange={handlePageChange}
+//     currentPage={currentPage}
+//     nextLabel='>>'
+//     previousLabel='<<'
+//     color='gray'
+//   />
+// */}
 
 import React from 'react';
 import ReactPaginate from 'react-paginate';

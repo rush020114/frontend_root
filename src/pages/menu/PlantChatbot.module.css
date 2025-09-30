@@ -42,59 +42,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-}
-
-/* 웰컴 섹션 */
-.welcome_section {
-  text-align: center;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-bottom: 40px;
-}
-
-.welcome_icon {
-  width: 100px;
-  height: 100px;
-  background-color: #e8f5e8;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 30px;
-  font-size: 50px;
-}
-
-.welcome_title {
-  font-size: 32px;
-  font-weight: bold;
-  color: #333;
-  margin: 0 0 16px 0;
-}
-
-.welcome_description {
-  font-size: 18px;
-  color: #666;
-  margin: 0 0 40px 0;
-  line-height: 1.6;
-}
-
-.feature_tags {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.feature_tag {
-  background-color: white;
-  border-radius: 24px;
-  padding: 8px 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e5f3e5;
-  font-size: 14px;
-  color: #4a7c4a;
+  height: 400px;
 }
 
 /* 채팅 컨테이너 */
