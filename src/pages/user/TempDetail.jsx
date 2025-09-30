@@ -18,11 +18,11 @@ const TempDetail = () => {
           <span>20.5 °C</span>
         </div>
         <div>
-          <p>주간 최고온도 평균값</p>
+          <p>주간 최고온도</p>
           <span>29.7 °C</span>
         </div>
         <div>
-          <p>주간 최저온도 평균값</p>
+          <p>주간 최저온도</p>
           <span>17.2 °C</span>         
         </div>
         <div>
@@ -36,11 +36,11 @@ const TempDetail = () => {
 
       <div className={styles.chart}>
           <LineChart
-            title="(최근 7일간 평균온도 변화 추이)"
+            title="(최근 7일간 온도 변화 추이)"
             labels={['7일전', '6일전', '5일전', '4일전', '3일전', '2일전', '1일전' ]}
             datasets={[
               {
-                label: '평균 최고온도',
+                label: '최고온도',
                 data: [32, 34, 29, 31, 38, 35, 32],
                 borderColor: '#f0ddcdff',
                 backgroundColor: 'rgba(212, 117, 53, 1)',
@@ -54,7 +54,7 @@ const TempDetail = () => {
                 tension: 0.4,
               },
               {
-                label: '평균 최저온도',
+                label: '최저온도',
                 data: [23, 21, 20, 21, 23, 20, 18],
                 borderColor: '#c8d8f0ff',
                 backgroundColor: 'rgba(60, 139, 230, 1)',
@@ -62,22 +62,6 @@ const TempDetail = () => {
               },
             ]}
           /> 
-      </div>
-
-      <div className={styles.grap}>
-        <LineChart
-            title="(최근 15일간 낮시간 최고온도 변화 추이)"
-            labels={['15일전', '14일전', '13일전', '12일전', '11일전', '10일전', '9일전', '8일전', '7일전', '6일전', '5일전', '4일전', '3일전', '2일전', '1일전' ]}
-            datasets={[
-              {
-                label: '평균 최고온도',
-                data: [31, 30, 35, 34, 30, 33, 29, 37, 40, 36, 29, 37, 38, 35, 33, 36],
-                borderColor: '#facbc4ff',
-                backgroundColor: 'rgba(212, 72, 53, 1)',
-                tension: 0.4,
-              },
-            ]}
-          />
       </div>
 
     </div>

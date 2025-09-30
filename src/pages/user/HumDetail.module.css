@@ -74,13 +74,10 @@
   background: linear-gradient(60deg, #5a8ac9, #3354ad);
   border-radius: 8px; 
 }
-.box > div:last-child{
+.box > div:nth-child(4){
   background: linear-gradient(60deg, #6dc95a, #37a029);
   border-radius: 8px; 
 }
 .chart{
   margin-bottom: 50px;
-}
-.grap{
-
 }
