@@ -64,35 +64,53 @@ const Login = () => {
     })
   };
 
+  //
+  const[errorMag, setErrorMsg] = useState({
+    'userId' : '',
+    'userPw' : ''
+  });
+
+  const handleErrorMsg = () => {
+    switch(e.target.name){
+      case 'userId' :
+    <span>
+      <i className="bi bi-x-circle-fill"></i>
+      아이디를 입력하세요.
+    </span>
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div></div>
 
       <div className={styles.form}>
         <div className={styles.normal_login}>
-          <p>사용자 로그인</p>
-          <Input
-            placeholder = '아이디를 입력해주세요'
-            size = '100%'
-            type = 'text'
-            name = 'userId'
-            value = {loginData.userId}
-            onChange = {e => handleChange(e)}
-          />
-          <Input
-            placeholder = '비밀번호를 입력해주세요'
-            size = '100%'
-            type = 'password'
-            name = 'userPw'
-            value = {loginData.userPw}
-            onChange = {e => handleChange(e)}          
-          />
+          <div>
+            <p>아이디</p>
+            <Input
+              placeholder = '아이디를 입력해주세요'
+              size = '100%'
+              type = 'text'
+              name = 'userId'
+              value = {loginData.userId}
+              onChange = {e => handleChange(e)}
+            />
+          </div>
+          <p className="error">{errorMag.userId}</p>
+          <div>
+            <p>비밀번호</p>
+            <Input
+              placeholder = '비밀번호를 입력해주세요'
+              size = '100%'
+              type = 'password'
+              name = 'userPw'
+              value = {loginData.userPw}
+              onChange = {e => handleChange(e)}          
+            />
+          </div>
           <div>
             <span>아이디 저장</span>
-            <div>
-              <p>아이디 찾기</p>
-              <p>비밀번호 변경</p>
-            </div>
           </div>
 
           <div className={styles.btn}>
@@ -101,10 +119,12 @@ const Login = () => {
               size = '100%'
               onClick = {() => login()}
             />
-            <Button
-              content = '회원가입'
-              size = '100%'
-            />
+          </div>
+
+          <div>
+            <p>회원가입</p>
+            <p>아이디 찾기</p>
+            <p>비밀번호 찾기</p>
           </div>
         </div>
 
