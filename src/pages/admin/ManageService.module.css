@@ -1,0 +1,28 @@
+.sv_table{
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.sv_thead{
+  background-color: #d2f3b5;
+}
+
+.sv_table tr{
+  border-bottom: 1px solid black;
+}
+
+.sv_table td{
+  padding: 7px 5px
+}
+
+.search_div{
+  display: flex;
+  justify-content: end;
+  gap: 6px
+}
+
+.total_sv{
+  margin-top: 30px;
+}

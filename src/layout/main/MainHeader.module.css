@@ -3,7 +3,7 @@
 }
 
 .member{
-  background-color: #f2f2f2;
+  background-color: #f9f9f9;
   padding: 10px 300px;
   display: flex;
   gap: 10px;
@@ -18,10 +18,13 @@
   padding: 10px 300px;
   background-color: white;
   display: flex;
+  border-bottom: 1.2px solid #e5e5e5;
+  border-top: 1.2px solid #e5e5e5;
 }
 
 .logo{
   width: 150px;
+  cursor: pointer;
 }
 
 .logo > img{
@@ -35,6 +38,14 @@
   align-items: center;
 }
 
+.menu a{
+  font-size: 1.1rem;
+}
+
 .menu > li > a:hover{
+  color: #4dab28;
+}
+
+.active{
   color: #4dab28;
 }

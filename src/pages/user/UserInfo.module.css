@@ -1,0 +1,102 @@
+.container{
+  border: 1px solid white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px #cccccc;
+  background-color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.title_div > p{
+  font-size: 1.1rem;
+  margin-top: 10px;
+  color: #555555;
+}
+
+.info_div, .usage_div, .qna_div{
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  border-left: 3px solid #4dab28;
+}
+
+.info_title, .usage_title, .qna_title{
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e1e1e1;
+}
+
+.user_info{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.user_info p:first-child{
+  color: #333333;
+  font-size: 0.8rem;
+}
+
+.user_info p:last-child{
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+.usage_info{
+  display: flex;
+  gap: 50px;
+  color: white;
+  text-align: center;
+}
+
+.usage_info > div{
+  width: 100%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.usage_info h2{
+  font-size: 5rem;
+}
+
+.usage_info p{
+  margin-top: 10px;
+  font-size: 2.5rem;
+}
+
+.qna_table{
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 0px 10px #cccccc;
+  margin-bottom: 30px;
+}
+
+.qna_table td{
+  padding: 20px 0px;
+}
+
+.qna_table > thead{
+  background-color: #555555;
+  color: white;
+  font-weight: 700;
+  text-align: center;
+}
+
+.qna_table > tbody > tr > td{
+  background-color: white;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.qna_table > tbody > tr > td:not(:nth-child(2)) {
+  text-align: center;
+}
+
+.qna_table > tbody > tr:hover > td{
+  background-color: #fafafa;
+  cursor: pointer;
+}

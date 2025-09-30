@@ -1,0 +1,216 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;    /* 2열 레이아웃 */
+  grid-template-rows: 370px 370px 370px;  /* 높이 동일 */
+  gap: 20px;
+  width: 1100px;
+  margin: 0 auto;
+  background: url('/background.jpg') no-repeat center/cover;
+}
+
+/* 공통 카드 (WeatherWidget 포함) */
+.card {
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+/* 온도 습도 토양습도 보안모션감지 조도 글자 */
+.title {
+  position: absolute;
+  top: 30px;
+  right: 20px;
+  font-size: 4rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 0 5px rgba(0,0,0,0.7);
+  z-index: 20;
+}
+
+/* 온도 숫자 */
+.temperature {
+  position: absolute;
+  top: 100px;
+  right: 10px;
+  padding-top: 10px;
+  font-size: 5rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(0,0,0,0.5);
+  z-index: 20;
+}
+
+
+/* 습도 숫자 */
+.humidity {
+  position: absolute;
+  top: 100px;
+  right: 10px;
+  padding-top: 10px;
+  font-size: 5rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(0,0,0,0.5);
+  z-index: 20;
+}
+
+/* 토양 습도 숫자 */
+.soil {
+  position: absolute;
+  top: 100px;
+  right: 10px;
+  padding-top: 10px;
+  font-size: 5rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(0,0,0,0.5);
+  z-index: 20;
+}
+
+/* 조도 숫자 */
+.illum {
+  position: absolute;
+  top: 100px;
+  right: 10px;
+  padding-top: 10px;
+  font-size: 5rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(0,0,0,0.5);
+  z-index: 20;
+}
+
+
+/* 습도 바 */
+.humidityBar {
+  position: absolute;
+  bottom: 20px;     /* 카드 아래쪽 여백 */
+  left: 40px;       /* 카드 왼쪽 여백 */
+  width: 15px;     /* 바의 두께 */
+  height: 84%;     /* 카드 전체 높이 기준 */
+  background: rgba(255, 255, 255, 0.774);  /* 안쪽색 */
+  border: 2px solid #00000057;             /* 테두리 */
+  border-radius: 50px;
+  z-index: 15;
+  display: flex;
+  align-items: flex-end;
+  box-sizing: border-box; /* border 포함 크기 계산 */
+}
+
+/* 습도바 채워지는 부분 */
+.humidityFill {
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to top, #e3f1ff, #137cfd);
+  border-radius: 0 0 50px 50px;
+}
+/* 습도 배경 */
+.backgroundHumidity {
+  width: 100%; 
+}
+
+/* 토양 습도 카드 (배경) */
+.soilCard {
+  background: url('/soil.png') no-repeat center center / cover !important;
+  position: relative;
+
+  /* card의 기본 효과 제거 */
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* 조도 카드 (배경) */
+.lightCard {
+  background: url('/light.png') no-repeat center center / cover !important;
+  position: relative;
+
+  /* card의 기본 효과 제거 */
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* 온도 조건부 스타일 */
+/* 25도 이상 */
+.temHigh {
+  background: linear-gradient(135deg, #fffb02d3, hsla(9, 94%, 52%, 0.699));
+  color: #fffbea;
+  font-family: 'Impact', sans-serif;
+}
+
+/* 20 ~ 24도 */
+.temNormal {
+  background: linear-gradient(135deg, #ffe368b6, hsla(118, 100%, 59%, 0.718));
+  color: #333;
+  font-family: 'Arial Rounded MT Bold', sans-serif;
+}
+
+/* 10 ~ 19도 */
+.temCold {
+  background: linear-gradient(135deg, #0ecff177, hsla(240, 50%, 89%, 0.349));
+  color: #e0f7fa;
+  font-family: 'Courier New', monospace;
+}
+
+/* 아이콘 공통 효과 */
+.iconTemHigh,
+.iconTemNormal,
+.iconTemCold {
+  position: absolute;
+  pointer-events: none;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.185));
+  z-index: 5;
+}
+
+/* 개별 아이콘 크기 위치 */
+.iconTemHigh {
+  bottom: -110px;
+  right: 90px;
+  width: 420px;
+  height: auto;
+  z-index: 10;
+}
+.iconTemNormal {
+  bottom: -110px;
+  right: 90px;
+  width: 420px;
+  height: auto;
+  z-index: 10;
+}
+.iconTemCold {
+  bottom: -90px;
+  right: 90px;
+  width: 420px;
+  height: auto;
+  z-index: 10;
+}
+
+/* 조도 태양 아이콘*/
+.sunny {
+  position: absolute;
+  bottom: 120px;
+  right: 170px;
+  width: 230px;
+  height: auto;
+  z-index: 10;
+}
+/* 사이렌 아이콘*/
+.siren {
+  position: absolute;
+  bottom: 125px;
+  right: 170px;
+  width: 150px;
+  height: auto;
+  z-index: 10;
+}
+
