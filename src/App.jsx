@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -26,6 +26,9 @@ import UserQnA from './pages/user/UserQnA'
 import UserQnADetail from './pages/user/UserQnADetail'
 import AdminQnADetail from './pages/admin/AdminQnADetail'
 import UserQnAUpdate from './pages/user/UserQnAUpdate'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { useWebSocket } from './hooks/useWebSocket'
 
 function App() {
 
@@ -34,6 +37,12 @@ function App() {
     const loginInfo = sessionStorage.getItem('loginInfo');
     return loginInfo ? JSON.parse(loginInfo) : null;
   });
+
+  // 관리자 알림 개수
+  const [adminNotiCnt, setAdminNotiCnt] = useState(0);
+
+  // 이용자 알림 개수
+  const [userNotiCnt, setUserNotiCnt] = useState(0);
 
   // 로그인 처리 함수
   const handleLogin = () => {
@@ -47,7 +56,34 @@ function App() {
   // 로그아웃 처리 함수
   const handleLogout = () => {
     setLoginData(null);
-  }
+    setAdminNotiCnt(0);
+    setUserNotiCnt(0);
+  };
+
+  // websocket에서 알림 받을 때 실행되는 함수
+  const handleNoti = useCallback(isAdmin => {
+    console.log('handleNoti 실행')
+    if(isAdmin){
+      setAdminNotiCnt(prev => prev + 1);
+    }
+    else{
+      setUserNotiCnt(prev => prev + 1);
+    };
+  }, []);
+
+  // 배지 클릭 시 알림 개수 초기화
+  const resetNotiCnt = (isAdmin) => {
+    if(isAdmin){
+      setAdminNotiCnt(0);
+    }
+    else{
+      setUserNotiCnt(0);
+    }
+  };
+
+  // websocket 연결
+  const isAdmin = loginData?.userRole === 'ADMIN';
+  useWebSocket(loginData?.userId, isAdmin, handleNoti, resetNotiCnt)
 
   return (
     <>
@@ -56,6 +92,9 @@ function App() {
         <Route path='/' element={<MainLayout 
           loginData={loginData}
           onLogout={handleLogout}
+          adminNotiCnt={adminNotiCnt}
+          userNotiCnt={userNotiCnt}
+          onResetCnt={resetNotiCnt}
         />}>
           {/* 첫 화면 */}
           <Route path='join'          element={ <Join /> } />
@@ -76,6 +115,8 @@ function App() {
         <Route path='/admin' element={<MainLayout 
           loginData={loginData}
           onLogout={handleLogout}
+          adminNotiCnt={adminNotiCnt}
+          onResetCnt={resetNotiCnt}
         />}>
           {/* 메인 */}
           <Route path='home' element={<AdminHome />} />
@@ -84,7 +125,9 @@ function App() {
           {/* 서비스 신청 관리  */}
           <Route path='manage-service' element={<ManageService />} />
           {/* 관리자 문의 목록 */}
-          <Route path='qna' element={<AdminQnA />} />
+          <Route path='qna' element={<AdminQnA 
+            notiCnt={adminNotiCnt}
+          />} />
           {/* 관리자 문의 답변 */}
           <Route path='qna/:qstId' element={<AdminQnADetail />} />
         </Route>
@@ -92,9 +135,14 @@ function App() {
         <Route path='/user' element={<MyPageLayout 
           loginData={loginData}
           onLogout={handleLogout}
+          adminNotiCnt={adminNotiCnt}
+          userNotiCnt={userNotiCnt}
+          onResetCnt={resetNotiCnt}
         />}>
           {/* 내 정보 */}
-          <Route path='' element={<UserInfo />}/>
+          <Route path='' element={<UserInfo 
+            notiCnt={userNotiCnt}
+          />}/>
           {/* 농장 모니터링 페이지 */}
           <Route path='bar-chart' element={<UserControl />}/>
           {/* 온도 */}
@@ -113,6 +161,18 @@ function App() {
           <Route path='qna/update/:qstId' element={<UserQnAUpdate />}/>
         </Route >
       </Routes>
+
+      {/* ⭐ Toast 컨테이너: 알림 팝업이 여기에 뜸 */}
+      <ToastContainer 
+        position="top-right"          // 위치: 우측 상단
+        autoClose={3000}              // 3초 후 자동 닫힘
+        hideProgressBar={true}       // 진행바 표시
+        newestOnTop={true}            // 새 알림이 위로
+        closeOnClick                  // 클릭하면 닫힘
+        pauseOnHover                  // 마우스 올리면 멈춤
+        draggable                     // 드래그 가능
+        theme="light"                 // 테마: light/dark/colored
+      />
     </>
   )
 }

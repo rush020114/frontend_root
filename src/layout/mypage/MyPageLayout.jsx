@@ -6,17 +6,22 @@ import AdminMenu from '../../component/adminMenu/AdminMenu'
 import MainFooter from '../main/MainFooter'
 import MyPageMenu from './MyPageMenu'
 
-const MyPageLayout = ({loginData, onLogout}) => {
+const MyPageLayout = ({loginData, onLogout, userNotiCnt, onResetCnt}) => {
   return (
      <div className={styles.container}>
       <div className={styles.header}>
         <MainHeader 
           onLogout={onLogout}
+          notiCnt={userNotiCnt}
+          onResetCnt={onResetCnt}
         />
       </div>
       <div className={styles.content}>
         <div className={styles.mypage_menu}>
-          <MyPageMenu />
+          <MyPageMenu 
+            notiCnt={userNotiCnt}
+            onResetCnt={onResetCnt}
+          />
         </div>
         <div className={styles.content_div}>
           <Outlet />

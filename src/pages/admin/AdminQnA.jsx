@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 import { useNavigate } from 'react-router-dom'
 import Pagination from '../../component/pagination/Pagination'
 
-const AdminQnA = () => {
+const AdminQnA = ({notiCnt}) => {
   const nav = useNavigate();
 
   // 문의 목록을 받아올 state 변수
@@ -55,7 +55,7 @@ const AdminQnA = () => {
       setQstStatusCnt(res2.data);
     }))
     .catch(e => console.log(e));
-  }, []);
+  }, [notiCnt]);
 
   // 검색 데이터를 세팅할 함수
   const handleSearch = e => {

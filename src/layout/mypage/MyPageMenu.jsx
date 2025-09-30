@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styles from './MyPageMenu.module.css'
 import { NavLink, useLocation } from 'react-router-dom';
 
-const MyPageMenu = () => {
+const MyPageMenu = ({notiCnt, onResetCnt}) => {
   const location = useLocation();
 
   // 경로와 메뉴 이름 매핑
@@ -42,7 +42,19 @@ const MyPageMenu = () => {
               to={'/user'} 
               end
               className={({isActive}) => isActive ? styles.active : null}
-            >내 정보</NavLink>
+              style={{position: 'relative'}}
+              onClick={() => onResetCnt(false)}
+            >
+              내 정보
+              {notiCnt > 0 && (
+                <span
+                  className='badge'
+                  style={{top: '5px', left: '65px'}}
+                >
+                  {notiCnt > 99 ? '99+' : notiCnt}
+                </span>
+              )}
+            </NavLink>
           </li>
           <li onClick={() => setMenuName('마이팜')}>
             <NavLink

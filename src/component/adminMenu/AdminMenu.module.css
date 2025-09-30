@@ -61,7 +61,7 @@
   color: #3e9145;
 }
 
-.admin_menu span{
+.admin_menu > li > a > span{
   width: 70px;
   height: 70px;
   border-radius: 50%;

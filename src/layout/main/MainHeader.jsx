@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './MainHeader.module.css'
 import { NavLink, useNavigate } from 'react-router-dom'
+import axios from 'axios';
 
-const MainHeader = ({onLogout}) => {
+const MainHeader = ({onLogout, notiCnt, onResetCnt}) => {
 
   const nav = useNavigate();
 
@@ -34,9 +35,20 @@ const MainHeader = ({onLogout}) => {
           </div>
           |
           <div
-            onClick={() => nav('/user')}
+            onClick={() => {
+              nav('/user');
+              onResetCnt(false);
+            }}
+            style={{position: 'relative'}}
             >
             👩‍🌾 내 농장
+            {notiCnt > 0 &&
+            (<span
+              className='badge'
+              style={{top: '-7px', right: '-15px'}}
+            >
+              {notiCnt > 99 ? '99+' : notiCnt}
+            </span>)}
           </div>
           |
           <div

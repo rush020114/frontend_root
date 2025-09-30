@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Pagination from '../../component/pagination/Pagination';
 import ForecastWidget from '../../component/widgets/ForeCastWidget';
 
-const UserInfo = () => {
+const UserInfo = ({notiCnt}) => {
   const nav = useNavigate();
 
   // 로그인 정보를 저장할 state 변수
@@ -37,26 +37,21 @@ const UserInfo = () => {
     setCurrentPage(selectedPage);
   };
 
-  // 문의 목록을 세팅할 useEffect
+  // 문의 목록과 서비스 기본 정보를 세팅할 useEffect
   useEffect(() => {
-    axios.get('/api/questions', {params: {
+    axios.all([axios.get('/api/questions', {params: {
       userRole: 'USER'
       , userId: loginData.userId
-    }})
-    .then(res => setQstList(res.data))
+    }}), axios.get(`/api/applications/${loginData.userId}`)])
+    .then(axios.spread((res1, res2) => {
+      setQstList(res1.data);
+      setServiceInfo(res2.data);
+    }))
     .catch(e => console.log(e));
-  }, []);
-
-  // 서비스 기본 정보 조회 useEffect
-  useEffect(() => {
-    axios.get(`/api/applications/${loginData.userID}`)
-    .then(res => setServiceInfo(res.data))
-    .catch(e => console.log(e));
-  }, []);
+  }, [notiCnt]);
 
   console.log(serviceInfo)
-  
-
+    
   return (
     <div className={styles.container}>
       <div className={styles.title_div}>
