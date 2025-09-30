@@ -5,6 +5,8 @@ import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from './layout/main/MainLayout'
 import Home from './pages/main/Home'
+import Join from './pages/user/Join'
+import Login from './pages/user/Login'
 import UserControl from './pages/user/UserControl'
 import RegService from './pages/menu/RegService'
 import CompanyProfile from './pages/menu/CompanyProfile'
@@ -32,6 +34,8 @@ function App() {
         {/* 메인 페이지 */}
         <Route path='/' element={<MainLayout />}>
           {/* 첫 화면 */}
+          <Route path='join'          element={ <Join /> } />
+          <Route path='login'         element={ <Login /> } />
           <Route path='' element={<Home />} />
           {/* 서비스 신청 화면 */}
           <Route path='service' element={<RegService />} />
