@@ -46,7 +46,7 @@ const VerticalBarChart = ({ labels, datasets, title }) => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { position: 'top' },
+      legend: { position: 'bottom' },
       title: {
         display: true,
         text: title || 'Chart.js Bar Chart',

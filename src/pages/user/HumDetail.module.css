@@ -1,0 +1,83 @@
+.container{
+  width: 100%;
+  padding: 30px 30px;
+  border: 1px solid rgb(215, 215, 215);  
+  border-radius: 8px;  
+  box-shadow: 0px 0px 5px 3px rgb(245, 245, 245); 
+}
+.title{
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.title > div {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+.title > div > i{
+  font-size: 2.2rem;
+  color: rgb(207, 120, 62);
+}
+.title > div > h2 > span{
+  color: rgb(207, 120, 62);
+}
+.box{
+  display: flex;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+.box > div{
+  width: 25%;
+  height: 100px;
+  padding: 12px 15px;
+  color: white;
+}
+.box > div > p{
+  font-size: 0.8rem;
+}
+.box > div > span{
+  font-size: 2rem;
+  font-weight: bold;
+  display: flex;
+  /* 버튼을 오른쪽 끝으로 배치 */
+  justify-content: end;
+  align-items: flex-end;
+} 
+.number{
+  display: flex;
+  flex-direction: column;
+/* 버튼을 오른쪽 끝으로 배치 */
+  justify-content: end;
+  align-items: flex-end;
+}
+.number > span{
+  font-size: 2rem;
+  font-weight: bold;
+}
+.number > p{
+  font-size: 0.8rem;
+}
+
+.box > div:first-child{
+  background: linear-gradient(60deg, #d1a17a, #b36e36);
+  border-radius: 8px; 
+}
+.box > div:nth-child(2){
+  background: linear-gradient(60deg, #5a8ac9, #3354ad);
+  border-radius: 8px; 
+}
+.box > div:nth-child(3){
+  background: linear-gradient(60deg, #5a8ac9, #3354ad);
+  border-radius: 8px; 
+}
+.box > div:nth-child(4){
+  background: linear-gradient(60deg, #6dc95a, #37a029);
+  border-radius: 8px; 
+}
+.chart{
+  margin-bottom: 50px;
+}

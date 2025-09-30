@@ -31,10 +31,10 @@ const AdminHome = () => {
           </div>
         </div>
         <div className={styles.box}>
-          <span>Monthly Sales Rate</span>
+          <span>Membership Application</span>
           <div className={styles.data}>
             <i class="bi bi-currency-exchange"></i>
-            <p>65%</p>
+            <p>4</p>
           </div>
         </div>
       </div>
@@ -120,7 +120,7 @@ const AdminHome = () => {
 
       <div className={styles.third_row}>
         <div className={styles.title}>
-          <span>업체별 생육환경 상세 모니터링 (온도/습도/토양습도/조도)</span>
+          <span>업체별 Root스마트팜 시스템 정상구동 모니터링</span>
           <table className={styles.table}>
             <thead>
               <tr>
@@ -130,18 +130,18 @@ const AdminHome = () => {
                 <td>대기습도(%)</td>
                 <td>토양습도(%)</td>
                 <td>조도(lux)</td>
-                <td>최적화 현황</td>
+                <td>구동현황</td>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>울산플랜트</td>
                
-                <td>25도</td>
+                <td>NULL</td>
                 <td>25.3%</td>
-                <td>45%</td>
+                <td>NULL</td>
                 <td>1000</td>
-                <td> <Button content='최적화' color="green" padding='5px' fontSize='0.7rem' /></td>
+                <td> <Button content='오류' color="red" padding='5px' fontSize='0.7rem' /></td>
               </tr>
               <tr>
                 <td>행복한농장</td>
@@ -150,7 +150,7 @@ const AdminHome = () => {
                 <td>28.5%</td>
                 <td>51.2%</td>
                 <td>2500</td>
-                <td> <Button content='최적화' color="green" padding='5px' fontSize='0.7rem' /></td>
+                <td> <Button content='정상' color="green" padding='5px' fontSize='0.7rem' /></td>
               </tr>
               <tr>
                 <td>하늘정원</td>
@@ -159,7 +159,7 @@ const AdminHome = () => {
                 <td>25%</td>
                 <td>41.2%</td>
                 <td>5500</td>
-                <td><Button content='최적화' color="green" padding='5px' fontSize='0.7rem' /></td>
+                <td><Button content='정상' color="green" padding='5px' fontSize='0.7rem' /></td>
               </tr>
               <tr>
                 <td>경주인삼농장</td>
@@ -168,7 +168,7 @@ const AdminHome = () => {
                 <td>28.5%</td>
                 <td>41.2%</td>
                 <td>5500</td>
-                <td><Button content='경 보' color="red" padding='5px' fontSize='0.7rem' /></td>
+                <td><Button content='정상' color="green" padding='5px' fontSize='0.7rem' /></td>
               </tr>
               <tr>
                 <td>그린Plant</td>
@@ -177,7 +177,7 @@ const AdminHome = () => {
                 <td>26%</td>
                 <td>41.2%</td>
                 <td>6500</td>
-                <td><Button content='주 의' color="orange" padding='5px' fontSize='0.7rem' /></td>
+                <td><Button content='정상' color="green" padding='5px' fontSize='0.7rem' /></td>
               </tr>
               <tr>
                 <td>홍길동농자</td>
@@ -186,7 +186,7 @@ const AdminHome = () => {
                 <td>28.5%</td>
                 <td>41.2%</td>
                 <td>5500</td>
-                <td><Button content='최적화' color="green" padding='5px' fontSize='0.7rem' /></td>
+                <td><Button content='정상' color="green" padding='5px' fontSize='0.7rem' /></td>
               </tr>
             </tbody>
           </table>

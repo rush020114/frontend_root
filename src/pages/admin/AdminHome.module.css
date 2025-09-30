@@ -18,8 +18,8 @@
   box-shadow: 0px 0px 5px 3px rgb(245, 245, 245); 
 }
 .first_row > div:last-child{
-  background-color: #46a71f; 
-  color: white; 
+  background: linear-gradient(60deg, #6dc95a, #37a029);
+  color: white;
 }
 .box{
   display: flex;
