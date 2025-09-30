@@ -50,7 +50,15 @@ const UserQnA = () => {
       alert('등록완료');
       nav('/user')
     })
-    .catch();
+    .catch(e => {
+      const errorCode = e.status;
+      if(errorCode === 400 || errorCode === 500){
+        alert(`오류 메시지 : ${e.response.data}`);
+      }
+      else{
+        console.log(e);
+      };
+    });
   };
 
   // 문의 데이터를 세팅할 함수

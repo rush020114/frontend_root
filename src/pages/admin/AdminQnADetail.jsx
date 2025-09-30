@@ -16,6 +16,9 @@ const AdminQnADetail = () => {
   // 리렌더링을 도와줄 state 변수
   const [reload, setReload] = useState();
 
+  // 회원 기본 정보를 저장할 state 변수
+  const [userInfo, setUserInfo] = useState();
+
   // 답변 수정을 판단할 state 변수
   const [isEditing, setIsEditing] = useState(false);
 
@@ -31,10 +34,17 @@ const AdminQnADetail = () => {
   // 문의 상세 데이터를 저장할 state 변수
   const [qstDetail, setQstDetail] = useState({});
 
+  // 회원 기본 정보를 세팅할 useEffect
+  useEffect(() => {
+    axios.get()
+    .then()
+    .catch();
+  }, [])
+
   // 수정 데이터를 세팅할 useEffect
   useEffect(() => {
-    setEditAns(ansData.ansContent)
-  }, [ansData])
+    setEditAns(ansData.ansContent);
+  }, [ansData]);
 
   // 문의 상세 데이터와 답변 데이터를 조회할 useEffect
   useEffect(() => {
@@ -66,7 +76,7 @@ const AdminQnADetail = () => {
   // 답변 등록
   const regAns = () => {
     if(!ansContent.trim()){
-      alert('답변을 작성해주세요.')
+      alert('답변을 작성해주세요');
       return;
     }
     axios.post('/api/answers', {
@@ -83,8 +93,8 @@ const AdminQnADetail = () => {
   
   // 답변 수정
   const updateAns = () => {
-    alert('답변을 작성해주세요.')
     if(!editAns.trim()){
+      alert('답변을 작성해주세요.');
       return;
     }
     axios.put('/api/answers', {
@@ -99,7 +109,7 @@ const AdminQnADetail = () => {
     .catch(e => console.log(e));
   };
 
-  console.log(ansData)
+  console.log(ansContent)
   console.log(isEditing)
 
   return (
@@ -118,10 +128,10 @@ const AdminQnADetail = () => {
         </div>
         <div className={styles.qst_info}>
           <div className={styles.user_info}>
-            <p>{`👤 진짜이름(${qstDetail.userId})`}</p>
+            <p>{`👤 ${qstDetail.userDTO && qstDetail.userDTO.userName}(${qstDetail.userId})`}</p>
             <p>{`📅 ${dayjs(qstDetail.qstDate).format('YYYY-MM-DD HH:mm:ss')}`}</p>
-            <p>{`📞 전화번호`}</p>
-            <p>{`✉️ 이메일`}</p>
+            <p>{`📞 ${qstDetail.userDTO && qstDetail.userDTO.userTel}`}</p>
+            <p>{`✉️ ${qstDetail.userDTO && qstDetail.userDTO.userEmail}`}</p>
           </div>
         </div>
         <div className={styles.content_div}>
@@ -166,14 +176,14 @@ const AdminQnADetail = () => {
             rows='10'
             placeholder='답변을 작성해주세요.'
             value={
-              qstDetail.qstStatus === '진행중' || isEditing
+              isEditing
               ?
               editAns
               :
               ansContent
             }
             onChange={e => {
-              qstDetail.qstStatus === '진행중' || isEditing
+              isEditing
               ?
               setEditAns(e.target.value)
               :
@@ -197,11 +207,17 @@ const AdminQnADetail = () => {
             '수 정'
           }
           onClick={() => {
-            qstDetail.qstStatus === '진행중' || isEditing
+            qstDetail.qstStatus === '진행중'
             ?
-            (isEditing ? updateAns() : regAns())
+            regAns()
             :
-            setIsEditing(true);
+            (
+              isEditing
+              ?
+              updateAns()
+              :
+              setIsEditing(true)
+            );
           }}
         />
       </div>

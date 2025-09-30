@@ -54,7 +54,7 @@ const UserInfo = () => {
     <div className={styles.container}>
       <div className={styles.title_div}>
         <h1>👤 내 정보</h1>
-        <p>안녕하세요, (이름)님! 스마트팜 관리 현황을 확인해보세요.</p>
+        <p>안녕하세요, {serviceInfo.userId}님! 스마트팜 관리 현황을 확인해보세요.</p>
       </div>
       <div className={styles.info_div}>
         <div className={styles.info_title}>
@@ -67,17 +67,29 @@ const UserInfo = () => {
           </div>
           <div>
             <p>농장명</p>
-            <p>{serviceInfo.farmName}</p>
+            <p>
+              {
+                serviceInfo.farmName
+                ?
+                serviceInfo.farmName
+                :
+                '-'
+              }
+            </p>
           </div>
           <div>
             <p>유형</p>
             <p>
               {
-                serviceInfo.applRole === 'corporate'
+                serviceInfo.applRole
+                ?
+                (serviceInfo.applRole === 'corporate'
                 ?
                 '법인'
                 :
-                '개인'
+                '개인')
+                :
+                '-'
               }
             </p>
           </div>
@@ -86,12 +98,28 @@ const UserInfo = () => {
             <p>{serviceInfo.userDTO && serviceInfo.userDTO.userEmail}</p>
           </div>
           <div>
-            <p>연락처</p>
-            <p>{serviceInfo.businessTel}</p>
+            <p>실무자 연락처</p>
+            <p>
+              {
+                serviceInfo.businessTel
+                ?
+                serviceInfo.businessTel
+                :
+                '-'
+              }
+            </p>
           </div>
           <div>
             <p>주소</p>
-            <p>{serviceInfo.applAddr}</p>
+            <p>
+              {
+                serviceInfo.applAddr
+                ?
+                serviceInfo.applAddr
+                :
+                '-'
+              }
+            </p>
           </div>
           <div>
             <p>
@@ -141,7 +169,7 @@ const UserInfo = () => {
       </div>
       <div className={styles.usage_div}>
         <div className={styles.usage_title}>
-          <h2>ℹ️ 주요 정보</h2>
+          <h2>ℹ️ 이용 정보</h2>
         </div>
         <div className={styles.usage_info}>
           <div
@@ -159,7 +187,9 @@ const UserInfo = () => {
             <p>총 이용일</p>
           </div>
           <div>
-            <ForecastWidget />
+            <ForecastWidget 
+              backgroundColor='teal'
+            />
           </div>
         </div>
       </div>
