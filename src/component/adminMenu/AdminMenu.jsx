@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './AdminMenu.module.css'
 import { NavLink } from 'react-router-dom'
 
-const AdminMenu = () => {
+const AdminMenu = ({notiCnt, onResetCnt}) => {
   return (
     <div className={styles.container}>
       <ul className={styles.admin_menu}>
@@ -44,11 +44,25 @@ const AdminMenu = () => {
             to={'/admin/qna'}
             end
             className={({isActive}) => isActive ? styles.active : null}
+            style={{position: 'relative'}}
+            onClick={() => onResetCnt(true)}
           >
             <span>
               <i className="bi bi-question-circle-fill"></i>
             </span>
-            <p>Q & A</p>
+            <p>
+              Q & A
+              {
+                notiCnt > 0 && (
+                  <span 
+                    className='badge'
+                    style={{top: '0px', right: '0px'}}
+                  >
+                    {notiCnt > 99 ? '99+' : notiCnt}
+                  </span>
+                )
+              }
+            </p>
           </NavLink>
         </li>
       </ul>

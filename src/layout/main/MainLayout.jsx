@@ -5,12 +5,14 @@ import MainHeader from './MainHeader'
 import AdminMenu from '../../component/adminMenu/AdminMenu'
 import MainFooter from './MainFooter'
 
-const MainLayout = ({loginData, onLogout}) => {
+const MainLayout = ({loginData, onLogout, adminNotiCnt, userNotiCnt, onResetCnt}) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <MainHeader 
           onLogout={onLogout}
+          notiCnt={userNotiCnt}
+          onResetCnt={onResetCnt}
         />
       </div>
       <div className={styles.content}>
@@ -18,7 +20,10 @@ const MainLayout = ({loginData, onLogout}) => {
         {
           loginData?.userRole === 'ADMIN'
           &&
-          <AdminMenu />
+          <AdminMenu 
+            notiCnt={adminNotiCnt}
+            onResetCnt={onResetCnt}
+          />
         }
       </div>
       <div className={styles.footer}>
