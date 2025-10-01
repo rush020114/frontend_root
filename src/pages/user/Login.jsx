@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Login.module.css'
 import Input from '../../common/Input'
 import Button from '../../common/Button'
+import Modal from '../../common/Modal'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { handleErrorMsg } from '../../utils/validation.jsx'
+import { handleErrorMsg } from '../../utils/validation'
 
 const Login = () => {
   //회원 로그인 시, 입력하는 아이디와 비밀번호를 저장하는 변수
@@ -18,19 +19,44 @@ const Login = () => {
     'userId' : '',
     'userPw' : ''
   });
-
+  
   //입력한 데이터를 저장하는 함수
   const handleChange = (e) => {
     setLoginData({
       ...loginData,
       [e.target.name] : e.target.value
     });
-
+    
     //실시간 유효성 검사
     setErrorMsg({
       ...errorMsg,
       [e.target.name] : handleErrorMsg(e, loginData, false, 'x-circle-fill')
     })
+  };
+  
+  //회원 아이디 저장 체크 상태를 저장하는 변수
+  const[saveId, setSaveId] = useState(false);
+
+  //페이지 로드 시 저장된 아이디 불러오기
+  useEffect(() => {
+    //localStorage에서에 저장된 아이디 가져오기
+    const saveId = localStorage.getItem('saveId');
+
+    if(saveId){
+      //아이디 Input에 저장된 값을 기본값으로 설정
+      setLoginData(prev => ({
+        ...prev,
+        'userId' : saveId
+      }));
+
+      //아이디 저장 체크박스를 체크 상태로 변경
+      setSaveId(true);
+    }
+  }, []);
+
+  //아이디 저장 체크박스의 체크 상태 변경하는 함수
+  const handleSaveId = () => {
+    setSaveId(!saveId);
   };
 
   //페이지 이동
@@ -63,7 +89,7 @@ const Login = () => {
         'userId' : idError,
         'userPw' : pwError
       });
-      return;                               //유효성 검사 실패 시 함수 종료
+      return;
     }
 
     //유효성 검사 통과 후 로그인 진행
@@ -75,6 +101,15 @@ const Login = () => {
       //HTTP 상태코드가 200인 경우
       if(res.data && res.data.userId){
         alert('정상적으로 로그인되었습니다.')
+
+        //아이디 저장 체크박스가 체크되어 있으면 localStorage에 아이디 저장
+        if(saveId){
+          localStorage.setItem('saveId', loginData.userId)
+        }
+        //체크 해제되어 있으면 localStorage에서 아이디 삭제
+        else{
+          localStorage.removeItem('saveId');
+        }
         
         //메인 페이지로 이동
         nav('/')
@@ -106,6 +141,8 @@ const Login = () => {
     })
   };
 
+  const[showFindId, setShowFindId] = useState(false);
+
   return (
     <div className={styles.container}>
       <div></div>
@@ -124,7 +161,7 @@ const Login = () => {
               value = {loginData.userId}
               onChange = {e => handleChange(e)}
             />
-            <p className={styles.error}>{errorMsg.userId}</p>
+            <p className={styles.err_msg}>{errorMsg.userId}</p>
           </div>
           <div>
             <p>비밀번호</p>
@@ -138,10 +175,16 @@ const Login = () => {
               value = {loginData.userPw}
               onChange = {e => handleChange(e)}          
             />
-            <p className={styles.error}>{errorMsg.userPw}</p>
+            <p className={styles.err_msg}>{errorMsg.userPw}</p>
           </div>
-          <div>
-            <span>아이디 저장</span>
+          <div className={styles.checkbox}>
+            <Input
+              type = 'checkbox'
+              size = '5%'
+              checked = {saveId}
+              onChange = {() => handleSaveId()}
+            />
+            <p>아이디 저장</p>
           </div>
 
           <div className={styles.btn}>
@@ -153,8 +196,8 @@ const Login = () => {
           </div>
 
           <div className={styles.link_wrap}>
-            <p>회원가입</p>
-            <p>아이디 찾기</p>
+            <p onClick={() => nav('/join')}>회원가입</p>
+            <p onClick={() => setShowFindId(true)}>아이디 찾기</p>
             <p>비밀번호 찾기</p>
           </div>
         </div>
@@ -181,13 +224,29 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <Button 
-        content = '로그아웃'
-        onClick={() => {
-          sessionStorage.removeItem('loginInfo');
-          nav('/');
-        }}
-      />
+      <Modal
+        title='아이디 찾기'
+        isOpen={showFindId}
+        onClose={() => setShowFindId(false)}
+      >
+        <div>
+          <div>
+            <p>이름</p>
+            <Input 
+              type='text'
+            />
+          </div>
+          <div>
+            <p>이메일</p>
+            <Input 
+              type='text'
+            />
+          </div>
+          <Button 
+            content='확인'
+          />
+        </div>
+      </Modal>
     </div>
   )
 }
