@@ -4,10 +4,17 @@ import Input from '../../common/Input'
 import Button from '../../common/Button'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { handleErrorMsg } from '../../utils/validation.jsx'
 
 const Login = () => {
   //회원 로그인 시, 입력하는 아이디와 비밀번호를 저장하는 변수
   const[loginData, setLoginData] = useState({
+    'userId' : '',
+    'userPw' : ''
+  });
+
+  //유효성 검사 에러 메세지를 저장하는 변수
+  const[errorMsg, setErrorMsg] = useState({
     'userId' : '',
     'userPw' : ''
   });
@@ -17,6 +24,12 @@ const Login = () => {
     setLoginData({
       ...loginData,
       [e.target.name] : e.target.value
+    });
+
+    //실시간 유효성 검사
+    setErrorMsg({
+      ...errorMsg,
+      [e.target.name] : handleErrorMsg(e, loginData, false, 'x-circle-fill')
     })
   };
 
@@ -25,6 +38,35 @@ const Login = () => {
 
   //서버에 회원 로그인 데이터를 요청하는 함수
   const login = () => {
+    console.log('=== 로그인 버튼 클릭 ===');
+    console.log('loginData:', loginData);
+
+    //아이디 유효성 검사
+    const idError = handleErrorMsg({
+      target : {
+        name : 'userId',
+        value : loginData.userId
+      }
+    }, loginData, false, 'x-circle-fill');
+
+    //비밀번호 유효성 검사
+    const pwError = handleErrorMsg({
+      target : {
+        name : 'userPw',
+        value : loginData.userPw
+      }
+    }, loginData, false, 'x-circle-fill');
+
+    //유효성 검사 결과 확인
+    if(idError || pwError){
+      setErrorMsg({
+        'userId' : idError,
+        'userPw' : pwError
+      });
+      return;                               //유효성 검사 실패 시 함수 종료
+    }
+
+    //유효성 검사 통과 후 로그인 진행
     axios
     .post('/api/users/login', loginData)
     .then(res => {
@@ -64,22 +106,6 @@ const Login = () => {
     })
   };
 
-  //
-  const[errorMag, setErrorMsg] = useState({
-    'userId' : '',
-    'userPw' : ''
-  });
-
-  const handleErrorMsg = () => {
-    switch(e.target.name){
-      case 'userId' :
-    <span>
-      <i className="bi bi-x-circle-fill"></i>
-      아이디를 입력하세요.
-    </span>
-    }
-  };
-
   return (
     <div className={styles.container}>
       <div></div>
@@ -90,24 +116,29 @@ const Login = () => {
             <p>아이디</p>
             <Input
               placeholder = '아이디를 입력해주세요'
-              size = '100%'
               type = 'text'
+              size = '100%'
+              padding = '12px'
+
               name = 'userId'
               value = {loginData.userId}
               onChange = {e => handleChange(e)}
             />
+            <p className={styles.error}>{errorMsg.userId}</p>
           </div>
-          <p className="error">{errorMag.userId}</p>
           <div>
             <p>비밀번호</p>
             <Input
               placeholder = '비밀번호를 입력해주세요'
-              size = '100%'
               type = 'password'
+              size = '100%'
+              padding = '12px'
+
               name = 'userPw'
               value = {loginData.userPw}
               onChange = {e => handleChange(e)}          
             />
+            <p className={styles.error}>{errorMsg.userPw}</p>
           </div>
           <div>
             <span>아이디 저장</span>
@@ -121,12 +152,14 @@ const Login = () => {
             />
           </div>
 
-          <div>
+          <div className={styles.link_wrap}>
             <p>회원가입</p>
             <p>아이디 찾기</p>
             <p>비밀번호 찾기</p>
           </div>
         </div>
+
+        <div className={styles.divider}></div>
 
         <div className={styles.social_login}>
           <p>소설 로그인</p>
@@ -135,6 +168,7 @@ const Login = () => {
             <Button 
               content = '카카오로 로그인'
               size = '100%'
+              
             />
             <Button 
               content = '네이버로 로그인'
