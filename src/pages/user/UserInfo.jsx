@@ -63,9 +63,13 @@ const UserInfo = ({notiCnt}) => {
           <h2>🌱 기본 정보</h2>
         </div>
         <div className={styles.user_info}>
+        {
+        serviceInfo.farmName
+        ?
+        <>
           <div>
             <p>이름</p>
-            <p>{`${serviceInfo.userDTO ? serviceInfo.userDTO.userName : '-'} (${loginData.userId})`}</p>
+            <p>{`${loginData.userName} (${loginData.userId})`}</p>
           </div>
           <div>
             <p>농장명</p>
@@ -167,6 +171,15 @@ const UserInfo = ({notiCnt}) => {
               }
             </p>
           </div>
+        </>
+        :
+        <>
+          <div>
+            <p>이름</p>
+            <p>{`${loginData.userName} (${loginData.userId})`}</p>
+          </div>
+        </>
+        }
         </div>
       </div>
       <div className={styles.usage_div}>

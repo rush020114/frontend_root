@@ -97,7 +97,11 @@ const RegService = () => {
       alert(res.data);
       nav('/user')
     })
-    .catch(e => console.log(e));
+    .catch(e => {
+      console.log(e);
+      alert('신청 진행 중입니다.');
+      nav('/user')
+    });
   }
 
   return (
@@ -203,7 +207,7 @@ const RegService = () => {
                 <div>
                   <input type="radio" 
                     name='applRole'
-                    value={'corporate'}
+                    value={'COPORATE'}
                     onChange={e => handleService(e)}
                   />
                   <p>법인</p>
@@ -211,7 +215,7 @@ const RegService = () => {
                 <div>
                   <input type="radio" 
                     name='applRole'
-                    value={'personal'}
+                    value={'PERSONAL'}
                     onChange={e => handleService(e)}
                   />
                   <p>개인</p>

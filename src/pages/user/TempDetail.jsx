@@ -1,7 +1,22 @@
 import styles from './TempDetail.module.css'
 import LineChart from '../../component/charts/LineChart'
+import { useEffect, useState } from 'react'
+import axios from 'axios';
 
 const TempDetail = () => {
+
+  // 7일 간의 센서 데이터를 저장할 state 변수
+  const [growingWeeklyData, setGrowingWeeklyData] = useState();
+
+  // 7일 간의 센서 데이터를 받아올 useEffect
+  useEffect(() => {
+    axios.get('/api/growings/weekly')
+    .then(res => setGrowingWeeklyData(res.data))
+    .catch(e => console.log(e));
+  }, []);
+
+  console.log(growingWeeklyData);
+
   return (
     <div className={styles.container}>
       <div className={styles.title}>
