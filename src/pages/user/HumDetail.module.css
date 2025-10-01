@@ -37,6 +37,8 @@
   padding: 12px 15px;
   color: white;
   width: 100%;
+  font-weight: 700;
+  text-shadow: 1px 1px 10px rgba(0,0,0,0.3);
 }
 .box > div > p{
   font-size: 0.8rem;
@@ -65,7 +67,7 @@
 }
 
 .box > div:first-child{
-  background: linear-gradient(60deg, #d1a17a, #b36e36);
+  background: linear-gradient(135deg, #83a6c9, #34495E);
   border-radius: 8px; 
 }
 .box > div:nth-child(2){
