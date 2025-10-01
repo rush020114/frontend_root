@@ -108,7 +108,7 @@ const SoilHumDetail = () => {
     <div className={styles.container}>
       <div className={styles.title}>
         <div>
-          <i className="bi bi-thermometer-sun"></i>
+          <i className="bi bi-bullseye"></i>
           <h2>root스마트팜 <span>딸기농장 </span>실내<span>토양습도</span> 환경 모니터링</h2>
         </div>  
         <p>최근 7일간 하우스실내 온도데이터</p>

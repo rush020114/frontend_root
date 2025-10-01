@@ -8,9 +8,10 @@
 .service > div{
   width: 100%;
   border-radius: 10px;
-  text-align: center;
   padding: 30px;
   transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
 }
 
 .service > div:hover{
@@ -21,18 +22,53 @@
   font-size: 3rem;
 }
 
-.service p{
+.home_info{
+  font-size: 2rem;
+  margin-top: auto;
+  font-weight: 700;
+}
+
+.info_btn{
+  margin-top: 30px;
+  text-align: end;
+}
+
+.info_btn > button{
+  border-radius: 30px;
+  padding: 12px 20px;
   font-size: 1.5rem;
+  font-weight: 700;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.info_btn > button:hover{
+  background-color: rgba(255, 255, 255, 0.4);
+}
+ 
+.info_btn > button:active{
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.service img{
+  width: 100%;
+  pointer-events: none;   
+  margin: 0 auto;
+  max-height: 350px;
 }
 
 .first_service{
-  background: linear-gradient(60deg, #e9f8c8, #b0e198);
-  color: #3e9145;
+  background: linear-gradient(135deg, #80CBC4, #B2DFDB);
+  color: #00695C;
+}
+
+.middle_service{
+  background: linear-gradient(135deg, #FFC107, #FFD54F);
+  color: #E65100;
 }
 
 .last_service{
-  background: linear-gradient(60deg, #6ccc91, #379c5f);
-  color: #d2f3b5;
+  background: linear-gradient(135deg, #6ccc91, #43A047);
+  color: #335734;
 }
 
 .content{
