@@ -40,11 +40,18 @@ const TempDetail = () => {
         // 데이터 'YYYY-MM-DD형식으로 자르기
         // toISOString(): "2025-10-01T12:30:00.000Z" 형태로 변환
         // split('T')[0]: "2025-10-01"만 추출
-        const dateStr = targetDate.toISOString().split('T')[0];
+        const year = targetDate.getFullYear();
+        const month = String(targetDate.getMonth() + 1).padStart(2, '0');
+        const day = String(targetDate.getDate()).padStart(2, '0');
+        const dateStr = `${year}-${month}-${day}`;
 
         // 조회한 전체 센서 데이터의 원하는 날짜 정보의 데이터 배열을 반환값을 저장하기 위한 변수
         const dayData = data.filter(item => {
-          const itemDate = new Date(item.createDate).toISOString().split('T')[0];
+          const date = new Date(item.createDate);
+          const itemYear = date.getFullYear();
+          const itemMonth = String(date.getMonth() + 1).padStart(2, '0');
+          const itemDay = String(date.getDate()).padStart(2, '0');
+          const itemDate = `${itemYear}-${itemMonth}-${itemDay}`;
           return itemDate === dateStr;
         });
         if(dayData.length > 0){
@@ -70,7 +77,6 @@ const TempDetail = () => {
           });
         };
       };
-
       // 전체 주간 통계
       const allTemps = data.map(d => d.temper);
 

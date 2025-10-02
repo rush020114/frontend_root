@@ -51,6 +51,7 @@
 
 .admin_menu > li p{
   transition: all 0.3s;
+  font-size: 0.85rem;
 }
 
 .admin_menu > li:hover p{
@@ -62,8 +63,8 @@
 }
 
 .admin_menu > li > a > span{
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   display: flex;
   justify-content: center;

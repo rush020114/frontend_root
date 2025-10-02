@@ -39,11 +39,18 @@ const HumDetail = () => {
         targetDate.setDate(today.getDate() - i);
         
         // 'YYYY-MM-SS형식으로 표준화'
-        const dateStr = targetDate.toISOString().split('T')[0];
+        const year = targetDate.getFullYear();
+        const month = String(targetDate.getMonth() + 1).padStart(2, '0');
+        const day = String(targetDate.getDate()).padStart(2, '0');
+        const dateStr = `${year}-${month}-${day}`;
 
         // 조회한 센서 데이터를 필요한 날짜 센서 데이터 있는 배열로 남겨 저장할 변수        
         const dayData = data.filter(item => {
-          const itemDate = new Date(item.createDate).toISOString().split('T')[0];
+          const date = new Date(item.createDate);
+          const itemYear = date.getFullYear();
+          const itemMonth = String(date.getMonth() + 1).padStart(2, '0');
+          const itemDay = String(date.getDate()).padStart(2, '0');
+          const itemDate = `${itemYear}-${itemMonth}-${itemDay}`;
           return dateStr === itemDate
         });
         if(dayData.length > 0){

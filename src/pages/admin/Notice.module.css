@@ -1,0 +1,85 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+.qna_info{
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.qna_info > div{
+  width: 100%;
+  border-radius: 10px;
+  padding: 30px 0px;
+  text-align: center;
+  color: white;
+}
+
+.qna_info p{
+  font-size: 1.5rem;
+}
+
+.qna_info > div > h1{
+  font-size: 3rem;
+}
+
+.search_qna{
+  padding: 20px;
+  background-color: #f3f3f3;
+  border-radius: 10px;
+  border: 1px solid #e1e1e1;
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.search_qna > div{
+  width: 100%;
+}
+
+.search_qna p{
+  margin-bottom: 5px;
+}
+
+.search_btn{
+  align-self: flex-end;
+  margin-bottom: 2px;
+}
+
+.qna_table{
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.qna_table > thead{
+  text-align: center;
+  background-color: #4dab28;
+  color: white;
+  font-weight: 700;
+}
+
+.qna_table td{
+  padding: 20px;
+}
+
+.qna_table > tbody > tr:nth-child(odd){
+  background-color: #f7f7f7;
+}
+
+.qna_table > tbody > tr:nth-child(even){
+  background-color: #fcfcfc;
+}
+
+.qna_table > tbody > tr:hover{
+  cursor: pointer;
+  background-color: #eeeeee;
+}
+
+.qna_table > tbody > tr > td:not(:nth-child(3)) {
+  text-align: center;
+}
