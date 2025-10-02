@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import styles from './Join.module.css'
 import axios from 'axios'
 import Input from '../../common/Input'
 import Button from '../../common/Button'
 import Select from '../../common/Select'
-import { handleErrorMsg } from '../../utils/validation.jsx'
+import { handleErrorMsg, checkRequired } from '../../utils/validation.jsx'
+import { useNavigate } from 'react-router-dom'
 
 const Join = () => {
-  //회원가입 시, 입력하는 모든 데이터를 저장하는 변수
-  const[userData, setUserData] = useState({
+  // 회원가입 시 입력하는 모든 데이터를 저장하는 state 변수
+  const [userData, setUserData] = useState({
     'userName' : '',
     'userId' : '',
     'userPw' : '',
@@ -21,62 +22,140 @@ const Join = () => {
 
   console.log(userData);
 
-  //입력한 데이터를 저장하는 함수
-  const handleChange = (e) => {
-    setUserData({
-      ...userData,
-      [e.target.name] : e.target.value
-    })
-  };
-
-  //유효성 검사 결과 에러 메세지를 저장하는 변수
-  const[errorMsg, setErrorMsg] = useState({
+  // 유효성 검사 결과 에러 메세지를 저장하는 state 변수
+  const [errorMsg, setErrorMsg] = useState({
     'userName' : '',
     'userId' : '',
     'userPw' : '',
     'userPwConfirm' : '',
     'userTelArr' : ''
   });
+  
+  // 에러 메세지 표시 여부를 저장하는 state 변수 (가입 버튼 클릭 시 ture)
+  const [showErrors, setShowErrors] = useState(false);
+  
+  // 아이디 중복 확인 완료 여부를 저장하는 state 변수
+  const [idChecked, setIdChecked] = useState(false);
+  
+  // 비밀번호 보이기/숨기기 상태를 저장하는 state 변수
+  const [showPw, setShowPw] = useState(false);
+  const [showPwConfirm, setShowPwConfirm] = useState(false);
 
-  //서버에 아이디 중복 확인 요청하는 함수
-  const handleCheckId = () => {
-    axios
-    .get(`/api/users/${userData.userId}`)
-    .then(res => {
-      console.log(res.data)
-      
-      if(!res.data){
-        alert("사용 가능한 아이디입니다.")
-      }
-      else{
-        alert("입력하신 아이디는 이미 사용 중입니다.\n다시 입력해 주세요.")
-      }
-    })
-    .catch(error => console.log(error))
+  // 가입완료 버튼 활성화 여부를 저장하는 state 변수
+  const [isDisable, setIsDisable] = useState(true);
+
+  // 이름 Input에 접근하는 ref
+  const nameInput = useRef(null);
+  
+  // 입력한 데이터를 저장하는 함수
+  const handleChange = (e) => {
+    // 아이디 수정 시 중복 확인 상태 초기화
+    if(e.target.name === 'userId'){
+      setIdChecked(false);
+      setIsDisable(true);
+    }
+    
+    // 이메일 입력 시 자동으로 조합
+    if(e.target.name === 'firstEmail' || e.target.name === 'secondEmail'){
+      setUserData({
+        ...userData,
+        [e.target.name] : e.target.value,
+        'userEmail' : e.target.name === 'firstEmail'
+        ?
+        e.target.value + userData.secondEmail
+        :
+        userData.firstEmail + e.target.value
+      });
+    }
+
+    else{
+      setUserData({
+        ...userData,
+        [e.target.name] : e.target.value
+      });
+    }
   };
   
-  //연락처 입력할 때 실행하는 함수
+  // 빈 값 에러 메시지를 빨간색으로 표시하는 함수
+  const showEmptyError = (fieldName) => {
+    setShowErrors(true);
+    setErrorMsg({
+      ...errorMsg,
+      [fieldName]: handleErrorMsg(
+        { target: { name: fieldName, value: '' }},
+        userData,
+        true,
+        'x-circle-fill',
+        true
+      )
+    });
+  };
+  
+  // 연락처 입력할 때 실행하는 함수
   const handleChangeTel = (e, i) => {
-    //기존 연락처 배열을 복사
+    // 기존 연락처 배열을 복사
     const newTelArr = [...userData.userTelArr];
-    //i번째 위치의 값을 새로운 값으로 교체
+    // i번째 위치의 값을 새로운 값으로 교체
     newTelArr.splice(i, 1, e.target.value);
 
     setUserData({
       ...userData,
       'userTelArr' : newTelArr
-    })
+    });
   };
 
-  //서버에 회원가입 정보를 전송하는 함수
-  const signup = () => {
+  // 이메일 도메인 선택 시 실행하는 함수
+  const handleEmailDomin = (e) => {
+    setUserData({
+      ...userData,
+      'secondEmail' : e.target.value,
+      'userEmail' : userData.firstEmail + e.target.value
+    });
+  };
+
+  // 서버에 아이디 중복 확인 요청하는 함수
+  const handleCheckId = () => {
+    // 아이디가 비어있으면
+    if(!userData.userId){
+      showEmptyError('userId');
+      return;
+    }
+
+    axios
+    .get(`/api/users/${userData.userId}`)
+    .then(res => {
+      console.log(res.data);
+      
+      if(!res.data){
+        alert("사용 가능한 아이디입니다.");
+        setIdChecked(true);
+        setIsDisable(false);
+      }
+      else{
+        alert("입력하신 아이디는 이미 사용 중입니다.\n다시 입력해 주세요.");
+        setIdChecked(false);
+        setIsDisable(true);
+      }
+    })
+    .catch(error => console.log(error));
+  };
+  
+  // 서버에 회원가입 정보를 전송하는 함수
+  const handleSingup = () => {
+    setShowErrors(true);
+
+    // 필수 입력 항목 검증
+    if(!checkRequired(userData)){
+      return;
+    }
+
     axios
     .post('/api/users', userData)
     .then(res => {
       console.log(res.data);
-      setUserData(res.data);
+      alert('회원가입이 완료되었습니다.')
 
-      //회원가입 완료 후 모든 입력 데이터 초기화
+      // 회원가입 완료 후 모든 입력 데이터 초기화
       setUserData({
         'userName' : '',
         'userId' : '',
@@ -86,10 +165,22 @@ const Join = () => {
         'firstEmail' : '',
         'secondEmail' : '',
         'userEmail' : ''
-      })
+      });
+
+      setIdChecked(false);
+      setIsDisable(true);
+      setShowErrors(false);
+
+      nav('/');
     })
     .catch(error => console.log(error))
   };
+
+  //페이지 이동
+  const nav = useNavigate();
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
 
   return (
     <div className={styles.container}>
@@ -128,7 +219,7 @@ const Join = () => {
               handleChange(e)
               setErrorMsg({
                 ...errorMsg,
-                'userName' : handleErrorMsg(e, userData)
+                'userName' : handleErrorMsg(e, userData, true, 'info-circle-fill', showErrors)
               })
             }}
           />
@@ -147,11 +238,12 @@ const Join = () => {
               name='userId'
               value={userData.userId}
               onChange={e => {
-                handleChange(e)
+                handleChange(e);
+                setIsDisable(true);
                 setErrorMsg({
                   ...errorMsg,
-                  'userId' : handleErrorMsg(e, userData)
-                })
+                  'userId' : handleErrorMsg(e, userData, true, 'info-circle-fill', showErrors)
+                });
               }}
             />
             <Button
@@ -161,7 +253,7 @@ const Join = () => {
               onClick={() => handleCheckId()}
             />
           </div>
-          <p className="error">{errorMsg.userId}</p>
+          <p className={styles.error}>{errorMsg.userId}</p>
         </div>
 
         <div>
@@ -178,11 +270,11 @@ const Join = () => {
               handleChange(e)
               setErrorMsg({
                   ...errorMsg,
-                  'userPw' : handleErrorMsg(e, userData)
+                  'userPw' : handleErrorMsg(e, userData, true, 'info-circle-fill', showErrors)
                 })
             }}
           />
-          <p className="error">{errorMsg.userPw}</p>
+          <p className={styles.error}>{errorMsg.userPw}</p>
         </div>
 
         <div>
@@ -199,11 +291,11 @@ const Join = () => {
               handleChange(e)
               setErrorMsg({
                 ...errorMsg,
-                'userPwConfirm' : handleErrorMsg(e, userData)
+                'userPwConfirm' : handleErrorMsg(e, userData, true, 'info-circle-fill', showErrors)
               })
             }}
           />
-          <p className="error">{errorMsg.userPwConfirm}</p>
+          <p className={styles.error}>{errorMsg.userPwConfirm}</p>
         </div>
 
         <div>
@@ -220,7 +312,7 @@ const Join = () => {
                 handleChangeTel(e, 0)
                 setErrorMsg({
                 ...errorMsg,
-                'userTelArr' : handleErrorMsg(e, userData)
+                'userTelArr' : handleErrorMsg(e, userData, true, 'info-circle-fill', showErrors)
                 })
               }}
             >
@@ -236,7 +328,7 @@ const Join = () => {
                 handleChangeTel(e, 1)
                 setErrorMsg({
                 ...errorMsg,
-                'userTelArr' : handleErrorMsg(e, userData)
+                'userTelArr' : handleErrorMsg(e, userData, true, 'info-circle-fill', showErrors)
                 })
               }}
             />
@@ -250,12 +342,12 @@ const Join = () => {
                 handleChangeTel(e, 2)
                 setErrorMsg({
                 ...errorMsg,
-                'userTelArr' : handleErrorMsg(e, userData)
+                'userTelArr' : handleErrorMsg(e, userData, true, 'info-circle-fill', showErrors)
                 })
               }}
             />
           </div>
-          <p className="error">{errorMsg.userTelArr}</p>
+          <p className={styles.error}>{errorMsg.userTelArr}</p>
         </div>
 
         <div>
@@ -268,7 +360,7 @@ const Join = () => {
             <Input
               type="text"
               size='100%'
-              name=''
+              name='firstEmail'
               value={userData.firstEmail}
               onChange={e => handleChange(e)}
             />
@@ -276,20 +368,20 @@ const Join = () => {
             <Input
               type="text"
               size='100%'
-              name=''
+              name='secondEmail'
               value={userData.secondEmail}
               onChange={e => handleChange(e)}
             />
             <Select
               size='100%'
-              name=''
+              name='emailDomain'
               value={userData.secondEmail}
-              onChange={e => handleChange(e)}
+              onChange={e => handleEmailDomin(e)}
             >
               <option value="">직접입력</option>
-              <option value="@naver.com">naver.com</option>
-              <option value="@gmail.com">gmail.com</option>
-              <option value="@daum.net">daum.net</option>
+              <option value="naver.com">naver.com</option>
+              <option value="gmail.com">gmail.com</option>
+              <option value="daum.net">daum.net</option>
             </Select>
           </div>
         </div>
@@ -297,14 +389,15 @@ const Join = () => {
 
       <div className={styles.btn}>
         <Button
-          content='취소하기'
-          size='15%'
+          content = '취소하기'
+          size = '15%'
         />
         <Button
-          content='가입완료'
-          size='15%'
-          color='blue'
-          onClick={() => signup()}
+          content = '가입완료'
+          size = '15%'
+          color = 'blue'
+          disabled = {isDisable}
+          onClick = {() => handleSingup()}
         />
       </div>
 

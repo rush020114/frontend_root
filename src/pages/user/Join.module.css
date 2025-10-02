@@ -15,9 +15,9 @@
   margin-bottom: 20px;
 }
 
-i{
+/* i{
   padding-right: 5px;
-}
+} */
 
 .form_title{
   display: flex;
@@ -49,7 +49,20 @@ Button:hover{
 }
 
 .error{
+  height: 5px;
 	color: #096ab3;
 	font-size: 0.8rem;
-	margin-top: 5px;
+	margin-top: 8px;
+  
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+:global(.error-blue){
+  color: #096ab3;
+}
+
+:global(.error-red){
+  color: #ff0000;
 }
