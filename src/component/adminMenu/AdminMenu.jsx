@@ -68,10 +68,11 @@ const AdminMenu = ({notiCnt, onResetCnt}) => {
         <li>
           <NavLink
             to={'/admin/notice'}
+            end
             className={({isActive}) => isActive ? styles.active : null}
           >
             <span>
-              <i class="bi bi-megaphone-fill"></i>
+              <i className="bi bi-megaphone-fill"></i>
             </span>
             <p>공지사항</p>
           </NavLink>

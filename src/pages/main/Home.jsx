@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Home.module.css'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import dayjs from 'dayjs';
 
 const Home = () => {
 
@@ -9,14 +11,29 @@ const Home = () => {
   // 이미지를 보이게 할 변수
   const [isShow, setIsShow] = useState([false, false, false]);
 
+  // 공지사항을 저장할 state 변수
+  const [noticeList, setNoticeList] = useState([]);
+
+  // 최신 5개만 보이게 할 함수
+  const fiveNoticeList = noticeList.slice(0, 5);
+
   // 특정 이미지만 보이게 하는 함수
   const setShow = (index, value) => {
     setIsShow(prev => {
       const newShow = [...prev];
       newShow[index] = value;
       return newShow;
-    })
-  }
+    });
+  };
+
+  // 공지사항을 받아올 useEffect
+  useEffect(() => {
+    axios.get('/api/notices')
+    .then(res => setNoticeList(res.data))
+    .catch(e => console.log(e));
+  }, []);
+
+  console.log(noticeList)
 
   return (
     <div className={styles.container}>
@@ -116,7 +133,48 @@ const Home = () => {
         </div>
       </div>
       <div className={styles.content}>
-        <div className={styles.notice}>공지사항 영역</div>
+        <div className={styles.notice}>
+          <div className={styles.notice_title}>
+            <h1>📢 최신 공지</h1>
+            <span className={styles.notice_span}
+              onClick={() => nav('/customer-service')}
+            >
+              <i class="bi bi-plus"></i>
+            </span>
+          </div>
+          <table className={styles.notice_table}>
+            <colgroup>
+              <col width='12%' />
+              <col width='70%' />
+              <col width='18%' />
+            </colgroup>
+            <tbody>
+              {
+                fiveNoticeList.map((notice, i) => {
+                  return(
+                    <tr key={i}
+                      onClick={() => nav(`/notice/${notice.noticeId}`)}
+                    >
+                      <td>
+                        <span className={styles.noti}>공지사항</span>
+                      </td>
+                      <td>
+                        <div className={styles.noti_title}>
+                          {notice.noticeTitle}
+                        </div>
+                      </td>
+                      <td>
+                        <div className={styles.noti_date}>
+                          {dayjs(notice.noticeDate).format('YYYY-MM-DD')}
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })
+              }
+            </tbody>
+          </table>
+        </div>
         <div>미정의 영역</div>
       </div>
     </div>

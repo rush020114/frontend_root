@@ -7,26 +7,21 @@ import dayjs from 'dayjs'
 import { useNavigate } from 'react-router-dom'
 import Pagination from '../../component/pagination/Pagination'
 
-const AdminQnA = () => {
+const Notice = () => {
   const nav = useNavigate();
 
-  // 문의 목록을 받아올 state 변수
-  const [qstList, setQstList] = useState([]);
+  // 공지 목록을 받아올 state 변수
+  const [noticeList, setNoticeList] = useState([]);
 
-  // 문의 목록 검색 시 목록의 길이를 변하지 않게 하기 위한 hook
-  const qstLength = useRef(0);
+  // 공지 목록 검색 시 목록의 길이를 변하지 않게 하기 위한 hook
+  const noticeLength = useRef(0);
 
   // 활성 페이지 세팅
   const [currentPage, setCurrentPage] = useState(0);
 
-  // 문의 세팅을 저장할 state 변수
+  // 공지 검색을 저장할 state 변수
   const [searchData, setSearchData] = useState({
-    qstId: ''
-    , qstStatus: ''
-    , qstTitle: ''
-    , userId: ''
-    , qstDate: ''
-    , userRole: 'ADMIN'
+    userRole: 'ADMIN'
   });
 
   // 보여줄 페이지
@@ -35,18 +30,18 @@ const AdminQnA = () => {
   // 현재 페이지 보여줄 데이터 계산
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentQstList = qstList.slice(startIndex, endIndex);
+  const currentNoticeList = noticeList.slice(startIndex, endIndex);
 
   // 페이지를 변경시켜줄 함수
   const handlePageChange = selectPage => {
     setCurrentPage(selectPage);
   };
 
-  // 진행중 상태를 조회할 state 변수
-  const [qstStatusCnt, setQstStatusCnt] = useState(0);
-
-  // 문의 목록을 세팅할 useEffect
+  // 공지 목록을 세팅할 useEffect
   useEffect(() => {
+    axios.get('/api/notices')
+    .then(res => setNoticeList(res.data))
+    .catch(e => console.log(e));
   }, []);
 
   // 검색 데이터를 세팅할 함수
@@ -74,28 +69,33 @@ const AdminQnA = () => {
     .catch(e => console.log(e));
   };
 
-  console.log(searchData)
+  console.log(noticeList)
 
   return (
     <div className={styles.container}>
       <div className={styles.title}>
         <h1>📝 문의 관리</h1>
+        <Button 
+          content='등 록'
+          color='brown'
+          onClick={() => nav('/admin/reg-notice')}
+        />
       </div>
-      <div className={styles.qna_info}>
+      <div className={styles.notice_info}>
         <div 
           style={{background: 'linear-gradient(135deg, #6c757d, #8d959e)'}}
         >
-          <h1>{qstLength.current}</h1>
+          <h1>{noticeLength.current}</h1>
           <p>전체 공지</p>
         </div>
         <div
           style={{background: 'linear-gradient(135deg, #ffc107, #ffcd39)'}}
         >
-          <h1>{qstLength.current - qstStatusCnt}</h1>
+          <h1>{noticeLength.current}</h1>
           <p>중요 공지</p>
         </div>
       </div>
-      <div className={styles.search_qna}>
+      <div className={styles.search_notice}>
         <div>
           <p>문의 번호</p>
           <Input 
@@ -143,9 +143,9 @@ const AdminQnA = () => {
           />
         </div>
       </div>
-      <div className={styles.qna_list}>
-        <h2>{`🔍 총 ${qstList.length}건 검색되었습니다.`}</h2>
-        <table className={styles.qna_table}>
+      <div className={styles.notice_list}>
+        <h2>{`🔍 총 ${noticeList.length}건 검색되었습니다.`}</h2>
+        <table className={styles.notice_table}>
           <colgroup>
             <col width='5%' />
             <col width='55%' />
@@ -162,32 +162,32 @@ const AdminQnA = () => {
           </thead>
           <tbody>
           {
-            currentQstList.length
+            currentNoticeList.length
             ?
-            currentQstList.map((qst, i) => {
+            currentNoticeList.map((notice, i) => {
               return(
                 <tr 
                   key={i}
-                  onClick={() => nav(`/admin/qna/${qst.qstId}`)}
+                  onClick={() => nav(`/notice/${notice.noticeId}`)}
                 >
                   <td>{currentPage * itemsPerPage + i + 1}</td>
-                  <td>{}</td>
-                  <td>{}</td>
-                  <td>{dayjs().format('YYYY-MM-DD HH:mm:ss')}</td>
+                  <td>{notice.noticeTitle}</td>
+                  <td>{notice.userId}</td>
+                  <td>{dayjs().format('YYYY-MM-DD')}</td>
                 </tr>
               )
             })
             :
             <tr>
               <td colSpan={4}>
-                조회된 문의가 없습니다.
+                조회된 공지가 없습니다.
               </td>
             </tr>
           }
           </tbody>
         </table>
         <Pagination 
-          totalItems={qstList.length}
+          totalItems={noticeList.length}
           itemsPerPage={itemsPerPage}
           onPageChange={handlePageChange}
           currentPage={currentPage}
@@ -200,4 +200,4 @@ const AdminQnA = () => {
   )
 }
 
-export default AdminQnA
+export default Notice
