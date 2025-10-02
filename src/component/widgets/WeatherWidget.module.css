@@ -5,11 +5,19 @@
   background: linear-gradient(135deg, #3b82f6, #1d4ed8);
   border-radius: 12px;
   padding: 24px;
-  color: white;
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+  /* ✅ 글씨 강조 */
+  color: #f8fcef;
+  font-weight: bold;      /* 전체 글자 굵게 */
+  font-size: 1.2rem;      /* 전체 글자 크기 키움 */
+  text-shadow: 0 0 30px #daf1ff;
+
+  box-shadow: 0 10px 15px #2e3322;
   max-width: 384px;
   margin: 0 auto;
 }
+
+
 
 /* 높이가 지정된 경우를 위한 flex 컨테이너 */
 .flexContainer {
