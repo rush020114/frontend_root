@@ -155,7 +155,7 @@ const AdminQnADetail = () => {
                   key={i}
                   className={styles.img_info}
                 >
-                  <img src={`http://localhost:8080/question_upload/${img.attachedImgName}`} />
+                  <img src={`http://localhost:8080/upload_files/question/${img.attachedImgName}`} />
                   <p>{img.originImgName}</p>
                 </div>
               )
