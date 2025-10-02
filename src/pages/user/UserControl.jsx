@@ -14,11 +14,9 @@ const UserControl = () => {
     lastDetected: null
   })
 
+  const [showCards, setShowCards] = useState(false)
   const navigate = useNavigate()
 
-  // -----------------------------
-  // 서버에서 데이터 가져오기
-  // -----------------------------
   useEffect(() => {
     axios.get('/api/growings')
       .then(res => {
@@ -28,24 +26,21 @@ const UserControl = () => {
         setSoilHumidity(data.map(d => d.soilHumidity))
         setIllumination(data.map(d => d.illumination))
       })
-      .catch(error => console.error(error))
+      .catch(console.error)
 
     axios.get('/api/motions/stats')
       .then(res => setMotionStats(res.data))
-      .catch(err => console.error(err))
+      .catch(console.error)
+
+    const timer = setTimeout(() => setShowCards(true), 100)
+    return () => clearTimeout(timer)
   }, [])
 
-  // -----------------------------
-  // 최신 데이터
-  // -----------------------------
-  const latestTemper = temper[temper.length - 1]
-  const latestHumidity = humidity[humidity.length - 1]
-  const latestSoil = soilHumidity[soilHumidity.length - 1]
-  const latestIllum = illumination[illumination.length - 1]
+  const latestTemper = temper.at(-1)
+  const latestHumidity = humidity.at(-1)
+  const latestSoil = soilHumidity.at(-1)
+  const latestIllum = illumination.at(-1)
 
-  // -----------------------------
-  // 시간대 판별
-  // -----------------------------
   const now = new Date()
   const hour = now.getHours()
   const minute = now.getMinutes()
@@ -55,28 +50,18 @@ const UserControl = () => {
     <div className={styles.container}>
       {/* 온도 카드 */}
       <div 
-        className={`${styles.card} ${styles.sensor} ${
-          latestTemper >= 25 
-            ? styles.temHigh
-            : latestTemper >= 20 
-              ? styles.temNormal 
-              : styles.temCold
-        }`}
+        className={`${styles.card} ${
+          latestTemper >= 25 ? styles.temHigh :
+          latestTemper >= 20 ? styles.temNormal : styles.temCold
+        } ${showCards ? styles.showTop : ""}`}
         onClick={() => navigate('/user/temp')}
-        style={{ cursor: 'pointer' }}
       >
-        {latestTemper >= 25 && (
-          <img src="/temHigh.png" alt="temHigh" className={styles.iconTemHigh} />
-        )}
-        {latestTemper >= 20 && latestTemper < 25 && (
-          <img src="/temNormal.png" alt="temNormal" className={styles.iconTemNormal} />
-        )}
-        {latestTemper < 20 && (
-          <img src="/temCold.png" alt="temCold" className={styles.iconTemCold} />
-        )}
-        <div>
+        <div className={styles.cardContent}>
+          {latestTemper >= 25 && <img src="/temHigh.png" alt="hot" className={styles.iconTemHigh} />}
+          {latestTemper >= 20 && latestTemper < 25 && <img src="/temNormal.png" alt="normal" className={styles.iconTemNormal} />}
+          {latestTemper < 20 && <img src="/temCold.png" alt="cold" className={styles.iconTemCold} />}
           <h3 className={styles.title}>온도</h3>
-          <p className={styles.temperature}>
+          <p className={styles.dataValue}>
             {latestTemper !== undefined ? Number(latestTemper).toFixed(1) : '-'}°
           </p>
         </div>
@@ -84,34 +69,29 @@ const UserControl = () => {
 
       {/* 습도 카드 */}
       <div 
-        className={`${styles.card} ${styles.sensor}`}
+        className={`${styles.card} ${showCards ? styles.showTop : ""}`}
         onClick={() => navigate('/user/hum')}
-        style={{ cursor: 'pointer' }}
       >
-        <div>
+        <div className={styles.cardContent}>
           <img src="/humidity.png" alt="humidity" className={styles.backgroundHumidity} />
           <h3 className={styles.title}>습도</h3>
-          <p className={styles.humidity}>
+          <p className={styles.dataValue}>
             {latestHumidity !== undefined ? Number(latestHumidity).toFixed(1) : '-'}%
           </p>
           <div className={styles.humidityBar}>
-            <div
-              className={styles.humidityFill}
-              style={{ height: `${latestHumidity}%` }}
-            ></div>
+            <div className={styles.humidityFill} style={{ height: `${latestHumidity}%` }}></div>
           </div>
         </div>
       </div>
 
       {/* 토양 습도 카드 */}
       <div 
-        className={`${styles.card} ${styles.sensor} ${styles.soilCard}`}
+        className={`${styles.card} ${styles.soilCard} ${showCards ? styles.showRight : ""}`}
         onClick={() => navigate('/user/soilHum')}
-        style={{ cursor: 'pointer' }}
       >
-        <div>
+        <div className={styles.cardContent}>
           <h3 className={styles.title}>토양 습도</h3>
-          <p className={styles.soil}>
+          <p className={styles.dataValue}>
             {latestSoil !== undefined ? Number(latestSoil).toFixed(1) : '-'}%
           </p>
         </div>
@@ -119,86 +99,89 @@ const UserControl = () => {
 
       {/* 조도 카드 */}
       <div 
-        className={`${styles.card} ${styles.sensor} ${styles.lightCard}`}
+        className={`${styles.card} ${styles.lightCard} ${showCards ? styles.showLeft : ""}`}
         onClick={() => navigate('/user/illum')}
-        style={{ cursor: 'pointer' }}
       >
-        <div>
+        <div className={styles.cardContent}>
           <img src="/sun.png" alt="sun" className={styles.sunny} />
+          <div className={styles.sunRays}></div>
           <h3 className={styles.title}>조도</h3>
-          <p className={styles.illum}>
-            {latestIllum !== undefined ? Number(latestIllum).toFixed(0) : '-'}
+          <p className={styles.dataValue}>
+            {latestIllum !== undefined ? Number(latestIllum).toFixed(0) : '-' }
           </p>
         </div>
       </div>
 
-      {/* 날씨 위젯 */}
-      <div className={styles.card}>
-        <WeatherWidget 
-          width="100%" 
-          height="100%" 
-          customColors={{
-            background: isNight 
-              ? 'linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%)'
-              : 'linear-gradient(135deg, #567aeec2 0%, #40df82d7 100%)'
-          }}
-        />
+      {/* 날씨 위젯 카드 */}
+      <div className={`${styles.card} ${showCards ? styles.showBottom : ""}`}>
+        <div className={`${styles.cardContent} ${styles.weatherCardContent}`}>
+          <WeatherWidget
+            className="weather-widget"
+            width="100%" height="100%"
+            style={{ borderRadius: "inherit" }}
+            customColors={{
+              background: isNight 
+                ? 'linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%)'
+                : 'linear-gradient(135deg, #fcd115ff 0%, #2ab942d7 100%)'
+            }}
+          />
 
-        {isNight ? (
-          <>
-            {/* 별똥별 */}
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={`star-${i}`} className={styles.shootingStar}></div>
-            ))}
-            {/* 반딧불이 */}
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={`firefly-${i}`} className={styles.firefly}></div>
-            ))}
-          </>
-        ) : (
-          <>
-            {/* 풀벌레 (6개) */}
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={`bug-${i}`}
-                className={styles.bug}
-                style={{
-                  top: `${Math.random() * 80 + 10}%`,
-                  left: `${Math.random() * 90 + 5}%`,
-                  animationDelay: `${Math.random() * 5}s`
-                }}
-              ></div>
-            ))}
-            {/* 갈대 (얇고 수북하게 100개) */}
-            {Array.from({ length: 100 }).map((_, i) => {
-              const w = 0.5 + Math.random() * 3
-              const h = 200 + Math.random() * 150
-              const delay = Math.random() * 3
-              const dur = 1.5 + Math.random() * 2
-              return (
-                <div
-                  key={`reed-${i}`}
-                  className={styles.reed}
+          {isNight ? (
+            <>
+              {Array.from({ length: 6 }).map((_, i) => <div key={`star-${i}`} className={styles.shootingStar}></div>)}
+              {Array.from({ length: 6 }).map((_, i) => <div key={`firefly-${i}`} className={styles.firefly}></div>)}
+            </>
+          ) : (
+            <>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={`bug-${i}`} className={styles.bug}
                   style={{
-                    left: `${Math.random() * 100}%`,
-                    '--reed-w': `${w}px`,
-                    '--reed-h': `${h}px`,
-                    animationDelay: `${delay}s`,
-                    animationDuration: `${dur}s`,
-                  }}
-                />
-              )
-            })}
-          </>
-        )}
+                    top: `${Math.random() * 80 + 10}%`,
+                    left: `${Math.random() * 90 + 5}%`,
+                    animationDelay: `${Math.random() * 5}s`
+                  }} />
+              ))}
+              {Array.from({ length: 100 }).map((_, i) => {
+                const w = 0.5 + Math.random() * 3
+                const h = 200 + Math.random() * 150
+                const delay = Math.random() * 3
+                const dur = 1.5 + Math.random() * 2
+                return (
+                  <div key={`reed-${i}`} className={styles.reed}
+                    style={{
+                      left: `${Math.random() * 100}%`,
+                      '--reed-w': `${w}px`,
+                      '--reed-h': `${h}px`,
+                      animationDelay: `${delay}s`,
+                      animationDuration: `${dur}s`
+                    }} />
+                )
+              })}
+            </>
+          )}
+        </div>
       </div>
 
       {/* 모션 감지 카드 */}
-      <div className={`${styles.card} ${styles.sensor} ${styles.motionCard}`}>
-        <div>
+      <div className={`${styles.card} ${styles.motionCard} ${showCards ? styles.showRight : ""}`}>
+        <div className={styles.cardContent}>
+          {/* 사이렌 사진 */}
           <img src="/siren.png" alt="siren" className={styles.siren} />
-          <h3 className={styles.motionTitle}>모션 감지</h3>
-          <div className={styles.motionInfoHighlight}>
+          <h3 className={styles.title}>모션 감지</h3>
+
+          {/* 센서 작동 중 */}
+          <div className={styles.sensorStatus}>
+            <p className={styles.text}> 센서 작동 중 </p>
+            <div className={styles.invertbox}></div>
+          </div>
+
+          {/* 누적 횟수 */}
+          <p className={styles.motionInfoCenter}>
+            Today : {motionStats.detectedCount} 건
+          </p>
+
+          {/* 마지막 감지 시각 */}
+          <div className={styles.motionTime}>
             {motionStats.lastDetected ? (
               <>
                 <div>
@@ -221,9 +204,6 @@ const UserControl = () => {
               "-"
             )}
           </div>
-          <p className={styles.motionInfo}>
-            누적 횟수: {motionStats.detectedCount}회
-          </p>
         </div>
       </div>
     </div>
