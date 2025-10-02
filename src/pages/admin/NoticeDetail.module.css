@@ -1,0 +1,166 @@
+.container{
+  border: 1px solid white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px #cccccc;
+  background-color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 1px solid #cccccc;
+}
+
+.input_title {
+  width: 100%;
+  font-size: inherit;  /* h1의 크기 상속 */
+  font-weight: inherit;
+  font-family: inherit;
+  padding: 8px 12px;
+  border: 2px solid #777777;
+  border-radius: 8px;
+}
+
+.input_title:focus {
+  outline: none;
+}
+
+.important {
+  margin: 15px 7px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkboxInput {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkboxCustom {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #777777;
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.checkboxInput:checked + .checkboxCustom {
+  background-color: #4CAF50;
+}
+
+.checkboxInput:checked + .checkboxCustom::after {
+  content: '✓';
+  position: absolute;
+  color: white;
+  font-size: 14px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.labelText {
+  margin-left: 8px;
+  font-size: 16px;
+  color: #333;
+}
+
+.container > div{
+  padding-bottom: 20px;
+}
+
+.notice_info{
+  display: flex;
+  font-size: 0.9rem;
+}
+
+.user_info{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #555555;
+}
+
+.notice_status{
+  margin-left: auto;
+  background-color: #fbf3d1;
+  color: #7c6521;
+  border-radius: 25px;
+  padding: 7px 20px;
+  font-weight: 700;
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-bottom: 1px solid #cccccc;
+}
+
+.content_div{
+  line-height: 25px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  border-left: 3px solid #4dab28;
+}
+
+.img_div{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.img{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.img_info{
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.img_info > div{
+  overflow: hidden;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 1px solid #cccccc;
+}
+
+.img_info img{
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.img_info:hover img{
+  overflow: hidden;
+  scale: 1.1;
+}
+
+.btn_div{
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}

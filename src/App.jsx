@@ -30,6 +30,8 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useWebSocket } from './hooks/useWebSocket'
 import Notice from './pages/admin/Notice'
+import RegNotice from './pages/admin/RegNotice'
+import NoticeDetail from './pages/admin/NoticeDetail'
 
 function App() {
 
@@ -111,6 +113,8 @@ function App() {
           <Route path='customer-service' element={<CustomerService />} />
           {/* 식물 검색 페이지 (챗봇) */}
           <Route path='plant-chat' element={ <PlantChatbot/> }/>
+          {/* 공지 상세 */}
+          <Route path='notice/:noticeId' element={<NoticeDetail />} />
         </Route>
         {/* 관리자 페이지 */}
         <Route path='/admin' element={<MainLayout 
@@ -133,6 +137,8 @@ function App() {
           <Route path='qna/:qstId' element={<AdminQnADetail />} />
           {/* 공지사항 */}
           <Route path='notice' element={<Notice />} />
+          {/* 공지 등록 */}
+          <Route path='reg-notice' element={<RegNotice />} />
         </Route>
         {/* 마이 페이지 */}
         <Route path='/user' element={<MyPageLayout 
