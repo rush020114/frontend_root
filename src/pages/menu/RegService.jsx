@@ -13,6 +13,12 @@ const RegService = () => {
   // 다음 주소록 팝업 생성 함수
   const open = useDaumPostcodePopup('//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js');
 
+  // 로그인 정보를 저장할 state 변수
+  const loginInfo = sessionStorage.getItem('loginInfo');
+
+  // 로그인 정보 객체화
+  const loginData = JSON.parse(loginInfo);
+
   // 약관 체크박스 데이터를 저장할 state 변수
   const[checkData, setCheckData] = useState([]);
 
@@ -92,7 +98,7 @@ const RegService = () => {
 
   // 서비스 신청 함수
   const regService = () => {
-    axios.post('/api/applications', {...serviceData, userId: 'user'})
+    axios.post('/api/applications', {...serviceData, userId: loginData.userId})
     .then(res => {
       alert(res.data);
       nav('/user')

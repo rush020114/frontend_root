@@ -29,6 +29,7 @@ import UserQnAUpdate from './pages/user/UserQnAUpdate'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useWebSocket } from './hooks/useWebSocket'
+import Notice from './pages/admin/Notice'
 
 function App() {
 
@@ -130,6 +131,8 @@ function App() {
           />} />
           {/* 관리자 문의 답변 */}
           <Route path='qna/:qstId' element={<AdminQnADetail />} />
+          {/* 공지사항 */}
+          <Route path='notice' element={<Notice />} />
         </Route>
         {/* 마이 페이지 */}
         <Route path='/user' element={<MyPageLayout 

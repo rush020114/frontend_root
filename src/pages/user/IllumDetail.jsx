@@ -33,10 +33,17 @@ const IllumDetail = () => {
         const targetDate = new Date(today);
         targetDate.setDate(today.getDate() - i);
 
-        const dateStr = targetDate.toISOString().split('T')[0];
+        const year = targetDate.getFullYear();
+        const month = String(targetDate.getMonth() + 1).padStart(2, '0');
+        const day = String(targetDate.getDate()).padStart(2, '0');
+        const dateStr = `${year}-${month}-${day}`;
 
         const dayData = data.filter(item => {
-          const itemDate = new Date(item.createDate).toISOString().split('T')[0];
+          const date = new Date(item.createDate);
+          const itemYear = date.getFullYear();
+          const itemMonth = String(date.getMonth() + 1).padStart(2, '0');
+          const itemDay = String(date.getDate()).padStart(2, '0');
+          const itemDate = `${itemYear}-${itemMonth}-${itemDay}`;
           return dateStr === itemDate;
         });
 

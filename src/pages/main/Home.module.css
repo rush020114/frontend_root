@@ -19,11 +19,11 @@
 }
 
 .service h1{
-  font-size: 3rem;
+  font-size: 3.5rem;
 }
 
 .home_info{
-  font-size: 2rem;
+  font-size: 1.75rem;
   margin-top: auto;
   font-weight: 700;
 }
@@ -36,7 +36,7 @@
 .info_btn > button{
   border-radius: 30px;
   padding: 12px 20px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 700;
   background-color: rgba(255, 255, 255, 0.3);
 }
