@@ -37,13 +37,6 @@ const AdminQnADetail = () => {
   // 문의 상세 데이터를 저장할 state 변수
   const [qstDetail, setQstDetail] = useState({});
 
-  // 회원 기본 정보를 세팅할 useEffect
-  useEffect(() => {
-    axios.get()
-    .then()
-    .catch();
-  }, [])
-
   // 수정 데이터를 세팅할 useEffect
   useEffect(() => {
     setEditAns(ansData.ansContent);

@@ -55,6 +55,22 @@ const NoticeDetail = () => {
     });
   };
 
+  // 이미지 계산 함수
+  const getImgCnt = () => {
+    if(!noticeDetail.noticeImgDTOList || !Array.isArray(noticeDetail.noticeImgDTOList)){
+      return 0;
+    };
+    return noticeDetail.noticeImgDTOList.filter(img => img.imgNum !== 0).length
+  };
+
+  // 유효한 이미지 가져오기
+  const getValidImg = () => {
+    if(!noticeDetail.noticeImgDTOList || !Array.isArray(noticeDetail.noticeImgDTOList)){
+      return [];
+    };
+    return noticeDetail.noticeImgDTOList.filter(img => img.imgNum !== 0);
+  }
+
   // 문의 수정
   const updateQst = () => {
     if(!updateNoticeData.noticeTitle.trim()){
@@ -144,7 +160,7 @@ const NoticeDetail = () => {
         }
         </div>
         <div className={styles.img_div}>
-          {/* <h3>
+          <h3>
             📎 첨부 이미지
             ({getImgCnt()}개)
           </h3>
@@ -159,7 +175,7 @@ const NoticeDetail = () => {
                   className={styles.img_info}
                 >
                   <div>
-                    <img src={`http://localhost:8080/question_upload/${img.attachedImgName}`} />
+                    <img src={`http://localhost:8080/upload_files/notice/${img.attachedImgName}`} />
                   </div>
                   <p>{img.originImgName}</p>
                 </div>
@@ -170,7 +186,7 @@ const NoticeDetail = () => {
               첨부된 이미지가 없습니다.
             </div>
           }
-          </div> */}
+          </div>
         </div>
       </div>
       <div className={styles.btn_div}>

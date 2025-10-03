@@ -15,6 +15,9 @@ const UserInfo = ({notiCnt}) => {
   // 로그인 정보 객체화
   const loginData = JSON.parse(loginInfo);
 
+  // 총 이용일을 저장할 state 변수
+  const [totalDays, setTotalDays] = useState(0);
+
   // 서비스 기본 정보를 저장할 state 변수
   const [serviceInfo, setServiceInfo] = useState({});
 
@@ -37,15 +40,19 @@ const UserInfo = ({notiCnt}) => {
     setCurrentPage(selectedPage);
   };
 
-  // 문의 목록과 서비스 기본 정보를 세팅할 useEffect
+  // 문의 목록과 서비스 기본 정보, 총 이용일을 세팅할 useEffect
   useEffect(() => {
     axios.all([axios.get('/api/questions', {params: {
       userRole: 'USER'
       , userId: loginData.userId
-    }}), axios.get(`/api/applications/${loginData.userId}`)])
-    .then(axios.spread((res1, res2) => {
+    }}), 
+    axios.get(`/api/applications/${loginData.userId}`),
+    axios.get(`/api/applications/total-day/${loginData.userId}`)
+  ])
+    .then(axios.spread((res1, res2, res3) => {
       setQstList(res1.data);
       setServiceInfo(res2.data);
+      setTotalDays(res3.data)
     }))
     .catch(e => console.log(e));
   }, [notiCnt]);
@@ -194,7 +201,7 @@ const UserInfo = ({notiCnt}) => {
             {
               serviceInfo.apprDate
               ?
-              'dd'
+              totalDays
               :
               '-'
             }

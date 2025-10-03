@@ -10,8 +10,6 @@ import dayjs from 'dayjs';
 const CustomerService = () => {
   const nav = useNavigate();
 
-  
-
   // 공지 목록을 받아올 state 변수
   const [noticeList, setNoticeList] = useState([]);
 

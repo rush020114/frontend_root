@@ -16,21 +16,30 @@ const Notice = () => {
   // 공지 목록 검색 시 목록의 길이를 변하지 않게 하기 위한 hook
   const noticeLength = useRef(0);
 
+  // 공지 목록 검색 시 중요 공지 목록의 길이를 변하지 않게 하기 위한 hook
+  const noticeImportantLength = useRef(0);
+
   // 활성 페이지 세팅
   const [currentPage, setCurrentPage] = useState(0);
 
   // 공지 검색을 저장할 state 변수
   const [searchData, setSearchData] = useState({
-    userRole: 'ADMIN'
-  });
+    noticeId: ''
+    , noticeTitle: ''
+    , userId: ''
+    , noticeDate: ''
+  })
 
   // 보여줄 페이지
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   // 현재 페이지 보여줄 데이터 계산
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentNoticeList = noticeList.slice(startIndex, endIndex);
+
+  // isImportant개수를 받을 변수
+  const importantCount = currentNoticeList.filter(item => item.isImportant === 'Y').length;
 
   // 페이지를 변경시켜줄 함수
   const handlePageChange = selectPage => {
@@ -40,7 +49,11 @@ const Notice = () => {
   // 공지 목록을 세팅할 useEffect
   useEffect(() => {
     axios.get('/api/notices')
-    .then(res => setNoticeList(res.data))
+    .then(res => {
+      setNoticeList(res.data);
+      noticeLength.current = res.data.length;
+      noticeImportantLength.current = res.data.filter(item => item.isImportant === 'Y').length;
+    })
     .catch(e => console.log(e));
   }, []);
 
@@ -53,17 +66,15 @@ const Notice = () => {
   };
 
   // 검색 시 실행할 함수
-  const searchQstList = () => {
-    axios.get('/api/questions', {params: searchData})
+  const searchNoticeList = () => {
+    axios.get('/api/notices', {params: searchData})
     .then(res => {
-      setQstList(res.data);
+      setNoticeList(res.data);
       setSearchData({
-        qstId: ''
-        , qstStatus: ''
-        , qstTitle: ''
+        noticeId: ''
+        , noticeTitle: ''
         , userId: ''
-        , qstDate: ''
-        , userRole: 'ADMIN'
+        , noticeDate: ''
       });
     })
     .catch(e => console.log(e));
@@ -74,10 +85,12 @@ const Notice = () => {
   return (
     <div className={styles.container}>
       <div className={styles.title}>
-        <h1>📝 문의 관리</h1>
+        <h1>📢 공지 관리</h1>
         <Button 
-          content='등 록'
+          content='+ 등 록'
           color='brown'
+          size='120px'
+          fontSize='1.2rem'
           onClick={() => nav('/admin/reg-notice')}
         />
       </div>
@@ -91,17 +104,17 @@ const Notice = () => {
         <div
           style={{background: 'linear-gradient(135deg, #ffc107, #ffcd39)'}}
         >
-          <h1>{noticeLength.current}</h1>
+          <h1>{noticeImportantLength.current}</h1>
           <p>중요 공지</p>
         </div>
       </div>
       <div className={styles.search_notice}>
         <div>
-          <p>문의 번호</p>
+          <p>공지 번호</p>
           <Input 
             size='100%'
-            name='qstId'
-            value={searchData.qstId}
+            name='noticeId'
+            value={searchData.noticeId}
             onChange={e => handleSearch(e)}
           />
         </div>
@@ -109,8 +122,8 @@ const Notice = () => {
           <p>제목</p>
           <Input 
             size='100%'
-            name='qstTitle'
-            value={searchData.qstTitle}
+            name='noticeTitle'
+            value={searchData.noticeTitle}
             onChange={e => handleSearch(e)}
           />
         </div>
@@ -124,13 +137,13 @@ const Notice = () => {
           />
         </div>
         <div>
-          <p>문의 날짜</p>
+          <p>공지 날짜</p>
           <Input 
             type='date'
             size='100%'
             padding='6px'
-            name='qstDate'
-            value={searchData.qstDate}
+            name='noticeDate'
+            value={searchData.noticeDate}
             onChange={e => handleSearch(e)}
           />
         </div>
@@ -139,7 +152,7 @@ const Notice = () => {
             size='100%'
             content='검 색'
             padding='4px'
-            onClick={() => searchQstList()}
+            onClick={() => searchNoticeList()}
           />
         </div>
       </div>
@@ -148,7 +161,8 @@ const Notice = () => {
         <table className={styles.notice_table}>
           <colgroup>
             <col width='5%' />
-            <col width='55%' />
+            <col width='45%' />
+            <col width='10%' />
             <col width='25%' />
             <col width='15%' />
           </colgroup>
@@ -156,6 +170,7 @@ const Notice = () => {
             <tr>
               <td>No</td>
               <td>제목</td>
+              <td>첨부파일</td>
               <td>작성자</td>
               <td>등록일</td>
             </tr>
@@ -170,10 +185,25 @@ const Notice = () => {
                   key={i}
                   onClick={() => nav(`/notice/${notice.noticeId}`)}
                 >
-                  <td>{currentPage * itemsPerPage + i + 1}</td>
+                  <td>
+                    {
+                      notice.isImportant === 'Y'
+                      ?
+                      '⭐'
+                      :
+                      currentPage * itemsPerPage + i + 1 - importantCount
+                    }
+                  </td>
                   <td>{notice.noticeTitle}</td>
+                  <td>
+                    {
+                      notice.noticeImgDTOList[0].imgNum !== 0
+                      &&
+                      '🖼️'
+                    }
+                  </td>
                   <td>{notice.userId}</td>
-                  <td>{dayjs().format('YYYY-MM-DD')}</td>
+                  <td>{dayjs(notice.noticeDate).format('YYYY-MM-DD')}</td>
                 </tr>
               )
             })

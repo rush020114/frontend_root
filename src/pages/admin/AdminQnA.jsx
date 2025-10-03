@@ -11,6 +11,9 @@ import Pagination from '../../component/pagination/Pagination'
 const AdminQnA = ({notiCnt}) => {
   const nav = useNavigate();
 
+  // 문의 목록 삭제 여부를 저장할 state 변수
+  const [isDeleting, setIsDeleting] = useState(false);
+
   // 문의 목록을 받아올 state 변수
   const [qstList, setQstList] = useState([]);
 
@@ -82,7 +85,7 @@ const AdminQnA = ({notiCnt}) => {
     .catch(e => console.log(e));
   };
 
-  console.log(searchData)
+  console.log(qstList)
 
   return (
     <div className={styles.container}>
@@ -171,21 +174,46 @@ const AdminQnA = ({notiCnt}) => {
         </div>
       </div>
       <div className={styles.qna_list}>
-        <h2>{`🔍 총 ${qstList.length}건 검색되었습니다.`}</h2>
+        <div className={styles.qna_title}>
+          <h2>{`🔍 총 ${qstList.length}건 검색되었습니다.`}</h2>
+          <div className={styles.qna_del}>
+            {
+              isDeleting
+              &&  
+              <Button 
+                color='blue'
+                content='취 소'
+              />
+            }
+            <Button 
+              color='red'
+              content='삭 제'
+              onClick={() => setIsDeleting(true)}
+            />
+          </div>
+        </div>
         <table className={styles.qna_table}>
           <colgroup>
             <col width='5%' />
-            <col width='7%' />
-            <col width='38%' />
+            <col width='35%' />
+            <col width='10%' />
             <col width='10%' />
             <col width='20%' />
             <col width='10%' />
           </colgroup>
           <thead>
             <tr>
-              <td>No</td>
-              <td>QstNo</td>
+              <td>
+                {
+                  !isDeleting
+                  ?
+                  'No'
+                  :
+                  <input type="checkbox" />
+                }
+              </td>
               <td>제목</td>
+              <td>첨부파일</td>
               <td>작성자</td>
               <td>등록일</td>
               <td>상태</td>
@@ -199,13 +227,28 @@ const AdminQnA = ({notiCnt}) => {
               return(
                 <tr 
                   key={i}
-                  onClick={() => nav(`/admin/qna/${qst.qstId}`)}
+                  onClick={() => !isDeleting && nav(`/admin/qna/${qst.qstId}`)}
+                  className={isDeleting ? styles.no_hover : null}
                 >
-                  <td>{currentPage * itemsPerPage + i + 1}</td>
-                  <td>{qst.qstId}</td>
+                  <td>
+                    {
+                      !isDeleting
+                      ?
+                      currentPage * itemsPerPage + i + 1
+                      :
+                      <input type="checkbox" />
+                    }
+                  </td>
                   <td>{qst.qstTitle}</td>
+                  <td>
+                    {
+                    qst.questionImgDTOList[0].imgNum !== 0
+                    &&
+                    '🖼️'
+                    }
+                  </td>
                   <td>{qst.userId}</td>
-                  <td>{dayjs(qst.qstDate).format('YYYY-MM-DD HH:mm:ss')}</td>
+                  <td>{dayjs(qst.qstDate).format('YYYY-MM-DD')}</td>
                   <td>{qst.qstStatus}</td>
                 </tr>
               )
