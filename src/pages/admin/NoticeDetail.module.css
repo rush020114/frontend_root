@@ -147,6 +147,7 @@
 }
 
 .img_info img{
+  display: block;
   width: 100%;
   height: 350px;
   object-fit: cover;
@@ -154,9 +155,21 @@
   transition: all 0.3s;
 }
 
-.img_info:hover img{
+.img_info img:hover{
   overflow: hidden;
   scale: 1.1;
+}
+
+.img_info p{
+  display: inline-block;
+  margin: 0 auto; /* 가운데 정렬 */
+  padding: 4px 8px; /* 텍스트 여백 */
+
+}
+
+.img_info p:hover{
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .btn_div{

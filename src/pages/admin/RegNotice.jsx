@@ -36,11 +36,11 @@ const RegNotice = () => {
 
   // 공지를 등록할 함수
   const regNotice = () => {
-    if(!noticeData.qstTitle.trim()){
+    if(!noticeData.noticeTitle.trim()){
       alert('제목을 입력해주세요.');
       return;
     };
-    if(!noticeData.qstContent.trim()){
+    if(!noticeData.noticeContent.trim()){
       alert('내용을 입력해주세요.')
       return;
     };

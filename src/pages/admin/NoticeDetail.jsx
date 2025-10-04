@@ -5,6 +5,7 @@ import Button from '../../common/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Textarea from '../../common/Textarea';
+import Modal from '../../component/modal/Modal';
 
 const NoticeDetail = () => {
 
@@ -88,6 +89,19 @@ const NoticeDetail = () => {
       alert(res.data);
       setReload(reload + 1);
       setIsEditing(false);
+    })
+    .catch(e => console.log(e));
+  };
+
+  // 공지 삭제
+  const delNotice = () => {
+    if(!confirm('삭제하시겠습니까?')){
+      return;
+    }
+    axios.delete(`/api/notices/${noticeId}`)
+    .then(res => {
+      alert(res.data);
+      nav('/admin/notice')
     })
     .catch(e => console.log(e));
   };
@@ -227,10 +241,13 @@ const NoticeDetail = () => {
           <Button 
             color='red'
             content='삭 제'
-            onClick={() => delQst()}
+            onClick={() => delNotice()}
           />)
         }
       </div>
+      <Modal>
+        <img src={`http://localhost:8080/upload_files/notice/${img.attachedImgName}`} />
+      </Modal>
     </div>
   )
 }

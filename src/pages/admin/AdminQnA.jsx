@@ -11,9 +11,6 @@ import Pagination from '../../component/pagination/Pagination'
 const AdminQnA = ({notiCnt}) => {
   const nav = useNavigate();
 
-  // 문의 목록 삭제 여부를 저장할 state 변수
-  const [isDeleting, setIsDeleting] = useState(false);
-
   // 문의 목록을 받아올 state 변수
   const [qstList, setQstList] = useState([]);
 
@@ -177,19 +174,6 @@ const AdminQnA = ({notiCnt}) => {
         <div className={styles.qna_title}>
           <h2>{`🔍 총 ${qstList.length}건 검색되었습니다.`}</h2>
           <div className={styles.qna_del}>
-            {
-              isDeleting
-              &&  
-              <Button 
-                color='blue'
-                content='취 소'
-              />
-            }
-            <Button 
-              color='red'
-              content='삭 제'
-              onClick={() => setIsDeleting(true)}
-            />
           </div>
         </div>
         <table className={styles.qna_table}>
@@ -204,13 +188,7 @@ const AdminQnA = ({notiCnt}) => {
           <thead>
             <tr>
               <td>
-                {
-                  !isDeleting
-                  ?
-                  'No'
-                  :
-                  <input type="checkbox" />
-                }
+                No
               </td>
               <td>제목</td>
               <td>첨부파일</td>
@@ -227,16 +205,11 @@ const AdminQnA = ({notiCnt}) => {
               return(
                 <tr 
                   key={i}
-                  onClick={() => !isDeleting && nav(`/admin/qna/${qst.qstId}`)}
-                  className={isDeleting ? styles.no_hover : null}
+                  onClick={() => nav(`/admin/qna/${qst.qstId}`)}
                 >
                   <td>
                     {
-                      !isDeleting
-                      ?
                       currentPage * itemsPerPage + i + 1
-                      :
-                      <input type="checkbox" />
                     }
                   </td>
                   <td>{qst.qstTitle}</td>

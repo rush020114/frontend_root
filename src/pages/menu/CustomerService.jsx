@@ -93,7 +93,8 @@ const CustomerService = () => {
         <table className={styles.notice_table}>
           <colgroup>
             <col width='5%' />
-            <col width='55%' />
+            <col width='45%' />
+            <col width='10%' />
             <col width='25%' />
             <col width='15%' />
           </colgroup>
@@ -101,6 +102,7 @@ const CustomerService = () => {
             <tr>
               <td>No</td>
               <td>제목</td>
+              <td>첨부파일</td>
               <td>작성자</td>
               <td>등록일</td>
             </tr>
@@ -125,6 +127,13 @@ const CustomerService = () => {
                     }
                   </td>
                   <td>{notice.noticeTitle}</td>
+                  <td>
+                    {
+                      notice.noticeImgDTOList[0].imgNum !== 0
+                      &&
+                      '🖼️'
+                    }
+                  </td>
                   <td>{notice.userId}</td>
                   <td>{dayjs().format('YYYY-MM-DD')}</td>
                 </tr>

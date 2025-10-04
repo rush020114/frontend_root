@@ -1,0 +1,45 @@
+.modal_overlay{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.modal_content{
+  padding: 20px;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.modal_title{
+  position: relative;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.blue{
+  color: #496be9;
+}
+
+.green{
+  color: #467b53;
+}
+
+.red{
+  color: #b84247;
+}
+
+.modal_title > button{
+  position: absolute;
+  top: 0px;
+  right: 0px; 
+  background: none;
+  border: none;
+  cursor: pointer;
+}

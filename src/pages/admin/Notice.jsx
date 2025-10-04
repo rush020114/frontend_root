@@ -10,8 +10,20 @@ import Pagination from '../../component/pagination/Pagination'
 const Notice = () => {
   const nav = useNavigate();
 
+  // 리렌더링 state 변수
+  const [reload, setReload] = useState(0);
+
+  // 전체 삭제번호를 저장할 useRef
+  const allCheck = useRef([]);
+
+  // 체크박스 데이터를 저장할 state 변수
+  const [checkData, setCheckData] = useState([]);
+
   // 공지 목록을 받아올 state 변수
   const [noticeList, setNoticeList] = useState([]);
+
+  // 공지 삭제를 결정할 state 변수
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // 공지 목록 검색 시 목록의 길이를 변하지 않게 하기 위한 hook
   const noticeLength = useRef(0);
@@ -53,9 +65,10 @@ const Notice = () => {
       setNoticeList(res.data);
       noticeLength.current = res.data.length;
       noticeImportantLength.current = res.data.filter(item => item.isImportant === 'Y').length;
+      allCheck.current = res.data.map(notice => notice.noticeId);
     })
     .catch(e => console.log(e));
-  }, []);
+  }, [reload]);
 
   // 검색 데이터를 세팅할 함수
   const handleSearch = e => {
@@ -70,6 +83,9 @@ const Notice = () => {
     axios.get('/api/notices', {params: searchData})
     .then(res => {
       setNoticeList(res.data);
+      allCheck.current = res.data.map(d => d.noticeId);
+      setIsDeleting(false);
+      setCheckData([]);
       setSearchData({
         noticeId: ''
         , noticeTitle: ''
@@ -80,7 +96,34 @@ const Notice = () => {
     .catch(e => console.log(e));
   };
 
-  console.log(noticeList)
+  // 단일 체크박스 클릭 시 실행할 함수
+  const handleSingleNoticeCheck = (e) => {
+    if(e.target.checked){
+      setCheckData([
+        ...checkData
+        , parseInt(e.target.value)
+      ]);
+    }
+    else{
+      setCheckData(checkData.filter(item => item !== parseInt(e.target.value)));
+    };
+  };
+
+  // 문의 목록 삭제 함수
+  const delNoticeList = () => {
+    if(!confirm('삭제하시겠습니까?')){
+      return;
+    }
+    axios.post('/api/notices/delete', {noticeIdArr: checkData})
+    .then(res => {
+      alert(res.data);
+      setReload(prev => prev + 1);
+      setIsDeleting(false);
+    })
+    .catch(e => console.log(e));
+  };
+
+  console.log(checkData)
 
   return (
     <div className={styles.container}>
@@ -157,7 +200,36 @@ const Notice = () => {
         </div>
       </div>
       <div className={styles.notice_list}>
-        <h2>{`🔍 총 ${noticeList.length}건 검색되었습니다.`}</h2>
+        <div className={styles.notice_title}>
+          {
+            !isDeleting
+            ?
+            <h2>{`🔍 총 ${noticeList.length}건 검색되었습니다.`}</h2>
+            :
+            <p>
+              {`${allCheck.current.length}건 중 ${checkData.length}이 선택되었습니다.`}
+            </p>
+          }
+          <div className={styles.notice_btn}>
+            {
+              isDeleting
+              &&
+              <Button
+                content='취 소'
+                color='blue'
+                onClick={() => {
+                  setIsDeleting(false);
+                  setCheckData([]);
+                }}
+              />
+            }
+            <Button 
+              content='삭 제'
+              color='red'
+              onClick={() => !isDeleting ? setIsDeleting(true) : delNoticeList()}
+            />
+          </div>
+        </div>
         <table className={styles.notice_table}>
           <colgroup>
             <col width='5%' />
@@ -168,7 +240,19 @@ const Notice = () => {
           </colgroup>
           <thead>
             <tr>
-              <td>No</td>
+              <td>
+                {
+                  !isDeleting
+                  ?
+                  'No'
+                  :
+                  <input type="checkbox" 
+                    value={checkData}
+                    checked={checkData.length === allCheck.current.length}
+                    onChange={e => setCheckData(e.target.checked ? allCheck.current : [])}
+                  />
+                }
+              </td>
               <td>제목</td>
               <td>첨부파일</td>
               <td>작성자</td>
@@ -183,15 +267,24 @@ const Notice = () => {
               return(
                 <tr 
                   key={i}
-                  onClick={() => nav(`/notice/${notice.noticeId}`)}
+                  onClick={() => !isDeleting && nav(`/notice/${notice.noticeId}`)}
+                  className={isDeleting ? styles.no_hover : null}
                 >
                   <td>
                     {
-                      notice.isImportant === 'Y'
+                      !isDeleting
+                      ?
+                      (notice.isImportant === 'Y'
                       ?
                       '⭐'
                       :
-                      currentPage * itemsPerPage + i + 1 - importantCount
+                      currentPage * itemsPerPage + i + 1 - importantCount)
+                      :
+                      <input type="checkbox" 
+                        value={notice.noticeId}
+                        checked={checkData.includes(notice.noticeId)}
+                        onChange={e => handleSingleNoticeCheck(e)}
+                      />
                     }
                   </td>
                   <td>{notice.noticeTitle}</td>
@@ -209,7 +302,7 @@ const Notice = () => {
             })
             :
             <tr>
-              <td colSpan={4}>
+              <td colSpan={5}>
                 조회된 공지가 없습니다.
               </td>
             </tr>
