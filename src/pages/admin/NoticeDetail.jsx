@@ -11,6 +11,15 @@ const NoticeDetail = () => {
 
   const nav = useNavigate();
 
+  // 모달을 실행해줄 state 변수
+  const [isOpen, setIsOpen] = useState(false);
+
+  // 모달에 들어갈 이미지 경로를 저장할 state 변수
+  const [modalImgUrl, setModalImgUrl] = useState('');
+
+  // 모달에 들어갈 이미지 제목
+  const [modalImgTitle, setModalImgTitle] = useState('');
+
   // 로그인 정보를 저장할 state 변수
   const loginInfo = sessionStorage.getItem('loginInfo');
 
@@ -32,12 +41,16 @@ const NoticeDetail = () => {
   // 문의 상세 데이터를 저장할 state 변수
   const [noticeDetail, setNoticeDetail] = useState({});
 
+  // 이미지 수정 시 삭제 이미지 번호를 저장할 state 변수
+  const [imgNumArr, setImgNumArr] = useState([]);
+
   // 공지 수정 데이터를 세팅할 useEffect
   useEffect(() => {
     setUpdateNoticeData({
       noticeTitle: noticeDetail.noticeTitle
       , noticeContent: noticeDetail.noticeContent
       , isImportant: noticeDetail.isImportant
+      , deleteImgNumArr: noticeDetail?.noticeImgDTOList?.map(d => d.imgNum)
     });
   }, [noticeDetail])
 
@@ -61,6 +74,13 @@ const NoticeDetail = () => {
     if(!noticeDetail.noticeImgDTOList || !Array.isArray(noticeDetail.noticeImgDTOList)){
       return 0;
     };
+
+    if(isEditing && updateNoticeData.deleteImgNumArr){
+      return noticeDetail.noticeImgDTOList.filter(
+        img => updateNoticeData.deleteImgNumArr.includes(img.imgNum)
+      ).length
+    }
+
     return noticeDetail.noticeImgDTOList.filter(img => img.imgNum !== 0).length
   };
 
@@ -69,6 +89,14 @@ const NoticeDetail = () => {
     if(!noticeDetail.noticeImgDTOList || !Array.isArray(noticeDetail.noticeImgDTOList)){
       return [];
     };
+  
+    // isEditing일 때는 deleteImgNumArr에 있는 것만 보여주기
+    if(isEditing && updateNoticeData.deleteImgNumArr) {
+      return noticeDetail.noticeImgDTOList.filter(
+        img => updateNoticeData.deleteImgNumArr.includes(img.imgNum)
+      );
+    }
+
     return noticeDetail.noticeImgDTOList.filter(img => img.imgNum !== 0);
   }
 
@@ -83,7 +111,7 @@ const NoticeDetail = () => {
       alert('내용을 입력해주세요.');
       return;
     };
-    axios.put(`/api/notices/${noticeId}`, updateNoticeData)
+    axios.put(`/api/notices/${noticeId}`, {...updateNoticeData, imgNumArr})
     .then(res => {
       window.scrollTo(0, 0);
       alert(res.data);
@@ -106,7 +134,15 @@ const NoticeDetail = () => {
     .catch(e => console.log(e));
   };
 
+  // 이미지 모달 실행 함수
+  const handleModalData = (isOpenModal, url, title) => {
+    setIsOpen(isOpenModal);
+    setModalImgUrl(url);
+    setModalImgTitle(title);
+  }
+
   console.log(updateNoticeData)
+  console.log(imgNumArr)
 
   return (
     <div className={styles.container}>
@@ -188,10 +224,41 @@ const NoticeDetail = () => {
                   key={i}
                   className={styles.img_info}
                 >
-                  <div>
+                  <div
+                    onClick={() => handleModalData(
+                      true
+                      , `http://localhost:8080/upload_files/notice/${img.attachedImgName}`
+                      , img.originImgName
+                    )}
+                  >
                     <img src={`http://localhost:8080/upload_files/notice/${img.attachedImgName}`} />
                   </div>
-                  <p>{img.originImgName}</p>
+                  <p
+                    onClick={() => handleModalData(
+                      true
+                      , `http://localhost:8080/upload_files/notice/${img.attachedImgName}`
+                      , img.originImgName
+                    )}
+                  >{img.originImgName}</p>
+                  {
+                    isEditing
+                    &&
+                    <span 
+                      className={styles.img_del}
+                      onClick={() => {
+                        setUpdateNoticeData({
+                          ...updateNoticeData
+                          , deleteImgNumArr: updateNoticeData.deleteImgNumArr.filter(item => item !== img.imgNum)
+                        });
+                        setImgNumArr([
+                          ...imgNumArr
+                          , img.imgNum
+                        ]);
+                      }}
+                    >
+                      <i className="bi bi-x"></i>
+                    </span>
+                  }
                 </div>
               )
             })
@@ -245,8 +312,21 @@ const NoticeDetail = () => {
           />)
         }
       </div>
-      <Modal>
-        <img src={`http://localhost:8080/upload_files/notice/${img.attachedImgName}`} />
+      <Modal
+        size='800px'
+        color='black'
+        title={modalImgTitle}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      >
+        <img 
+          src={modalImgUrl} 
+          style={{
+            width: '100%',
+            maxHeight: '80vh',  // 이미지 자체도 제한
+            objectFit: 'contain'
+          }}
+        />
       </Modal>
     </div>
   )

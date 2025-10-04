@@ -137,6 +137,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  position: relative;
 }
 
 .img_info > div{
@@ -170,6 +171,22 @@
 .img_info p:hover{
   cursor: pointer;
   text-decoration: underline;
+}
+
+.img_del{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: red;
+  font-size: 1.2rem;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 .btn_div{

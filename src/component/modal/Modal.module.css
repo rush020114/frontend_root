@@ -15,12 +15,17 @@
   padding: 20px;
   border-radius: 5px;
   background-color: white;
+  overflow: hidden;
 }
 
 .modal_title{
   position: relative;
   margin-bottom: 20px;
   text-align: center;
+}
+
+.black{
+  color: #333333;
 }
 
 .blue{
