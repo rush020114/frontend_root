@@ -166,6 +166,7 @@
 .guide_title{
   display: flex;
   padding: 20px;
+  position: relative;
 }
 
 .left_title{
@@ -188,9 +189,17 @@
 }
 
 .strawberry{
-  margin-left: auto;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 20px;
+  right: 10px;
+}
+
+.strawberry > img{
+  width: 100%;
   height: 100%;
-  font-size: 3.5rem;
+  object-fit: contain;
 }
 
 .guide_div2{

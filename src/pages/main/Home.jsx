@@ -186,7 +186,9 @@ const Home = () => {
                 <h2>딸기 (설향)</h2>
                 <span>전국</span>
               </div>
-              <div className={styles.strawberry}>🍓</div>
+              <div className={styles.strawberry}>
+                <img src="strawberry.png" />
+              </div>
             </div>
             <div className={styles.guide_div2}>
               <table className={styles.guide_table}>
