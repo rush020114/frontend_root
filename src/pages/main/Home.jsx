@@ -139,7 +139,7 @@ const Home = () => {
             <span className={styles.notice_span}
               onClick={() => nav('/customer-service')}
             >
-              <i class="bi bi-plus"></i>
+              <i className="bi bi-plus"></i>
             </span>
           </div>
           <table className={styles.notice_table}>
@@ -175,7 +175,49 @@ const Home = () => {
             </tbody>
           </table>
         </div>
-        <div>미정의 영역</div>
+        <div className={styles.guide_div}>
+          <h1>
+            📋 딸기  
+            <span style={{color: '#4dab28'}}> 데이터셋</span>
+          </h1>
+          <div className={styles.guide}>
+            <div className={styles.guide_title}>
+              <div className={styles.left_title}>
+                <h2>딸기 (설향)</h2>
+                <span>전국</span>
+              </div>
+              <div className={styles.strawberry}>
+                <img src="strawberry.png" />
+              </div>
+            </div>
+            <div className={styles.guide_div2}>
+              <table className={styles.guide_table}>
+                <colgroup>
+                  <col width='40%' />
+                  <col width='60%' />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td>🌡️ 온도</td>
+                    <td>18~25°C</td>
+                  </tr>
+                  <tr>
+                    <td>💧 습도</td>
+                    <td>60~80%</td>
+                  </tr>
+                  <tr>
+                    <td>🌱 토양습도</td>
+                    <td>30~40%</td>
+                  </tr>
+                  <tr>
+                    <td>☀️ 조도</td>
+                    <td>10,000~30,000 Lux</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

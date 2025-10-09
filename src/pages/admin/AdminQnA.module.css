@@ -49,6 +49,16 @@
   margin-bottom: 2px;
 }
 
+.qna_title{
+  display: flex;
+  justify-content: space-between;
+}
+
+.qna_del{
+  display: flex;
+  gap: 20px;
+}
+
 .qna_table{
   width: 100%;
   margin-top: 20px;
@@ -67,6 +77,16 @@
   padding: 20px;
 }
 
+.no_hover:nth-child(odd):hover{
+  background-color: #f7f7f7;
+  cursor: default;
+}
+ 
+.no_hover:nth-child(even):hover{
+  background-color: #fcfcfc;
+  cursor: default;
+}
+ 
 .qna_table > tbody > tr:nth-child(odd){
   background-color: #f7f7f7;
 }
@@ -80,6 +100,6 @@
   background-color: #eeeeee;
 }
 
-.qna_table > tbody > tr > td:not(:nth-child(3)) {
+.qna_table > tbody > tr > td:not(:nth-child(2)) {
   text-align: center;
 }

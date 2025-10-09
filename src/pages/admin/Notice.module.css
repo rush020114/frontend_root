@@ -55,6 +55,16 @@
   margin-bottom: 2px;
 }
 
+.notice_title{
+  display: flex;
+  justify-content: space-between;
+}
+
+.notice_btn{
+  display: flex;
+  gap: 20px;
+}
+
 .notice_table{
   width: 100%;
   margin-top: 20px;
@@ -72,6 +82,17 @@
 .notice_table td{
   padding: 20px;
 }
+
+.no_hover:nth-child(odd):hover{
+  background-color: #f7f7f7;
+  cursor: default;
+}
+ 
+.no_hover:nth-child(even):hover{
+  background-color: #fcfcfc;
+  cursor: default;
+}
+ 
 
 .notice_table > tbody > tr:nth-child(odd){
   background-color: #f7f7f7;

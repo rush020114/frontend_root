@@ -142,3 +142,97 @@
   font-weight: 700;
   text-align: center;
 }
+
+.guide_div{
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.guide_div > h1{
+  font-size: 2.5rem;
+}
+
+.guide{
+  border: 1px solid #4dab28;
+  border-radius: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.guide_title{
+  display: flex;
+  padding: 20px;
+  position: relative;
+}
+
+.left_title{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.left_title > h2{
+  font-size: 2rem;
+}
+
+.left_title > span{
+  border-radius: 20px;
+  border: 1px solid #cccccc;
+  width: 80px;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #555555;
+}
+
+.strawberry{
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 20px;
+  right: 10px;
+}
+
+.strawberry > img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.guide_div2{
+  background-color: #f3f9f0;
+  flex: 1;
+  padding: 0px 20px;
+}
+
+.guide_table{
+  width: 100%;
+  height: 100%;
+}
+
+.guide_table td{
+  vertical-align: middle;
+}
+
+.guide_table td:first-child{
+  color: #555555;
+  font-size: 1.2rem;
+}
+
+.guide_table td:last-child{
+  color: #4dab28;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.guide_table td {
+  border-bottom: 1px solid #4dab28;
+}
+
+/* 마지막 tr의 td에는 border-bottom 제거 */
+.guide_table tr:last-child td {
+  border-bottom: none;
+}

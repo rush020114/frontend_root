@@ -9,6 +9,9 @@ import { useNavigate } from 'react-router-dom'
 const RegNotice = () => {
   
   const nav = useNavigate();
+
+  // 등록할 파일들을 저장할 state 변수
+  const [fileList, setFileList] = useState([]);
   
   // 로그인 정보를 저장할 state 변수
   const loginInfo = sessionStorage.getItem('loginInfo');
@@ -33,12 +36,39 @@ const RegNotice = () => {
 
   // 공지를 등록할 함수
   const regNotice = () => {
-    axios.post('/api/notices', {...noticeData, userId: loginData.userId})
+    if(!noticeData.noticeTitle.trim()){
+      alert('제목을 입력해주세요.');
+      return;
+    };
+    if(!noticeData.noticeContent.trim()){
+      alert('내용을 입력해주세요.')
+      return;
+    };
+    const fileConfig = {'Content-Type': 'multipart/form-data'};
+
+    const formData = new FormData();
+
+    for(const img of fileList){
+      formData.append('noticeImgs', img);
+    };
+    formData.append('noticeTitle', noticeData.noticeTitle);
+    formData.append('noticeContent', noticeData.noticeContent);
+    formData.append('isImportant', noticeData.isImportant);
+    formData.append('userId', loginData.userId);
+
+    axios.post('/api/notices', formData, fileConfig)
     .then(res => {
       alert(res.data);
       nav('/admin/notice')
     })
     .catch(e => console.log(e));
+  };
+
+  // 파일 제목을 반환할 함수
+  const getFileName = files => {
+    return files.length === 1
+          ? files[0].name
+          : `${files[0].name} 외 ${files.length - 1}개의 첨부파일`
   };
 
   console.log(noticeData)
@@ -103,7 +133,7 @@ const RegNotice = () => {
             <span className={styles.icon_span}>
               <i className="bi bi-paperclip"></i>
             </span>
-            {/* {
+            {
             fileList.length
             ?
             '📁 ' + getFileName(fileList)
@@ -112,7 +142,7 @@ const RegNotice = () => {
               파일을 선택해주세요.
               <span className={styles.file_info}> (사진, 문서 파일 / 최대 10MB)</span>
             </div>
-            } */}
+            }
           </label>
         </div>
         <div className={styles.btn_div}>

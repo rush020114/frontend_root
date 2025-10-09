@@ -124,15 +124,15 @@ const SoilHumDetail = () => {
       <div className={styles.box}>
         <div>
           <p>주간 평균 토양습도</p>
-          <span>{weeklyAvg}</span>
+          <span>{weeklyAvg}%</span>
         </div>
         <div>
           <p>주간 최고 토양습도</p>
-          <span>{weeklyMax}</span>
+          <span>{weeklyMax}%</span>
         </div>
         <div>
           <p>주간 최저 토양습도</p>
-          <span>{weeklyMin}</span>         
+          <span>{weeklyMin}%</span>         
         </div>
         <div>
           <p>자동제어장치 작동</p>

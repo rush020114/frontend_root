@@ -82,7 +82,7 @@ const AdminQnA = ({notiCnt}) => {
     .catch(e => console.log(e));
   };
 
-  console.log(searchData)
+  console.log(qstList)
 
   return (
     <div className={styles.container}>
@@ -171,21 +171,27 @@ const AdminQnA = ({notiCnt}) => {
         </div>
       </div>
       <div className={styles.qna_list}>
-        <h2>{`🔍 총 ${qstList.length}건 검색되었습니다.`}</h2>
+        <div className={styles.qna_title}>
+          <h2>{`🔍 총 ${qstList.length}건 검색되었습니다.`}</h2>
+          <div className={styles.qna_del}>
+          </div>
+        </div>
         <table className={styles.qna_table}>
           <colgroup>
             <col width='5%' />
-            <col width='7%' />
-            <col width='38%' />
+            <col width='35%' />
+            <col width='10%' />
             <col width='10%' />
             <col width='20%' />
             <col width='10%' />
           </colgroup>
           <thead>
             <tr>
-              <td>No</td>
-              <td>QstNo</td>
+              <td>
+                No
+              </td>
               <td>제목</td>
+              <td>첨부파일</td>
               <td>작성자</td>
               <td>등록일</td>
               <td>상태</td>
@@ -201,11 +207,21 @@ const AdminQnA = ({notiCnt}) => {
                   key={i}
                   onClick={() => nav(`/admin/qna/${qst.qstId}`)}
                 >
-                  <td>{currentPage * itemsPerPage + i + 1}</td>
-                  <td>{qst.qstId}</td>
+                  <td>
+                    {
+                      currentPage * itemsPerPage + i + 1
+                    }
+                  </td>
                   <td>{qst.qstTitle}</td>
+                  <td>
+                    {
+                    qst.questionImgDTOList[0].imgNum !== 0
+                    &&
+                    '🖼️'
+                    }
+                  </td>
                   <td>{qst.userId}</td>
-                  <td>{dayjs(qst.qstDate).format('YYYY-MM-DD HH:mm:ss')}</td>
+                  <td>{dayjs(qst.qstDate).format('YYYY-MM-DD')}</td>
                   <td>{qst.qstStatus}</td>
                 </tr>
               )

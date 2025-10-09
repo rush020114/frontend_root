@@ -132,15 +132,15 @@ const HumDetail = () => {
       <div className={styles.box}>
         <div>
           <p>주간 평균 습도</p>
-          <span>{weeklyAvg}</span>
+          <span>{weeklyAvg}%</span>
         </div>
         <div>
           <p>주간 최고 습도</p>
-          <span>{weeklyMax}</span>
+          <span>{weeklyMax}%</span>
         </div>
         <div>
           <p>주간 최저 습도</p>
-          <span>{weeklyMin}</span>         
+          <span>{weeklyMin}%</span>         
         </div>
       </div>
 

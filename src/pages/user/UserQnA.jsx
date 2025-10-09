@@ -9,6 +9,12 @@ import axios from 'axios'
 const UserQnA = () => {
   const nav = useNavigate();
 
+  // 로그인 정보를 저장할 state 변수
+  const loginInfo = sessionStorage.getItem('loginInfo');
+
+  // 로그인 정보 객체화
+  const loginData = JSON.parse(loginInfo);
+
   // 등록할 파일들을 저장할 state 변수 
   const [fileList, setFileList] = useState([]);
 
@@ -43,7 +49,7 @@ const UserQnA = () => {
     };
     formData.append('qstTitle', qstData.qstTitle);
     formData.append('qstContent', qstData.qstContent);
-    formData.append('userId', 'user');
+    formData.append('userId', loginData.userId);
 
     axios.post('/api/questions', formData, fileConfig)
     .then(res => {

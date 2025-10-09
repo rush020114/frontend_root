@@ -139,15 +139,15 @@ const TempDetail = () => {
       <div className={styles.box}>
         <div>
           <p>주간 평균온도</p>
-          <span>{weeklyAvg} °C</span>
+          <span>{weeklyAvg}°C</span>
         </div>
         <div>
           <p>주간 최고온도</p>
-          <span>{weeklyMax} °C</span>
+          <span>{weeklyMax}°C</span>
         </div>
         <div>
           <p>주간 최저온도</p>
-          <span>{weeklyMin} °C</span>         
+          <span>{weeklyMin}°C</span>         
         </div>
         <div>
           <p>자동제어장치 작동</p>
