@@ -3,10 +3,17 @@
   margin: 0 auto;
 }
 
+.container input, .container button, .container select{
+  padding: 12px !important;
+  font-size: 1rem; 
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+
  .form{
   width: 100%;
   background-color: white;
-  border: 1px solid #939597;
+  border: 1px solid #e0e0e0;
   border-radius: 10px;
   padding: 40px;
 
@@ -29,10 +36,13 @@
 }
 
 .normal_login p {
-  font-size: 0.9rem;
-  color: #727272;
   margin-bottom: 8px;
 }
+
+.form_title{
+  font-weight: 600;
+}
+
 
 .err_msg {
   height: 5px;

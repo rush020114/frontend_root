@@ -1,20 +1,15 @@
 import React from 'react';
 
-/*
-  유효성 검사 결과에 따라 에러 메세지를 결정하는 함수
-  checkFormat : true(기본값) - 형식 검사 0, false - 빈 값만 검사
-  emptyIcon : 빈 값일 때 표시할 아이콘 (기본값 : 'info-circle-fill')
-  isError : true - 빨간색 에러, false(기본값) - 파란색 안내
-*/
+// 유효성 검사 결과에 따라 에러 메세지를 결정하는 함수
 export const handleErrorMsg = (
   e
   , userData
   , checkFormat = true
-  , emptyIcon = 'info-circle-fill'
   , isError = false
 ) => {
 
-  // 에러 상태에 따른 CSS 클래스 결정
+  // 에러 상태에 따른 아이콘과 CSS 클래스 자동 결정
+  const icon = isError ? 'x-circle-fill' : 'info-circle-fill';
   const errorClass = isError ? 'error-red' : 'error-blue';
 
   // 아이디 정규 표현식 (4~10자 | 영문, 숫자만 허용)
@@ -27,89 +22,90 @@ export const handleErrorMsg = (
   const numberRegex = /^\d{4}$/;
 
   switch(e.target.name){
-    // 이름
     case 'userName' :
       return e.target.value === '' ? (
         <span className = {errorClass}>
-          <i className = {`bi bi-${emptyIcon}`}></i>
+          <i className = {`bi bi-${icon}`}></i>
           이름을 입력해 주세요.
         </span>
       ) : '';
 
-    // 아이디
     case 'userId' :
-      // 빈 값 체크
       if(e.target.value === ''){
         return(
           <span className = {errorClass}>
-            <i className = {`bi bi-${emptyIcon}`}></i>
+            <i className = {`bi bi-${icon}`}></i>
             아이디를 입력해 주세요.
           </span>
         );
       }
-      // 정규식 검사 (checkFormat이 true일 때만 실행)
+
       if(checkFormat && !idRegex.test(e.target.value)){
         return(
           <span className = {errorClass}>
-            <i className = {`bi bi-${emptyIcon}`}></i>
+            <i className = {`bi bi-${icon}`}></i>
             아이디는 4~10자까지 영문, 숫자만 허용됩니다.
           </span>
         );
       }
       return '';
 
-    // 비밀번호
     case 'userPw' :
-      // 빈 값 체크
       if(e.target.value === ''){
         return(
           <span className = {errorClass}>
-            <i className = {`bi bi-${emptyIcon}`}></i>
+            <i className = {`bi bi-${icon}`}></i>
             비밀번호를 입력해 주세요.
           </span>
         );
       }
-      // 정규식 검사 (checkFormat이 true일 때만 실행)
+
       if(checkFormat && !pwRegex.test(e.target.value)){
         return(
           <span className = {errorClass}>
-            <i className = {`bi bi-${emptyIcon}`}></i>
+            <i className = {`bi bi-${icon}`}></i>
             비밀번호는 6~12자까지 영문, 숫자, 특수문자만 허용됩니다.
           </span>
         );
       }
       return '';
     
-    // 비밀번호와 비밀번호 확인이 일치하는지
     case 'userPwConfirm' :
       return userData.userPw && e.target.value && userData.userPw !== e.target.value ? (
         <span className = {errorClass}>
-          <i className = {`bi bi-${emptyIcon}`}></i>
+          <i className = {`bi bi-${icon}`}></i>
           비밀번호와 동일하게 입력해 주세요.
         </span>
       ) : '';
 
-    // 연락처
     case 'userTelArr' :
-      // 빈 값 체크
       if(e.target.value === ''){
         return (
           <span className = {errorClass}>
-            <i className = {`bi bi-${emptyIcon}`}></i>
+            <i className = {`bi bi-${icon}`}></i>
             연락처를 입력해 주세요.
           </span>
         );
       }
-      // 숫자만 입력 허용
+
       if(!numberRegex.test(e.target.value)){
         return (
           <span className = {errorClass}>
-            <i className = {`bi bi-${emptyIcon}`}></i>
+            <i className = {`bi bi-${icon}`}></i>
             4자리 숫자만 입력해 주세요.
           </span>
         );
       }
       return '';
+
+    case 'firstEmail' :
+    case 'secondEmail' :
+      return e.target.value === '' ? (
+        <span className = {errorClass}>
+          <i className={`bi bi-${icon}`}></i>
+          이메일 주소를 입력해 주세요.
+        </span>
+      ) : '';
       
     default :
       return '';
@@ -126,4 +122,43 @@ export const checkRequired = (userData) => {
          userData.userTelArr[2] &&
          userData.firstEmail &&
          userData.secondEmail;
+};
+
+// 이메일 인증번호 검증하는 함수
+export const validateAuthCode = (authCode, isError = false) => {
+  // 인증번호 정규 표현식 (6자리 숫자만 허용)
+  const authCodeRegex = /^\d{6}$/;
+
+  const icon = isError ? 'x-circle-fill' : 'info-circle-fill';
+  const errorClass = isError ? 'error-red' : 'error-blue';
+
+  if (!authCode) {
+    return (
+      <span className={errorClass}>
+        <i className={`bi bi-${icon}`}></i>
+        인증번호를 입력해주세요.
+      </span>
+    );
+  }
+
+  if(!authCodeRegex.test(authCode)){
+    return(
+      <span className={errorClass}>
+        <i className={`bi bi-${icon}`}></i>
+        인증번호는 6자리 숫자만 입력 가능합니다.
+      </span>
+    );
+  }
+
+  return '';
+};
+
+// 서버 응답 에러 메시지 생성하는 함수
+export const getAuthCodeServerError = () => {
+  return (
+    <span className = "error-red">
+      <i className = "bi bi-x-circle-fill"></i>
+      인증번호가 일치하지 않거나 만료되었습니다.
+    </span>
+  );
 };

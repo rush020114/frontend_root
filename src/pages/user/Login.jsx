@@ -8,13 +8,13 @@ import { useNavigate } from 'react-router-dom'
 import { handleErrorMsg } from '../../utils/validation'
 
 const Login = () => {
-  //회원 로그인 시, 입력하는 아이디와 비밀번호를 저장하는 변수
+  //회원 로그인 시, 입력하는 아이디와 비밀번호를 저장하는 state 변수
   const[loginData, setLoginData] = useState({
     'userId' : '',
     'userPw' : ''
   });
 
-  //유효성 검사 에러 메세지를 저장하는 변수
+  //유효성 검사 에러 메세지를 저장하는 state 변수
   const[errorMsg, setErrorMsg] = useState({
     'userId' : '',
     'userPw' : ''
@@ -150,13 +150,10 @@ const Login = () => {
       <div className={styles.form}>
         <div className={styles.normal_login}>
           <div>
-            <p>아이디</p>
+            <p className={styles.form_title}>아이디</p>
             <Input
-              placeholder = '아이디를 입력해주세요'
               type = 'text'
               size = '100%'
-              padding = '12px'
-
               name = 'userId'
               value = {loginData.userId}
               onChange = {e => handleChange(e)}
@@ -164,13 +161,10 @@ const Login = () => {
             <p className={styles.err_msg}>{errorMsg.userId}</p>
           </div>
           <div>
-            <p>비밀번호</p>
+            <p className={styles.form_title}>비밀번호</p>
             <Input
-              placeholder = '비밀번호를 입력해주세요'
               type = 'password'
               size = '100%'
-              padding = '12px'
-
               name = 'userPw'
               value = {loginData.userPw}
               onChange = {e => handleChange(e)}          
@@ -205,7 +199,7 @@ const Login = () => {
         <div className={styles.divider}></div>
 
         <div className={styles.social_login}>
-          <p>소설 로그인</p>
+          <p>소셜 로그인</p>
 
           <div className={styles.btn}>
             <Button 
