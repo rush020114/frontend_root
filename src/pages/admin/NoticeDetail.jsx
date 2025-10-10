@@ -21,10 +21,10 @@ const NoticeDetail = () => {
   const [modalImgTitle, setModalImgTitle] = useState('');
 
   // 로그인 정보를 저장할 state 변수
-  const loginInfo = sessionStorage.getItem('loginInfo');
+  const loginInfo = sessionStorage?.getItem('loginInfo');
 
   // 로그인 정보 객체화
-  const loginData = JSON.parse(loginInfo);
+  const loginData = loginInfo ? JSON.parse(loginInfo) : null;
 
   // url로 문의 번호를 받아올 params
   const {noticeId} = useParams();
@@ -274,10 +274,10 @@ const NoticeDetail = () => {
         <Button 
           color='blue'
           content='목 록'
-          onClick={() => nav('/admin/notice')}
+          onClick={() => nav(!loginData || loginData?.userRole !== 'ADMIN' ? '/customer-service' : '/admin/notice')}
         />
         {
-          loginData.userRole === 'ADMIN'
+          loginData?.userRole === 'ADMIN'
           &&
           <Button 
             content={isEditing ? '저 장' : '수 정'}
@@ -292,7 +292,7 @@ const NoticeDetail = () => {
           />
         }   
         {
-          loginData.userRole === 'ADMIN'
+          loginData?.userRole === 'ADMIN'
           &&
           (isEditing
           ?
