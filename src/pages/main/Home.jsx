@@ -17,6 +17,19 @@ const Home = () => {
   // 최신 5개만 보이게 할 함수
   const fiveNoticeList = noticeList.slice(0, 5);
 
+
+
+
+
+
+
+  
+
+
+
+
+
+
   // 특정 이미지만 보이게 하는 함수
   const setShow = (index, value) => {
     setIsShow(prev => {
