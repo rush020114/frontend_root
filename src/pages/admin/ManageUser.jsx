@@ -8,6 +8,12 @@ const ManageUser = () => {
   //회원 목록 state
   const [userList, setUserList] = useState([]);
 
+  //검색어 state
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  //필터링된 회원 목록 state
+  const [filteredUserList, setFilteredUserList] = useState([]);
+
   // 전체 선택 상태
   const [selectAllUsers, setSelectAllUsers] = useState(false); 
 
@@ -21,6 +27,7 @@ const ManageUser = () => {
       console.log(res.data);
       setUserList(res.data);
       setCheckedUsers(new Array(res.data.length).fill(false));
+      setFilteredUserList(res.data)
     })
     .catch(e => console.log(e))
   };
@@ -46,6 +53,29 @@ const ManageUser = () => {
     setSelectAllUsers(newCheckedUsers.every(item => item === true));
   };
 
+  // 검색 기능
+  const handleSearch = () => {
+    if (searchTerm.trim() === '') {
+      fetchUserList(); // 전체 목록 조회
+    } else {
+      axios.get(`/api/users/userList/${searchTerm}`)
+      .then(res => {
+        setFilteredUserList(res.data);
+        setCheckedUsers(new Array(res.data.length).fill(false));
+        setSelectAllUsers(false);
+      })
+      .catch(e => console.log(e));
+    }
+  };
+
+  // Enter 키로도 검색 가능하도록
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+
   //삭제 버튼 클릭 핸들러
   const handleDelete = () => {
     const selectedUsers = userList.filter((user, index) => checkedUsers[index]);
@@ -57,14 +87,15 @@ const ManageUser = () => {
 
     if (window.confirm(`${selectedUsers.length}명의 회원을 삭제하시겠습니까?`)) {
       const deletePromises = selectedUsers.map(user => 
-        axios.delete(`/api/users/${user.userId}`)
+        axios.delete(`/api/users/delete/${user.userId}`)
       );
-
+      
       Promise.all(deletePromises)
       .then(() => {
         alert('삭제되었습니다.');
         setSelectAllUsers(false);
         fetchUserList();
+        setSearchTerm('');
       })
       .catch(e => {
         console.log(e);
@@ -82,11 +113,15 @@ const ManageUser = () => {
         <Input
           size='200px'
           placeholder='이름을 입력하세요'
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyPress={handleKeyPress}
         />
         <Button
           content='검 색'
           size='60px'
           fontSize='0.9rem'
+          onClick={handleSearch}
         />
       </div>
       <div>
@@ -107,7 +142,7 @@ const ManageUser = () => {
             </tr>
           </thead>
           <tbody>
-            {userList.map((user, i) => {
+            {filteredUserList.map((user, i) => {
               return (
                 <tr key={i}>
                   <td><input 
@@ -127,18 +162,6 @@ const ManageUser = () => {
           </tbody>
         </table>
         <div className={styles.btn_div}>
-          <Button
-            size='60px'
-            content='생성'
-            fontSize='0.9rem'
-            color='green'
-          ></Button>
-          <Button
-            size='60px'
-            content='수정'
-            fontSize='0.9rem'
-            color='orange'
-          ></Button>
           <Button
             size='60px'
             content='삭제'

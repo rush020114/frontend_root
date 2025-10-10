@@ -188,7 +188,7 @@ const PlantChatbot = () => {
       {/* 헤더 */}
       <header className={styles.main_header}>
         <div className={styles.header_content}>
-          <span className={styles.header_icon}>🌿</span>
+          <span className={styles.header_icon}>💬</span>
           <h1 className={styles.header_title}>식물 박사 AI</h1>
         </div>
       </header>
@@ -196,86 +196,89 @@ const PlantChatbot = () => {
       {/* 메인 컨텐츠 */}
       <main className={styles.main_content}>
         
+        {/* 채팅창 wrapper */}
+        <div className={styles.chat_wrapper}>
 
-        {/* 채팅 메시지 영역 */}
-        {messages.length > 0 && (
-          <div className={styles.chat_container}>
-            <div className={styles.messages_area}>
-              {messages.map((message, index) => (
-                <div key={index} className={`${styles.message} ${styles[message.type]}`}>
-                  <div className={styles.message_avatar}>
-                    <span>{message.type === 'bot' ? '🌱' : '👤'}</span>
-                  </div>
-                  <div className={styles.message_bubble}>
-                    {message.imageUrl && (
-                      <img 
-                        src={message.imageUrl} 
-                        alt="업로드된 이미지" 
-                        className={styles.message_image}
-                      />
-                    )}
-                    {message.content && (
-                      <div 
-                        className={styles.message_content}
-                        dangerouslySetInnerHTML={{ __html: message.content }}
-                      />
-                    )}
-                    <div className={styles.message_time}>
-                      {formatTime(message.timestamp)}
+          {/* 채팅 메시지 영역 */}
+          {messages.length > 0 && (
+            <div className={styles.chat_container}>
+              <div className={styles.messages_area}>
+                {messages.map((message, index) => (
+                  <div key={index} className={`${styles.message} ${styles[message.type]}`}>
+                    <div className={styles.message_avatar}>
+                      <span>{message.type === 'bot' ? '🍀' : '👤'}</span>
+                    </div>
+                    <div className={styles.message_bubble}>
+                      {message.imageUrl && (
+                        <img 
+                          src={message.imageUrl} 
+                          alt="업로드된 이미지" 
+                          className={styles.message_image}
+                        />
+                      )}
+                      {message.content && (
+                        <div 
+                          className={styles.message_content}
+                          dangerouslySetInnerHTML={{ __html: message.content }}
+                        />
+                      )}
+                      <div className={styles.message_time}>
+                        {formatTime(message.timestamp)}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
 
-              {isLoading && (
-                <div className={`${styles.message} ${styles.bot}`}>
-                  <div className={styles.message_avatar}>
-                    <span>🌱</span>
-                  </div>
-                  <div className={styles.message_bubble}>
-                    <div className={styles.typing_indicator}>
-                      <div className={styles.typing_dot}></div>
-                      <div className={styles.typing_dot}></div>
-                      <div className={styles.typing_dot}></div>
+                {isLoading && (
+                  <div className={`${styles.message} ${styles.bot}`}>
+                    <div className={styles.message_avatar}>
+                      <span>🌱</span>
+                    </div>
+                    <div className={styles.message_bubble}>
+                      <div className={styles.typing_indicator}>
+                        <div className={styles.typing_dot}></div>
+                        <div className={styles.typing_dot}></div>
+                        <div className={styles.typing_dot}></div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              <div ref={messagesEndRef} />
+                <div ref={messagesEndRef} />
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* 입력 영역 */}
-        <div className={styles.input_container}>
-          <div className={styles.input_wrapper}>
-            <textarea
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="메시지를 입력하거나 사진을 업로드해주세요..."
-              className={styles.text_input}
-              rows="1"
-              disabled={isLoading}
-            />
-            <div className={styles.input_buttons}>
-              <button 
-                onClick={() => fileInputRef.current?.click()}
+          {/* 입력 영역 */}
+          <div className={styles.input_container}>
+            <div className={styles.input_wrapper}>
+              <textarea
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="메시지를 입력하거나 사진을 업로드해주세요..."
+                className={styles.text_input}
+                rows="1"
                 disabled={isLoading}
-                className={`${styles.input_btn} ${styles.photo_btn}`}
-                title="사진 업로드"
-              >
-                📷
-              </button>
-              <button 
-                onClick={sendTextMessage}
-                disabled={isLoading || !inputText.trim()}
-                className={`${styles.input_btn} ${styles.send_btn}`}
-                title="전송"
-              >
-                ➤
-              </button>
+              />
+              <div className={styles.input_buttons}>
+                <button 
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isLoading}
+                  className={`${styles.input_btn} ${styles.photo_btn}`}
+                  title="사진 업로드"
+                >
+                  📷
+                </button>
+                <button 
+                  onClick={sendTextMessage}
+                  disabled={isLoading || !inputText.trim()}
+                  className={`${styles.input_btn} ${styles.send_btn}`}
+                  title="전송"
+                >
+                  ➤
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -291,7 +294,7 @@ const PlantChatbot = () => {
 
       {/* 푸터 */}
       <footer className={styles.main_footer}>
-        <p>식물 박사 AI - 당신의 식물 친구 🌿</p>
+        <p>식물 박사 AI - 당신의 식물 친구 💡</p>
       </footer>
     </div>
   );
