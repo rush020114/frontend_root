@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -32,8 +32,12 @@ import { useWebSocket } from './hooks/useWebSocket'
 import Notice from './pages/admin/Notice'
 import RegNotice from './pages/admin/RegNotice'
 import NoticeDetail from './pages/admin/NoticeDetail'
+import axios from 'axios'
 
 function App() {
+
+  // 총 이용자 수 오늘 방문자 수를 저장할 변수
+  const countCustomer = useRef({});
 
   // 로그인 정보를 세팅할 state 변수
   const [loginData, setLoginData] = useState(() => {
@@ -88,6 +92,18 @@ function App() {
   const isAdmin = loginData?.userRole === 'ADMIN';
   useWebSocket(loginData?.userId, isAdmin, handleNoti, resetNotiCnt)
 
+   /*
+    방문자 카운트 API 호출 함수
+    페이지 로드 시 한 번만 실행
+    */
+  useEffect(() => {
+    axios.post(`http://192.168.30.79:8080/visitor/count`)
+    .then(res => countCustomer.current = res.data)
+    .catch(e => console.log(e));
+  }, []);
+
+  console.log(countCustomer)
+
   return (
     <>
       <Routes>
@@ -124,7 +140,9 @@ function App() {
           onResetCnt={resetNotiCnt}
         />}>
           {/* 메인 */}
-          <Route path='home' element={<AdminHome />} />
+          <Route path='home' element={<AdminHome 
+            countCustomer={countCustomer}
+          />} />
           {/* 회원관리  */}
           <Route path='manage-user' element={<ManageUser />} />
           {/* 서비스 신청 관리  */}

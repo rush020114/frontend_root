@@ -10,7 +10,7 @@ import dayjs from 'dayjs';
   - 페이지로드 시 자동으로 방문 카운트
   - 오늘 방문자 수와 총 방문자 수를 표시
  */
-const AdminHome = () => {
+const AdminHome = ({countCustomer}) => {
 
   // 환경 데이터를 받아올 state 변수
   const [growingData, setGrowingData] = useState([]);
@@ -27,16 +27,7 @@ const AdminHome = () => {
   //const [isLoading, setIsLoading] = useState(true);     // 로딩 상태
   const [error, setError] = useState(null);             // 에러 상태
 
-  /*
-    방문자 카운트 API 호출 함수
-    페이지 로드 시 한 번만 실행
-    */
-  const recordVisit = () => {
-      axios.post(`/api/visitor/count`)
-      .then(res => console.log(res.data))
-      .catch(e => console.log(e));
-    
-  };
+ 
 
   /*
     방문자 통계 조회 API 호출 함수
@@ -100,18 +91,6 @@ const AdminHome = () => {
     return isTemperOk && isHumidityOk && isSoilHumidityOk && isIlluminationOk;
   };
 
-  /*
-  useEffect: 컴포넌트가 마운트될 때 한 번만 실행
-  페이지가 로드되면 자동으로 방문 카운트
-  */
-  useEffect(() => {
-    recordVisit();
-    
-    // 컴포넌트 언마운트 시 정리 작업 (필요시)
-    return () => {
-      // cleanup 작업 (현재는 없음)
-    };
-  }, []); // 빈 배열: 컴포넌트 마운트 시 한 번만 실행
 
   /*
     숫자 포맷팅 함수
@@ -146,7 +125,7 @@ const AdminHome = () => {
           <div className={styles.data}>
             <i className="bi bi-person-circle"></i>
             <p>
-              {formatNumber(todayCount)}
+              {countCustomer.current.todayCount}
             </p>
           </div>
         </div>
@@ -155,7 +134,7 @@ const AdminHome = () => {
           <div className={styles.data}>
             <i className="bi bi-currency-exchange"></i>
             <p>
-              {formatNumber(totalCount)}
+              {countCustomer.current.totalCount}
             </p>
           </div>
         </div>
@@ -235,16 +214,14 @@ const AdminHome = () => {
           {
             qstList.map((qst, i) => {
               return(
-                <>
-                  <div className={styles.request}>
-                    <i class="bi bi-file-earmark-text"></i>
-                    <div className={styles.memo}>
-                      <p>{qst.userId}</p>
-                      <p>{qst.qstTitle}</p>
-                      <p>{dayjs(qst.qstDate).format('YYYY-MM-DD')}</p>
-                    </div>
+                <div className={styles.request} key={i}>
+                  <i className="bi bi-file-earmark-text"></i>
+                  <div className={styles.memo}>
+                    <p>{qst.userId}</p>
+                    <p>{qst.qstTitle}</p>
+                    <p>{dayjs(qst.qstDate).format('YYYY-MM-DD')}</p>
                   </div>
-                </>
+                </div>
               )
             })
           }
