@@ -1,6 +1,6 @@
 .container{
-  width: 1200px;
-  margin: 0 auto;
+  width: 500px;
+  margin: 50px auto;
 }
 
 .container input, .container button, .container select{
@@ -10,83 +10,148 @@
   box-sizing: border-box;
 }
 
- .form{
-  width: 100%;
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  padding: 40px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 40px;
+.container input:not([type="checkbox"]),
+.container select {
+  height: 45px !important;
 }
 
-.normal_login, .social_login{
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+.container input {
+  outline: 1px solid #777777;
+  outline-offset: -1px;
 }
 
-.divider {
-  width: 1px;
-  background-color: #939597;
-  align-self: stretch;
-}
-
-.normal_login p {
-  margin-bottom: 8px;
-}
-
-.form_title{
-  font-weight: 600;
-}
-
-
-.err_msg {
-  height: 5px;
-  color: #ff4444;
-  font-size: 0.75rem !important;
-  margin-top: 8px;
-  
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.normal_login Input[type="checkbox"]{
-  outline: none;
-  margin: 0px;
-}
-
-.checkbox{
-  display: flex;
-  gap: 10px;
-}
-
-.link_wrap{
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.link_wrap p{
-  transition: 0.2s;
-  cursor: pointer;
-}
-
-.link_wrap p:hover{
-  color: #333333;
-  font-weight: 600;
+.container input:focus {
+  outline: 2px solid #1c1c1c !important;
 }
 
 Button:hover{
   cursor: pointer;
 }
 
+/* 에러 상태 Input */
+.input_error input {
+  outline: 2px solid #ff0000 !important;
+}
+
+.input_error input:focus {
+  outline: 2px solid #1c1c1c !important;
+}
+
+/* 에러 메시지 */
+.error {
+  height: 5px;
+  font-size: 0.8rem;
+  margin-top: 10px;
+
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.error i {
+  padding-right: 8px;
+  vertical-align: middle;
+}
+
+.form{
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  padding: 60px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* .normal_login, .social_login{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+} */
+
+.normal_login p {
+  margin-bottom: 8px;
+}
+
+
+.form_title{
+  font-weight: 600;
+}
+
+/* 비밀번호 */
+.pw_wrap {
+  position: relative;
+}
+
+.pw_icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+  font-size: 1.2rem;
+}
+
+.pw_icon:hover {
+  color: #333;
+}
+
+/* 아이디 저장 */
+.checkbox{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.checkbox p {
+  margin: 0;
+  line-height: 1;
+}
+
+.link_wrap{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+}
+
+.link_wrap p{
+  color: #6a6a6a;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.link_wrap p:hover{
+  font-weight: 600;
+
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.link_wrap p:not(:last-child)::after {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 12px;
+  background-color: #aeaeae;
+  margin-left: 10px;
+  vertical-align: middle;
+  pointer-events: none;
+}
+
 .btn{
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  margin: 10px 0px;
 }

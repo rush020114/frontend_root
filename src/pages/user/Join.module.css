@@ -53,6 +53,7 @@ Button:hover{
   height: 5px;
   font-size: 0.8rem;
   margin-top: 10px;
+  
   display: flex;
   align-items: center;
   gap: 4px;
@@ -75,6 +76,7 @@ Button:hover{
   width: 100%;
   border: 1px solid #e0e0e0;
   padding: 60px;
+
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -176,6 +178,12 @@ Button:hover{
   margin-right: 8px;
 }
 
+.agreement_item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .agreements label {
   display: flex;
   align-items: center;
@@ -183,18 +191,15 @@ Button:hover{
   margin: 10px 0;
 }
 
-.text_wrap{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
 .view_link {
   margin-left: 8px;
   color: #666;
   font-size: 0.875rem;
   text-decoration: underline;
+}
+
+.view_link:hover{
+  cursor: pointer;
 }
 
 /* 하단 버튼 */

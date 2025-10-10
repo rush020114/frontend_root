@@ -14,11 +14,16 @@ const Login = () => {
     'userPw' : ''
   });
 
+  console.log(loginData);
+
   //유효성 검사 에러 메세지를 저장하는 state 변수
   const[errorMsg, setErrorMsg] = useState({
     'userId' : '',
     'userPw' : ''
   });
+
+  // 비밀번호 보이기/숨기기 상태를 저장하는 state 변수
+  const [showPw, setShowPw] = useState(false);
   
   //입력한 데이터를 저장하는 함수
   const handleChange = (e) => {
@@ -141,15 +146,54 @@ const Login = () => {
     })
   };
 
+  // 아이디 찾기 모달창 숨기기/보이기 여부를 저장하는 state 변수
   const[showFindId, setShowFindId] = useState(false);
+  
+  // 비밀번호 찾기 모달창 숨기기/보이기 여부를 저장하는 state 변수
+  const [showFindPw, setShowFindPw] = useState(false);
+
+  // 아이디/비밀번호 찾기 저장하는 state 변수
+  const [findData, setFindData] = useState({
+    'userName' : '',
+    'userId' : '',
+    'userEmail' : ''
+  });
+
+  //입력한 데이터를 저장하는 함수
+  const handleFindChange = (e) => {
+    setFindData({
+      ...findData,
+      [e.target.name] : e.target.value
+    });
+  };
+
+  // 서버에 아이디 찾기 확인 요청하는 함수
+  const handleFindId = () => {
+    axios
+    .post('/api/user/findId', findData)
+    .then(res => {
+      console.log(res.data);
+
+      if(!res.data){
+        alert("입력하신 정보와 일치하는 회원이 없습니다.")
+      }
+      else{
+        
+      }
+
+      setFindData({
+        'userName' : '',
+        'userEmail' : ''
+      });
+    })
+    .catch(error => console.log(error))
+  };
 
   return (
     <div className={styles.container}>
-      <div></div>
-
       <div className={styles.form}>
         <div className={styles.normal_login}>
-          <div>
+          <div className={errorMsg.userId ? styles.input_error : ''}>
             <p className={styles.form_title}>아이디</p>
             <Input
               type = 'text'
@@ -158,23 +202,31 @@ const Login = () => {
               value = {loginData.userId}
               onChange = {e => handleChange(e)}
             />
-            <p className={styles.err_msg}>{errorMsg.userId}</p>
+            <p className={styles.error}>{errorMsg.userId}</p>
           </div>
-          <div>
+
+          <div className={errorMsg.userId ? styles.input_error : ''}>
             <p className={styles.form_title}>비밀번호</p>
-            <Input
-              type = 'password'
-              size = '100%'
-              name = 'userPw'
-              value = {loginData.userPw}
-              onChange = {e => handleChange(e)}          
-            />
-            <p className={styles.err_msg}>{errorMsg.userPw}</p>
+            <div className={styles.pw_wrap}>
+              <Input
+                type = {showPw ? 'text' : 'password'}
+                size = '100%'
+                name = 'userPw'
+                value = {loginData.userPw}
+                onChange = {e => handleChange(e)}          
+              />
+              <i 
+                className = {`bi ${showPw ? 'bi-eye' : 'bi-eye-slash-fill'}
+                ${styles.pw_icon}`}
+                onClick = {() => setShowPw(!showPw)}
+              />
+            </div>
+            <p className={styles.error}>{errorMsg.userPw}</p>
           </div>
+
           <div className={styles.checkbox}>
-            <Input
+            <input
               type = 'checkbox'
-              size = '5%'
               checked = {saveId}
               onChange = {() => handleSaveId()}
             />
@@ -185,22 +237,33 @@ const Login = () => {
             <Button
               content = '로그인'
               size = '100%'
+              color = 'blue'
               onClick = {() => login()}
             />
           </div>
 
           <div className={styles.link_wrap}>
-            <p onClick={() => nav('/join')}>회원가입</p>
-            <p onClick={() => setShowFindId(true)}>아이디 찾기</p>
-            <p>비밀번호 찾기</p>
+            <p
+              onClick={() => nav('/join')}
+            >
+              회원가입
+            </p>
+
+            <p
+              onClick={() => setShowFindId(true)}
+            >
+              아이디 찾기
+            </p>
+            
+            <p
+              onClick={() => setShowFindPw(true)}
+            >
+              비밀번호 찾기
+            </p>
           </div>
         </div>
 
-        <div className={styles.divider}></div>
-
         <div className={styles.social_login}>
-          <p>소셜 로그인</p>
-
           <div className={styles.btn}>
             <Button 
               content = '카카오로 로그인'
@@ -218,6 +281,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+
       <Modal
         title='아이디 찾기'
         isOpen={showFindId}
@@ -227,17 +291,27 @@ const Login = () => {
           <div>
             <p>이름</p>
             <Input 
-              type='text'
+              type = 'text'
+              size = '100%'
+              name = 'userName'
+              value = {findData.userName}
+              onChange = {e => handleFindChange(e)}
             />
           </div>
           <div>
             <p>이메일</p>
             <Input 
-              type='text'
+              type = 'text'
+              size = '100%'
+              name = 'userEmail'
+              value = {findData.userEmail}
+              onChange = {e => handleFindChange(e)}
             />
           </div>
           <Button 
-            content='확인'
+            content = '확인'
+            size = '20%'
+            onClick = {() => handleFindId()}
           />
         </div>
       </Modal>

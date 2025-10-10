@@ -25,9 +25,9 @@ const Modal = ({
           onClick={(e) => e.stopPropagation()}
         >
           <div className={styles.header}>
-            <h2 className={styles.title}>
+            <p className={styles.title}>
               {title}
-            </h2>
+            </p>
             <button 
               type="button"
               className={styles.close}

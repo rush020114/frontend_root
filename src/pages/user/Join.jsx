@@ -489,22 +489,28 @@ const Join = () => {
               </label>
             }
             >
-            <div>
+            <div className={styles.agreement_item}>
               <label>
                 <input
                   type = "checkbox"
                   name = "terms"
                   checked = {agreements.terms}
                   onChange = {e => handleAgreement(e)}
-                  />
-                <div className={styles.text_wrap}>
-                  <span>[필수] 이용약관 동의</span>
-                  <span className={styles.view_link}>내용보기</span>
-                </div>
+                />
+                <span>[필수] 이용약관 동의</span>
               </label>
+              <span
+                className={styles.view_link}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+              >
+                내용보기
+              </span>
             </div>
 
-            <div>
+            <div className={styles.agreement_item}>
               <label>
                 <input
                   type = "checkbox"
@@ -512,14 +518,17 @@ const Join = () => {
                   checked = {agreements.privacy}
                   onChange = {e => handleAgreement(e)}
                   />
-                <div className={styles.text_wrap}>
                   <span>[필수] 개인정보 수집 및 이용 동의</span>
-                  <span className={styles.view_link}>내용보기</span>
-                </div>
               </label>
+              <span
+                className={styles.view_link}
+                onClick={(e) => e.stopPropagation()}
+              >
+                내용보기
+              </span>
             </div>
 
-            <div>
+            <div className={styles.agreement_item}>
               <label>
                 <input
                   type = "checkbox"
@@ -527,11 +536,14 @@ const Join = () => {
                   checked = {agreements.marketing}
                   onChange = {e => handleAgreement(e)}
                   />
-                <div className={styles.text_wrap}>
                   <span>[선택] 마케팅 및 홍보성 정보 수신 동의</span>
-                  <span className={styles.view_link}>내용보기</span>
-                </div>
               </label>
+              <span
+                className={styles.view_link}
+                onClick={(e) => e.stopPropagation()}
+              >
+                내용보기
+              </span>
             </div>
           </Accordion>
         </div>
@@ -541,6 +553,7 @@ const Join = () => {
         <Button
           content = '취소하기'
           size = '20%'
+          onClick={() => nav('/')}
         />
         <Button
           content = '가입완료'
