@@ -141,7 +141,7 @@ const CustomerService = () => {
             })
             :
             <tr>
-              <td colSpan={4}>
+              <td colSpan={5}>
                 조회된 공지가 없습니다.
               </td>
             </tr>

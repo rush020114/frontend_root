@@ -5,6 +5,9 @@ import axios from 'axios';
 
 const TempDetail = () => {
 
+  // 팬 가동 횟수를 저장할 state 변수
+  const [fanCnt, setFanCnt] = useState(0);
+
   // 주간 최고 온도
   const [weeklyMax, setWeeklyMax] = useState(0);
 
@@ -19,10 +22,10 @@ const TempDetail = () => {
 
   // 7일 간의 센서 데이터를 받아올 useEffect
   useEffect(() => {
-    axios.get('/api/growings/weekly')
-    .then(res => {
+    axios.all([axios.get('/api/growings/weekly'), axios.get('/api/motions/today')])
+    .then(axios.spread((res1, res2) => {
       // 받아온 전체 데이터
-      const data = res.data; 
+      const data = res1.data; 
 
       // 날짜별로 나누기
       const dailyGrowings = [];
@@ -121,7 +124,9 @@ const TempDetail = () => {
           }
         ]
       });
-    })
+
+      setFanCnt(res2.data.filter(item => item.fanMotor !== 0).length)
+    }))
     .catch(e => console.log(e));
   }, []);
 
@@ -150,10 +155,11 @@ const TempDetail = () => {
           <span>{weeklyMin}°C</span>         
         </div>
         <div>
-          <p>자동제어장치 작동</p>
+          <p>팬 작동 횟수</p>
           <div className={styles.number}>
-            <span>27회</span>
-            <p>( 환기팬 구동수 : 27 ) </p>  
+            <span>
+              {fanCnt}
+            </span>
           </div>  
         </div>
       </div>

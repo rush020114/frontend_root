@@ -5,6 +5,9 @@ import axios from 'axios';
 
 const SoilHumDetail = () => {
 
+  // 물펌프 가동 횟수를 저장할 state 변수
+  const [pumpCnt, setPumpCnt] = useState(0);
+
   // 주간 최고 온도
   const [weeklyMax, setWeeklyMax] = useState(0);
 
@@ -19,10 +22,10 @@ const SoilHumDetail = () => {
 
   // 7일 간의 센서 데이터를 받아올 useEffect
   useEffect(() => {
-    axios.get('/api/growings/weekly')
-    .then(res => {
+    axios.all([axios.get('/api/growings/weekly'), axios.get('/api/motions/today')])
+    .then(axios.spread((res1, res2) => {
       // 전체 데이터
-      const data = res.data;
+      const data = res1.data;
 
       // 일주일 날짜별로 필요한 데이터 세팅을 위한 변수
       const dailyGrowings = [];
@@ -105,9 +108,9 @@ const SoilHumDetail = () => {
         }
       ]
       })
-      
-    })
-    .catch();
+      setPumpCnt(res2.data.filter(item => item.waterPump !== 0).length);
+    }))
+    .catch(e => console.log(e));
   }, []);
 
 
@@ -135,10 +138,11 @@ const SoilHumDetail = () => {
           <span>{weeklyMin}%</span>         
         </div>
         <div>
-          <p>자동제어장치 작동</p>
+          <p>물펌프 작동 횟수</p>
           <div className={styles.number}>
-            <span>27회</span>
-            <p>( 환기팬 구동수 : 27 ) </p>  
+            <span>
+              {pumpCnt}
+            </span>
           </div>  
         </div>
       </div>

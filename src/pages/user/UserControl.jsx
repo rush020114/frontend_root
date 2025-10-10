@@ -13,6 +13,7 @@ const UserControl = () => {
     detectedCount: 0,
     lastDetected: null
   })
+  const [motionCnt, setMotionCnt] = useState(0);
 
   const [showCards, setShowCards] = useState(false)
   const navigate = useNavigate()
@@ -31,6 +32,10 @@ const UserControl = () => {
     axios.get('/api/motions/stats')
       .then(res => setMotionStats(res.data))
       .catch(console.error)
+
+    axios.get('/api/motions/today')
+    .then(res => setMotionCnt(res.data.filter(item => item.motionDetected !== 0).length))
+    .catch(e => console.log(e));
 
     const timer = setTimeout(() => setShowCards(true), 100)
     return () => clearTimeout(timer)
@@ -177,7 +182,7 @@ const UserControl = () => {
 
           {/* 누적 횟수 */}
           <p className={styles.motionInfoCenter}>
-            Today : {motionStats.detectedCount} 건
+            Today : {motionCnt} 건
           </p>
 
           {/* 마지막 감지 시각 */}
