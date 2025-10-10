@@ -1,16 +1,87 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './AdminHome.module.css'
 import BubbleChart from '../../component/charts/BubbleChart'
 import Button from '../../common/Button'
+import axios from 'axios';
 
-
+/*
+  방문자 카운터 컴포넌트
+  - 페이지로드 시 자동으로 방문 카운트
+  - 오늘 방문자 수와 총 방문자 수를 표시
+ */
 const AdminHome = () => {
+
+  // 상태 관리
+    const [todayCount, setTodayCount] = useState(0);      // 오늘 방문자 수
+    const [totalCount, setTotalCount] = useState(0);      // 총 방문자 수
+    //const [isLoading, setIsLoading] = useState(true);     // 로딩 상태
+    const [error, setError] = useState(null);             // 에러 상태
+  
+    /*
+      방문자 카운트 API 호출 함수
+      페이지 로드 시 한 번만 실행
+     */
+    const recordVisit = () => {
+        axios.post(`/api/visitor/count`)
+        .then(res => console.log(res.data))
+        .catch(e => console.log(e));
+      
+    };
+  
+    /*
+      방문자 통계 조회 API 호출 함수
+      에러 발생 시 또는 통계만 확인할 때 사용
+     */
+    const fetchVisitorStats = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/visitor/stats`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+  
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+  
+        const data = await response.json();
+        setTodayCount(data.todayCount || 0);
+        setTotalCount(data.totalCount || 0);
+        
+      } catch (err) {
+        console.error('통계 조회 실패:', err);
+      }
+    };
+  
+    /*
+      useEffect: 컴포넌트가 마운트될 때 한 번만 실행
+      페이지가 로드되면 자동으로 방문 카운트
+     */
+    useEffect(() => {
+      recordVisit();
+      
+      // 컴포넌트 언마운트 시 정리 작업 (필요시)
+      return () => {
+        // cleanup 작업 (현재는 없음)
+      };
+    }, []); // 빈 배열: 컴포넌트 마운트 시 한 번만 실행
+  
+    /*
+      숫자 포맷팅 함수
+      1000 단위로 콤마 추가 (예: 1234 -> 1,234)
+     */
+    const formatNumber = (num) => {
+      return num.toLocaleString('ko-KR');
+    };
+  
   return (
 
     <div className={styles.container}>
       <div className={styles.first_row}>
         <div className={styles.box}>
-          <span>New Customers</span>
+          <span>Weekly New Customers</span>
           <div className={styles.data}>
             <i class="bi bi-person-fill-add"></i>
             <p>158</p>
@@ -20,102 +91,27 @@ const AdminHome = () => {
           <span>Total Customers</span>
           <div className={styles.data}>
             <i class="bi bi-people-fill"></i>
-            <p>3650</p>
+            <p>350</p>
           </div>
         </div>
         <div className={styles.box}>
-          <span>Today Visitors</span>
+          <span>Today Visitors </span>
           <div className={styles.data}>
             <i class="bi bi-person-circle"></i>
-            <p>1882</p>
+            <p>
+              {formatNumber(todayCount)}
+            </p>
           </div>
         </div>
         <div className={styles.box}>
-          <span>Membership Application</span>
+          <span>Total Visitors</span>
           <div className={styles.data}>
             <i class="bi bi-currency-exchange"></i>
-            <p>4</p>
+            <p>
+              {formatNumber(totalCount)}
+            </p>
           </div>
         </div>
-      </div>
-      <div className={styles.second_row}>
-          <p>지역별 식물 생육환경 모니터링 (온도기준) </p>
-          <BubbleChart
-            title="."
-            datasets={[
-              {
-                label: '울산광역시',
-                data: [
-                  { x: 10, y: 20, r: 22 },
-                  { x: 15, y: 35, r: 12 },
-                  { x: 25, y: 30, r: 15 },
-                ],
-                backgroundColor: 'rgba(170, 85, 5, 0.6)',
-                borderColor: 'rgba(170, 85, 5, 0.8)',
-              },
-              {
-                label: '경상도',
-                data: [
-                  { x: 22, y: 40, r: 20 },
-                  { x: 35, y: 33, r: 15 },
-                  { x: 15, y: 40, r: 16 },
-                ],
-                backgroundColor: 'rgba(5, 170, 27, 0.6)',
-                borderColor: 'rgba(5, 170, 27, 0.8)',
-              },
-              {
-                label: '충청도',
-                data: [
-                  { x: 10, y: 30, r: 10 },
-                  { x: 25, y: 23, r: 20 },
-                  { x: 17, y: 33, r: 16 },
-                ],
-                backgroundColor: 'rgba(170, 7, 156, 0.6)',
-                borderColor: 'rgba(170, 7, 156, 0.8)',
-              },
-              {
-                label: '제주도',
-                data: [
-                  { x: 14, y: 25, r: 10 },
-                  { x: 27, y: 10, r: 20 },
-                  { x: 17, y: 23, r: 16 },
-                ],
-                backgroundColor: 'rgba(7, 170, 192, 0.6)',
-                borderColor: 'rgba(7, 170, 192, 0.8)',
-              },
-              {
-                label: '경기도',
-                data: [
-                  { x: 13, y: 25, r: 20 },
-                  { x: 23, y: 10, r: 20 },
-                  { x: 19, y: 20, r: 16 },
-                ],
-                backgroundColor: 'rgba(189, 221, 8, 0.6)',
-                borderColor: 'rgba(189, 221, 8, 0.8)',
-              },
-              {
-                label: '경기도',
-                data: [
-                  { x: 14, y: 15, r: 15 },
-                  { x: 20, y: 15, r: 20 },
-                  { x: 32, y: 20, r: 16 },
-                ],
-                backgroundColor: 'rgba(238, 3, 74, 0.6)',
-                borderColor: 'rgba(238, 3, 74, 0.8)',
-              },
-              {
-                label: '전라도',
-                data: [
-                  { x: 12, y: 15, r: 15 },
-                  { x: 17, y: 18, r: 20 },
-                  { x: 34, y: 20, r: 16 },
-                ],
-                backgroundColor: 'rgba(23, 21, 150, 0.6)',
-                borderColor: 'rgba(23, 21, 150, 0.8)',
-              },
-            ]}
-          /> 
-
       </div>
 
       <div className={styles.third_row}>
@@ -237,7 +233,7 @@ const AdminHome = () => {
         </div>
 
         <div className={styles.qna}>
-          <span>Q&A 게시판</span>
+          <span>비지니스 문의 (1:1문의)</span>
 
           <div className={styles.request}>
             <i class="bi bi-file-earmark-text"></i>
