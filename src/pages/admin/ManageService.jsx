@@ -14,24 +14,34 @@ const ManageService = () => {
   // 개별 체크 상태
   const [checkedItems, setCheckedItems] = useState([]); 
 
-  //이름을 검색하는 state
+  //검색어 state
   const [searchName, setSearchName] = useState('');
+  
+  //필터링된 회원 목록 state
+  const [filteredAppList, setFilteredAppList] = useState([])
+
+  // 전체 목록 조회 함수 추가
+  const fetchAppList = () => {
+    axios.get('/api/applications/list')
+    .then(res => {
+      console.log(res.data);
+      setServiceList(res.data);
+      setFilteredAppList(res.data); //초기에는 전체 목록 표시
+      setCheckedItems(new Array(res.data.length).fill(false));
+    })
+    .catch(e => console.log(e))
+  };
 
   //서비스 신청 목록을 조회
   useEffect(() => {
-    axios.get('/api/applications/list')
-    .then(res => {console.log(res.data);
-                  setServiceList(res.data);
-                  setCheckedItems(new Array(res.data.length).fill(false));
-    })
-    .catch(e => console.log(e))
+    fetchAppList(); //중복되는 url 함수 호출
   },[])
 
   // 전체 선택/해제
   const handleSelectAll = () => {
     const newSelectAll = !selectAll;
     setSelectAll(newSelectAll);
-    setCheckedItems(new Array(serviceList.length).fill(newSelectAll));
+    setCheckedItems(new Array(filteredAppList.length).fill(newSelectAll))
   };
 
   // 개별 체크박스 선택
@@ -44,6 +54,29 @@ const ManageService = () => {
     setSelectAll(newCheckedItems.every(item => item === true));
   };
 
+
+  //이름으로 검색 기능
+  const handleSearch = () => {
+    if (searchName.trim() === '') {
+      fetchAppList(); // 전체 목록 조회
+    } else {
+      axios.get(`/api/applications/appList/${searchName}`)
+      .then(res => {
+        setFilteredAppList(res.data);
+        setCheckedItems(new Array(res.data.length).fill(false));
+        setSelectAll(false);
+      })
+      .catch(e => console.log(e));
+    }
+  };
+
+  // Enter 키로도 검색 가능하도록
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   //승인 버튼 클릭 핸들러
     const handleApprove = (applNum) => {
     if (window.confirm('승인하시겠습니까?')) {
@@ -54,6 +87,7 @@ const ManageService = () => {
         axios.get('/api/applications/list')
         .then(res => {
           setServiceList(res.data);
+          fetchAppList();
         })
       })
       .catch(e => {
@@ -71,11 +105,15 @@ const ManageService = () => {
         <Input
           size='200px'
           placeholder='이름을 입력하세요'
+          value={searchName}
+          onChange={(e) => setSearchName(e.target.value)}
+          onKeyPress={handleKeyPress}
         />
         <Button
           content='검 색'
           size='60px'
           fontSize='0.9rem'
+          onClick={handleSearch}
         />
       </div>
       <div>
@@ -99,7 +137,7 @@ const ManageService = () => {
             </tr>
           </thead>
           <tbody>
-            {serviceList.map((service, i) => {
+            {filteredAppList.map((service, i) => {
               return (
                 <tr key={i}>
                   <td><input 
