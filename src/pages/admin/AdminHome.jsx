@@ -4,6 +4,8 @@ import BubbleChart from '../../component/charts/BubbleChart'
 import Button from '../../common/Button'
 import axios from 'axios';
 import dayjs from 'dayjs';
+import GaugeChart from '../../component/charts/GaugeChart';
+import Buton from '../../common/Button';
 
 /*
   방문자 카운터 컴포넌트
@@ -91,6 +93,101 @@ const AdminHome = ({countCustomer}) => {
     return isTemperOk && isHumidityOk && isSoilHumidityOk && isIlluminationOk;
   };
 
+  // 상태별 스타일 반환 함수
+  const getStatusStyle = (status) => {
+    if (status === 'normal') {
+      return {
+        color: '#166534',
+        backgroundColor: '#dcfce7',
+        border: '2px solid #22c55e'
+      };
+    }
+    if (status === 'low') {
+      return {
+        color: '#1e40af',
+        backgroundColor: '#dbeafe',
+        border: '2px solid #3b82f6'
+      };
+    }
+    return {
+      color: '#991b1b',
+      backgroundColor: '#fee2e2',
+      border: '2px solid #ef4444'
+    };
+  };
+
+  // 센서별 상태 텍스트
+  const getTemperStatusText = (status) => {
+    if (status === 'low') return '낮음';
+    if (status === 'high') return '높음';
+    if (status === 'normal') return '적정';
+    return '-';
+  };
+
+  const getHumidityStatusText = (status) => {
+    if (status === 'low') return '부족';
+    if (status === 'high') return '과다';
+    if (status === 'normal') return '적정';
+    return '-';
+  };
+
+  const getSoilStatusText = (status) => {
+    if (status === 'low') return '부족';
+    if (status === 'high') return '과다';
+    if (status === 'normal') return '적정';
+    return '-';
+  };
+
+  const getIlluminationStatusText = (status) => {
+    if (status === 'low') return '부족';
+    if (status === 'high') return '과량';
+    if (status === 'normal') return '적정';
+    return '-';
+  };
+
+  // 개별 센서 상태 판단 함수
+  const getTemperStatus = (temp) => {
+    if (!temp) return 'unknown';
+    if (temp < 18) return 'low';
+    if (temp <= 25) return 'normal';
+    return 'high';
+  };
+
+  const getHumidityStatus = (humidity) => {
+    if (!humidity) return 'unknown';
+    if (humidity < 60) return 'low';
+    if (humidity <= 80) return 'normal';
+    return 'high';
+  };
+
+  const getSoilHumidityStatus = (soilHumidity) => {
+    if (!soilHumidity) return 'unknown';
+    if (soilHumidity < 30) return 'low';
+    if (soilHumidity <= 40) return 'normal';
+    return 'high';
+  };
+
+  const getIlluminationStatus = (illumination) => {
+    if (!illumination) return 'unknown';
+    if (illumination < 10000) return 'low';
+    if (illumination <= 30000) return 'normal';
+    return 'high';
+  };
+
+  // 상태 텍스트 변환
+  const getStatusText = (status) => {
+    if (status === 'low') return '부족';
+    if (status === 'high') return '초과';
+    if (status === 'normal') return '적정';
+    return '-';
+  };
+
+  // 상태 색상 반환
+  const getStatusColor = (status) => {
+    if (status === 'normal') return '#22c55e';
+    return '#ef4444';
+  };
+
 
   /*
     숫자 포맷팅 함수
@@ -140,41 +237,133 @@ const AdminHome = ({countCustomer}) => {
         </div>
       </div>
 
-      <div className={styles.third_row}>
-        <div className={styles.title}>
-          <span>업체별 Root스마트팜 시스템 정상구동 모니터링</span>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <td>업체명</td>
-             
-                <td>대기온도(도)</td>
-                <td>대기습도(%)</td>
-                <td>토양습도(%)</td>
-                <td>조도(lux)</td>
-                <td>구동현황</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>ROOT</td>
-               
-                <td>{growingData[0]?.temper}°C</td>
-                <td>{growingData[0]?.humidity}%</td>
-                <td>{growingData[0]?.soilHumidity}%</td>
-                <td>{growingData[0]?.illumination}</td>
-                <td>
-                  <Button 
-                    content={isOptimalCondition(growingData[0]) ? '정상' : '불안정'} 
-                    color={isOptimalCondition(growingData[0]) ? "green" : "brown"} 
-                    padding='5px' 
-                    fontSize='0.7rem' 
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <div className={styles.dashboard}>
+        <div className={styles.dashboard_title}>
+          <p>업체별 Root스마트팜 시스템 정상구동 모니터링</p>
+          <div className={styles.dashboard_container}>
+            <div className={styles.dashboard_info}>
+              <div>
+                <p>🌱 업체명 : <span style={{fontWeight: 800}}>ROOT</span></p>
+                <div className={styles.dashboard_status}>
+                  <div>
+                    <p>온도</p>
+                    <div style={{
+                      ...getStatusStyle(getTemperStatus(growingData[0]?.temper)),
+                    }}>
+                      {getTemperStatusText(getTemperStatus(growingData[0]?.temper))}
+                    </div>
+                  </div>
+                  <div>
+                    <p>습도</p>
+                    <div style={{
+                      ...getStatusStyle(getHumidityStatus(growingData[0]?.humidity)),
+                    }}>
+                      {getHumidityStatusText(getHumidityStatus(growingData[0]?.humidity))}
+                    </div>
+                  </div>
+                  <div>
+                    <p>토양습도</p>
+                    <div style={{
+                      ...getStatusStyle(getSoilHumidityStatus(growingData[0]?.soilHumidity)),
+                    }}>
+                      {getSoilStatusText(getSoilHumidityStatus(growingData[0]?.soilHumidity))}
+                    </div>
+                  </div>
+                  <div>
+                    <p>조도</p>
+                    <div style={{
+                      ...getStatusStyle(getIlluminationStatus(growingData[0]?.illumination)),
+                    }}>
+                      {getIlluminationStatusText(getIlluminationStatus(growingData[0]?.illumination))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className={styles.danger}
+                style={{
+                  backgroundColor: isOptimalCondition(growingData[0]) ? '#dcfce7' : '#fee2e2',
+                  border: `2px solid ${isOptimalCondition(growingData[0]) ? '#22c55e' : '#ef4444'}`,
+                }}
+              >
+                <p 
+                  className={styles.danger_status}
+                  style={{
+                    fontSize: '2rem',
+                    marginBottom: '30px',
+                    color: isOptimalCondition(growingData[0]) ? '#22c55e' : '#ef4444',
+                    fontWeight: 700
+                  }}
+                >
+                  {isOptimalCondition(growingData[0]) ? '✓ 정상' : '⚠️ 불안정'}
+                </p>
+                {!isOptimalCondition(growingData[0]) && (
+                  <p className={styles.danger_cnt} style={{ 
+                    fontSize: '1.2rem'
+                    , color: '#dc2626' 
+                    , marginBottom: '0px'
+                  }}>
+                    조치 필요: {
+                      [
+                        getTemperStatus(growingData[0]?.temper),
+                        getHumidityStatus(growingData[0]?.humidity),
+                        getSoilHumidityStatus(growingData[0]?.soilHumidity),
+                        getIlluminationStatus(growingData[0]?.illumination)
+                      ].filter(s => s !== 'normal').length
+                    }개 항목
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className={styles.dashboard_content}>
+              <div>
+                <GaugeChart
+                  title="온도"
+                  value={growingData[0]?.temper || 0}
+                  min={0}
+                  max={40}
+                  unit="°C"
+                  thresholds={{ low: 18, high: 25 }}
+                />
+              </div>
+  
+              <div>
+                <GaugeChart
+                  title="습도"
+                  value={growingData[0]?.humidity || 0}
+                  min={0}
+                  max={100}
+                  unit="%"
+                  thresholds={{ low: 60, high: 80 }}
+                />
+              </div>
+  
+              <div>
+                <GaugeChart
+                  title="토양습도"
+                  value={growingData[0]?.soilHumidity || 0}
+                  min={0}
+                  max={100}
+                  unit="%"
+                  thresholds={{ low: 30, high: 40 }}
+                />
+              </div>
+  
+              <div>
+                <GaugeChart
+                  title="조도"
+                  value={growingData[0]?.illumination || 0}
+                  min={0}
+                  max={50000}
+                  unit=" lux"
+                  thresholds={{ low: 10000, high: 30000 }}
+                />
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div className={styles.third_row}>
         <div className={styles.title}>
           <span>신규업체 서비스가입 신청현황</span>
           <table className={styles.table}>
