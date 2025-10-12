@@ -36,6 +36,9 @@ import axios from 'axios'
 
 function App() {
 
+  // localStorage 알림 목록을 저장할 state 변수(adminHome 리렌더링)
+  const [alerts, setAlerts] = useState([]);
+
   // 총 이용자 수 오늘 방문자 수를 저장할 변수
   const countCustomer = useRef({});
 
@@ -50,6 +53,12 @@ function App() {
 
   // 이용자 알림 개수
   const [userNotiCnt, setUserNotiCnt] = useState(0);
+
+  // localStorage 저장 때 실행될 함수
+  const updateAlerts = () => {
+    const savedAlerts = JSON.parse(localStorage.getItem('admin_alerts') || []);
+    setAlerts(savedAlerts);
+  };
 
   // 로그인 처리 함수
   const handleLogin = () => {
@@ -90,7 +99,7 @@ function App() {
 
   // websocket 연결
   const isAdmin = loginData?.userRole === 'ADMIN';
-  useWebSocket(loginData?.userId, isAdmin, handleNoti, resetNotiCnt)
+  useWebSocket(loginData?.userId, isAdmin, handleNoti, resetNotiCnt, updateAlerts)
 
    /*
     방문자 카운트 API 호출 함수
@@ -142,6 +151,8 @@ function App() {
           {/* 메인 */}
           <Route path='home' element={<AdminHome 
             countCustomer={countCustomer}
+            alerts={alerts}
+            setAlerts={setAlerts}
           />} />
           {/* 회원관리  */}
           <Route path='manage-user' element={<ManageUser />} />

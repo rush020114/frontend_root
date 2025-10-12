@@ -105,8 +105,7 @@ const AdminQnADetail = () => {
     .catch(e => console.log(e));
   };
 
-  console.log(ansContent)
-  console.log(isEditing)
+  console.log(qstDetail)
 
   return (
     <div className={styles.container}>
@@ -114,6 +113,26 @@ const AdminQnADetail = () => {
         <h1>
           💬 문의 답변하기
         </h1>
+        <div className={styles.qst_type}>
+          <h2>
+            {
+              qstDetail.qstType === '일반문의'
+              ?
+              '🧑‍💻 일반문의'
+              :
+              '🌱 환경문의'
+            }
+          </h2>
+          <div
+            style={qstDetail.alertSensors && {marginTop: '10px'}}
+          >
+            {
+              qstDetail.qstType === '환경문의'
+              &&
+              qstDetail.alertSensors.split(',').join(' | ')
+            }
+          </div>
+        </div>
       </div>
       <div className={styles.content}>
         <div className={styles.qst_title}>

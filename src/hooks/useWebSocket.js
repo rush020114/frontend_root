@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 // userId: 사용자 ID, isAdmin: 관리자 여부
-export const useWebSocket = (userId, isAdmin, onNotification, resetNotiCnt) => {
+export const useWebSocket = (userId, isAdmin, onNotification, resetNotiCnt, updateAlerts) => {
   
   // WebSocket 클라이언트를 저장할 ref (리렌더링 시에도 유지)
   // clientRef = 로그아웃 시 이전 연결 끊기 위한 저장소
@@ -37,9 +37,42 @@ export const useWebSocket = (userId, isAdmin, onNotification, resetNotiCnt) => {
           // message매개변수는 서버에서 보낸 데이터
           client.subscribe('/topic/admin', (message) => {
             // 구독 안에 있는 코드는 저장만 시키고 message가 전달되면 실행
-            console.log('📩 관리자 메시지 받음:', message.body);  // ⭐ 추가
+            console.log('📩 관리자 메시지 받음:', message.body);
+
+            // ⭐ Spring에서 보낸 JSON 파싱
+            const alertData = JSON.parse(message.body);
+            const sensors = alertData.sensors; // ["온도", "습도"]
+            
+            // ⭐ 센서별로 개별 저장
+            sensors.forEach(sensor => {
+              // ⭐ localStorage에서 기존 알림 목록 가져오기
+              const alerts = JSON.parse(localStorage.getItem('admin_alerts') || '[]');
+              
+              // ⭐ 중복 체크 (같은 userId + 같은 센서)
+              const isDuplicate = alerts.some(a => 
+                a.userId === alertData.userId && a.sensor === sensor
+              );
+              
+              // ⭐ 중복 아니면 localStorage에 저장
+              if (!isDuplicate) {
+                alerts.push({
+                  userId: alertData.userId,
+                  sensor: sensor,  // ⭐ 개별 센서
+                  timestamp: alertData.timestamp
+                });
+                localStorage.setItem('admin_alerts', JSON.stringify(alerts));
+                // ⭐ App의 state 업데이트
+                if (updateAlerts) {
+                  updateAlerts();
+                }
+                console.log(`✅ localStorage 저장 완료: ${sensor}`);
+              } else {
+                console.log(`⚠️ 중복 알림 무시: ${sensor}`);
+              }
+            });
+            
             // 메시지 오면 toast라이브러리 실행
-            toast.info(`🔔 ${message.body}`, {
+            toast.info(`🔔 ${alertData.userId}님의 문의`, {
               icon: '📩',  // 아이콘 커스텀
               onClick: () => {
                 toast.dismiss;
@@ -50,13 +83,12 @@ export const useWebSocket = (userId, isAdmin, onNotification, resetNotiCnt) => {
 
             // app의 handleNoti 실행
             if(onNotification){
-              console.log('onNotification 실행');  // ⭐ 추가
+              console.log('onNotification 실행');
               onNotification(true); // isAdmin = true 전달
             } else {
-              console.log('onNotification이 없음!');  // ⭐
+              console.log('onNotification이 없음!');
             }
           });
-
         } 
         // 일반 사용자면
         else if (userId) {

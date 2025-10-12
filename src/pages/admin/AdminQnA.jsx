@@ -24,6 +24,7 @@ const AdminQnA = ({notiCnt}) => {
   const [searchData, setSearchData] = useState({
     qstId: ''
     , qstStatus: ''
+    , qstType: ''
     , qstTitle: ''
     , userId: ''
     , qstDate: ''
@@ -31,7 +32,7 @@ const AdminQnA = ({notiCnt}) => {
   });
 
   // 보여줄 페이지
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   // 현재 페이지 보여줄 데이터 계산
   const startIndex = currentPage * itemsPerPage;
@@ -82,7 +83,7 @@ const AdminQnA = ({notiCnt}) => {
     .catch(e => console.log(e));
   };
 
-  console.log(qstList)
+  console.log(searchData)
 
   return (
     <div className={styles.container}>
@@ -133,6 +134,19 @@ const AdminQnA = ({notiCnt}) => {
           </Select>
         </div>
         <div>
+          <p>문의 유형</p>
+          <Select 
+            size='100%'
+            name='qstType'
+            value={searchData.qstType}
+            onChange={e => handleSearch(e)}
+          >
+            <option value="">선택</option>
+            <option value="일반문의">일반문의</option>
+            <option value="환경문의">환경문의</option>
+          </Select>
+        </div>
+        <div>
           <p>제목</p>
           <Input 
             size='100%'
@@ -179,10 +193,11 @@ const AdminQnA = ({notiCnt}) => {
         <table className={styles.qna_table}>
           <colgroup>
             <col width='5%' />
-            <col width='35%' />
+            <col width='30%' />
             <col width='10%' />
             <col width='10%' />
-            <col width='20%' />
+            <col width='10%' />
+            <col width='15%' />
             <col width='10%' />
           </colgroup>
           <thead>
@@ -192,6 +207,7 @@ const AdminQnA = ({notiCnt}) => {
               </td>
               <td>제목</td>
               <td>첨부파일</td>
+              <td>유형</td>
               <td>작성자</td>
               <td>등록일</td>
               <td>상태</td>
@@ -220,6 +236,7 @@ const AdminQnA = ({notiCnt}) => {
                     '🖼️'
                     }
                   </td>
+                  <td>{qst.qstType}</td>
                   <td>{qst.userId}</td>
                   <td>{dayjs(qst.qstDate).format('YYYY-MM-DD')}</td>
                   <td>{qst.qstStatus}</td>

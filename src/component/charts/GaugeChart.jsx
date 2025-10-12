@@ -6,13 +6,14 @@
     min={0}
     max={40}
     unit="°C"
+    hasAlert={true}  // ⭐ 추가
   />
 */
 
 import React from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
 
-const GaugeChart = ({ title, value, min = 0, max = 100, unit = '', thresholds }) => {
+const GaugeChart = ({ title, value, min = 0, max = 100, unit = '', thresholds, hasAlert }) => {
   const percentage = ((value - min) / (max - min)) * 100;
   
   const data = [
@@ -20,12 +21,9 @@ const GaugeChart = ({ title, value, min = 0, max = 100, unit = '', thresholds })
     { value: 100 - percentage }
   ];
 
-  // 색상 결정 (thresholds: { low, high })
+  // ⭐ 색상 결정 - hasAlert 기준으로 변경
   const getColor = () => {
-    if (!thresholds) return '#22c55e';
-    if (value < thresholds.low) return '#3b82f6';      // 낮음
-    if (value <= thresholds.high) return '#22c55e';    // 적정
-    return '#ef4444';                                   // 높음
+    return hasAlert ? '#ef4444' : '#22c55e';  // 알림 있으면 빨강, 없으면 초록
   };
 
   return (
@@ -40,7 +38,7 @@ const GaugeChart = ({ title, value, min = 0, max = 100, unit = '', thresholds })
         {title}
       </h3>
       <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', marginTop: '-20px' }}>
-        <PieChart width={350} height={200}>  {/* 200 -> 300, 120 -> 180 */}
+        <PieChart width={350} height={200}>
           <Pie
             data={data}
             cx={175}  

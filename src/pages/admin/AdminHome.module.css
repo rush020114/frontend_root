@@ -110,13 +110,6 @@
   font-size: 1.25rem;
 }
 
-.dashboard_status > div > div{
-  font-size: 1.1rem;
-  border-radius: 15px;
-  padding: 5px 15px;
-  font-weight: 700;
-}
-
 .danger{
   margin: 0 auto;
   margin-top: auto;
