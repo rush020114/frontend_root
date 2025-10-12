@@ -112,6 +112,9 @@ const UserQnADetail = () => {
 
   return (
     <div className={styles.container}>
+      <span style={{color: 'red', fontSize: '0.8rem'}}>
+        ※ 문의 유형 및 환경 센서는 수정할 수 없습니다.
+      </span>
       <div className={styles.title}>
         <h1>
         {
@@ -139,6 +142,26 @@ const UserQnADetail = () => {
         </div>
       </div>
       <div className={styles.content}>
+        <div className={styles.qst_type}>
+          <h2>
+            {
+              qstDetail.qstType === '일반문의'
+              ?
+              '🧑‍💻 일반문의'
+              :
+              '🌱 환경문의'
+            }
+          </h2>
+          <div
+            style={qstDetail.alertSensors && {marginTop: '10px'}}
+          >
+            {
+              qstDetail.qstType === '환경문의'
+              &&
+              qstDetail.alertSensors.split(',').join(' | ')
+            }
+          </div>
+        </div>
         <div className={styles.content_div}>
         {
           isEditing

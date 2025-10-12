@@ -140,7 +140,7 @@ const UserInfo = ({notiCnt}) => {
     .catch(e => console.log(e));
   }, [notiCnt, reload]);
 
-  console.log(serviceInfo)
+  console.log(qstList)
     
   return (
     <div className={styles.container}>
@@ -370,14 +370,18 @@ const UserInfo = ({notiCnt}) => {
           <table className={styles.qna_table}>
             <colgroup>
               <col width='7%' />
-              <col width='43%' />
-              <col width='30%' />
-              <col width='20%' />
+              <col width='47%' />
+              <col width='7%' />
+              <col width='12%' />
+              <col width='15%' />
+              <col width='12%' />
             </colgroup>
             <thead>
               <tr>
                 <td>No</td>
                 <td>제목</td>
+                <td>첨부파일</td>
+                <td>유형</td>
                 <td>등록일</td>
                 <td>상태</td>
               </tr>
@@ -397,7 +401,15 @@ const UserInfo = ({notiCnt}) => {
                   >
                     <td>{currentPage * itemsPerPage + i + 1}</td>
                     <td>{qst.qstTitle}</td>
-                    <td>{dayjs(qst.qstDate).format('YYYY-MM-DD HH:mm:ss')}</td>
+                    <td>
+                      {
+                        qst.questionImgDTOList[0].imgNum !== 0
+                        &&
+                        '🖼️'
+                      }
+                    </td>
+                    <td>{qst.qstType}</td>
+                    <td>{dayjs(qst.qstDate).format('YYYY-MM-DD')}</td>
                     <td>{qst.qstStatus}</td>
                   </tr>
                 )

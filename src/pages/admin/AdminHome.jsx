@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styles from './AdminHome.module.css'
-import BubbleChart from '../../component/charts/BubbleChart'
-import Button from '../../common/Button'
 import axios from 'axios';
 import dayjs from 'dayjs';
+import GaugeChart from '../../component/charts/GaugeChart';
 
-/*
-  방문자 카운터 컴포넌트
-  - 페이지로드 시 자동으로 방문 카운트
-  - 오늘 방문자 수와 총 방문자 수를 표시
- */
-const AdminHome = ({countCustomer}) => {
+const AdminHome = ({countCustomer, alerts, setAlerts}) => {
 
   // 환경 데이터를 받아올 state 변수
   const [growingData, setGrowingData] = useState([]);
@@ -21,13 +15,24 @@ const AdminHome = ({countCustomer}) => {
   // 문의 목록을 받아올 state변수
   const [qstList, setQstList] = useState([]);
 
-  // 상태 관리
-  const [todayCount, setTodayCount] = useState(0);      // 오늘 방문자 수
-  const [totalCount, setTotalCount] = useState(0);      // 총 방문자 수
-  //const [isLoading, setIsLoading] = useState(true);     // 로딩 상태
-  const [error, setError] = useState(null);             // 에러 상태
+  // ⭐ 센서별로 체크
+  const hasAlert = (sensorName) => {
+    return alerts.some(alert => alert.sensor === sensorName);
+  };
 
- 
+  // ⭐ 알림 확인 (삭제) 함수
+  const handleConfirmAlert = (sensorName) => {
+    // ⭐ 센서별로 삭제
+    setAlerts(prev => {
+      const updatedAlerts = prev.filter(alert => 
+        alert.sensor !== sensorName  // ⭐ 해당 센서만 제거
+      );
+      setAlerts(updatedAlerts);
+      localStorage.setItem('admin_alerts', JSON.stringify(updatedAlerts));
+      console.log(`✅ ${sensorName} 알림 확인 완료`);
+      return updatedAlerts;
+    })
+  };
 
   /*
     방문자 통계 조회 API 호출 함수
@@ -48,8 +53,6 @@ const AdminHome = ({countCustomer}) => {
       }
 
       const data = await response.json();
-      setTodayCount(data.todayCount || 0);
-      setTotalCount(data.totalCount || 0);
       
     } catch (err) {
       console.error('통계 조회 실패:', err);
@@ -77,29 +80,6 @@ const AdminHome = ({countCustomer}) => {
     .catch(e => console.log(e));
   }, []);
 
-  const isOptimalCondition = (data) => {
-    if (!data) return false;
-    
-    const { temper, humidity, soilHumidity, illumination } = data;
-    
-    // 적정 범위 체크
-    const isTemperOk = temper >= 18 && temper <= 25;
-    const isHumidityOk = humidity >= 60 && humidity <= 80;
-    const isSoilHumidityOk = soilHumidity >= 30 && soilHumidity <= 40;
-    const isIlluminationOk = illumination >= 10000 && illumination <= 30000;
-    
-    return isTemperOk && isHumidityOk && isSoilHumidityOk && isIlluminationOk;
-  };
-
-
-  /*
-    숫자 포맷팅 함수
-    1000 단위로 콤마 추가 (예: 1234 -> 1,234)
-    */
-  const formatNumber = (num) => {
-    return num.toLocaleString('ko-KR');
-  };
-  
   console.log(qstList)
 
   return (
@@ -140,41 +120,180 @@ const AdminHome = ({countCustomer}) => {
         </div>
       </div>
 
-      <div className={styles.third_row}>
-        <div className={styles.title}>
-          <span>업체별 Root스마트팜 시스템 정상구동 모니터링</span>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <td>업체명</td>
-             
-                <td>대기온도(도)</td>
-                <td>대기습도(%)</td>
-                <td>토양습도(%)</td>
-                <td>조도(lux)</td>
-                <td>구동현황</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>ROOT</td>
-               
-                <td>{growingData[0]?.temper}°C</td>
-                <td>{growingData[0]?.humidity}%</td>
-                <td>{growingData[0]?.soilHumidity}%</td>
-                <td>{growingData[0]?.illumination}</td>
-                <td>
-                  <Button 
-                    content={isOptimalCondition(growingData[0]) ? '정상' : '불안정'} 
-                    color={isOptimalCondition(growingData[0]) ? "green" : "brown"} 
-                    padding='5px' 
-                    fontSize='0.7rem' 
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <div className={styles.dashboard}>
+        <div className={styles.dashboard_title}>
+          <p>업체별 Root스마트팜 시스템 정상구동 모니터링</p>
+          <div className={styles.dashboard_container}>
+            <div className={styles.dashboard_info}>
+              <div>
+                <p>🚚 업체명 : <span style={{fontWeight: 800}}>ROOT</span></p>
+                
+                {/* ⭐ 센서별 상태 표시 - 버튼으로 변경 */}
+                <div className={styles.dashboard_status}>
+                  <div>
+                    <p>🌡️ 온도</p>
+                    <button 
+                      onClick={() => handleConfirmAlert('온도')}
+                      style={{
+                        padding: '5px 15px',
+                        borderRadius: '20px',
+                        border: hasAlert('온도') ? '2px solid #ef4444' : '2px solid #22c55e',
+                        backgroundColor: hasAlert('온도') ? '#fee2e2' : '#dcfce7',
+                        color: hasAlert('온도') ? '#991b1b' : '#166534',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {hasAlert('온도') ? '이상' : '적정'}
+                    </button>
+                  </div>
+                  
+                  <div>
+                    <p>💧 습도</p>
+                    <button 
+                      onClick={() => handleConfirmAlert('습도')}
+                      style={{
+                        padding: '5px 15px',
+                        borderRadius: '20px',
+                        border: hasAlert('습도') ? '2px solid #ef4444' : '2px solid #22c55e',
+                        backgroundColor: hasAlert('습도') ? '#fee2e2' : '#dcfce7',
+                        color: hasAlert('습도') ? '#991b1b' : '#166534',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {hasAlert('습도') ? '이상' : '적정'}
+                    </button>
+                  </div>
+                  
+                  <div>
+                    <p>🌱 토양습도</p>
+                    <button 
+                      onClick={() => handleConfirmAlert('토양습도')}
+                      style={{
+                        padding: '5px 15px',
+                        borderRadius: '20px',
+                        border: hasAlert('토양습도') ? '2px solid #ef4444' : '2px solid #22c55e',
+                        backgroundColor: hasAlert('토양습도') ? '#fee2e2' : '#dcfce7',
+                        color: hasAlert('토양습도') ? '#991b1b' : '#166534',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {hasAlert('토양습도') ? '이상' : '적정'}
+                    </button>
+                  </div>
+                  
+                  <div>
+                    <p>☀️ 조도</p>
+                    <button 
+                      onClick={() => handleConfirmAlert('조도')}
+                      style={{
+                        padding: '5px 15px',
+                        borderRadius: '20px',
+                        border: hasAlert('조도') ? '2px solid #ef4444' : '2px solid #22c55e',
+                        backgroundColor: hasAlert('조도') ? '#fee2e2' : '#dcfce7',
+                        color: hasAlert('조도') ? '#991b1b' : '#166534',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {hasAlert('조도') ? '이상' : '적정'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              {/* ⭐ 불안정 박스 */}
+              <div className={styles.danger}
+                style={{
+                  backgroundColor: alerts.length > 0 ? '#fee2e2' : '#dcfce7',
+                  border: alerts.length > 0 ? '2px solid #ef4444' : '2px solid #22c55e',
+                }}
+              >
+                <p 
+                  className={styles.danger_status}
+                  style={{
+                    fontSize: '2rem',
+                    marginBottom: '30px',
+                    color: alerts.length > 0 ? '#ef4444' : '#22c55e',
+                    fontWeight: 700
+                  }}
+                >
+                  {alerts.length > 0 ? '⚠️ 불안정' : '✓ 정상'}
+                </p>
+                {alerts.length > 0 ? (
+                  <p className={styles.danger_cnt} style={{ 
+                    fontSize: '1.2rem',
+                    color: '#dc2626',
+                    marginBottom: '0px'
+                  }}>
+                    조치 필요: {alerts.length}개 항목
+                  </p>
+                ) : (
+                  <p className={styles.danger_cnt} style={{ 
+                    fontSize: '1.2rem',
+                    color: '#16a34a',
+                    marginBottom: '0px'
+                  }}>
+                    모든 센서 정상 가동 중
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className={styles.dashboard_content}>
+              {/* ⭐ 온도 게이지 - 버튼 제거, 테두리만 */}
+              <div>
+                <GaugeChart
+                  title="온도"
+                  value={growingData[0]?.temper || 0}
+                  min={0}
+                  max={40}
+                  unit="°C"
+                  hasAlert={hasAlert('온도')}
+                />
+              </div>
+  
+              {/* ⭐ 습도 게이지 - 버튼 제거, 테두리만 */}
+              <div>
+                <GaugeChart
+                  title="습도"
+                  value={growingData[0]?.humidity || 0}
+                  min={0}
+                  max={100}
+                  unit="%"
+                  hasAlert={hasAlert('습도')}
+                />
+              </div>
+  
+              {/* ⭐ 토양습도 게이지 - 버튼 제거, 테두리만 */}
+              <div>
+                <GaugeChart
+                  title="토양습도"
+                  value={growingData[0]?.soilHumidity || 0}
+                  min={0}
+                  max={100}
+                  unit="%"
+                  hasAlert={hasAlert('토양습도')}
+                />
+              </div>
+  
+              {/* ⭐ 조도 게이지 - 버튼 제거, 테두리만 */}
+              <div>
+                <GaugeChart
+                  title="조도"
+                  value={growingData[0]?.illumination || 0}
+                  min={0}
+                  max={50000}
+                  unit=" lux"
+                  hasAlert={hasAlert('조도')}
+                />
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div className={styles.third_row}>
         <div className={styles.title}>
           <span>신규업체 서비스가입 신청현황</span>
           <table className={styles.table}>
@@ -225,14 +344,9 @@ const AdminHome = ({countCustomer}) => {
               )
             })
           }
-
-          
         </div>
-
       </div>
-
     </div>
-
   )
 }
 
