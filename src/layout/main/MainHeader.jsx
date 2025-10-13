@@ -20,7 +20,9 @@ const MainHeader = ({onLogout, notiCnt, onResetCnt}) => {
           !loginData
           ?
           <>
-          <div>회원가입</div>
+          <div
+            onClick={() => nav('/join')}
+          >회원가입</div>
           |
           <div
             onClick={() => nav('/login')}

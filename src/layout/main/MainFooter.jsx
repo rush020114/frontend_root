@@ -33,7 +33,7 @@ const MainFooter = () => {
               <span>
                 <i className="bi bi-c-circle"></i>
               </span>
-              2021 EPIS.All Rights Reserved.
+              2025 ROOT.All Rights Reserved.
             </p>
           </div>
         </div>
