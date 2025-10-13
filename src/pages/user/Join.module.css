@@ -176,6 +176,9 @@ Button:hover{
   height: 20px;
   cursor: pointer;
   margin-right: 8px;
+
+  border: none !important;
+  outline: none !important;
 }
 
 .agreement_item {

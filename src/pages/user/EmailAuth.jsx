@@ -133,6 +133,7 @@ const EmailAuth = ({ email, onVerified }) => {
       <Modal
         title = '이메일 인증'
         size = '400px'
+        padding = '30px'
         isOpen = {isOpen}
         onClose = {() => handleClose()}
       >

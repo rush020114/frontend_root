@@ -4,6 +4,7 @@ import styles from './Modal.module.css'
 const Modal = ({
   title = '제목'
   , size = '500px'
+  , padding = '30px'
   , isOpen = false
   , onClose
   , children
@@ -21,13 +22,13 @@ const Modal = ({
       <div className={styles.container}>
         <div 
           className={styles.content}
-          style={{ width : size }}
+          style={{ width : size, padding : padding }}
           onClick={(e) => e.stopPropagation()}
         >
           <div className={styles.header}>
-            <p className={styles.title}>
+            <h2 className={styles.title}>
               {title}
-            </p>
+            </h2>
             <button 
               type="button"
               className={styles.close}

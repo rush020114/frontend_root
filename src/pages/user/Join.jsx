@@ -42,7 +42,7 @@ const Join = () => {
   // 아이디 중복 확인 완료 여부를 저장하는 state 변수
   const [idChecked, setIdChecked] = useState(false);
   
-  // 비밀번호 보이기/숨기기 상태를 저장하는 state 변수
+  // 비밀번호 표시 상태를 저장하는 state 변수
   const [showPw, setShowPw] = useState(false);
   const [showPwConfirm, setShowPwConfirm] = useState(false);
 
@@ -107,7 +107,7 @@ const Join = () => {
     );
   };
 
-  // 입력한 데이터를 변경 시 유효성 검사 함수
+  // 입력 데이터를 변경 시 유효성 검사 함수
   const handleInputChange = (e) => {
     handleChange(e);
     updateErrorMsg(
@@ -117,7 +117,7 @@ const Join = () => {
     );
   };
 
-  // 입력한 데이터를 저장하는 함수
+  // 입력 데이터를 저장하는 함수
   const handleChange = (e) => {
     // 아이디 수정 시 중복 확인 상태 초기화
     if(e.target.name === 'userId'){
