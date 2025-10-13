@@ -285,7 +285,6 @@ const AdminHome = ({countCustomer, alerts, setAlerts}) => {
                   value={growingData[0]?.illumination || 0}
                   min={0}
                   max={50000}
-                  unit=" lux"
                   hasAlert={hasAlert('조도')}
                 />
               </div>
