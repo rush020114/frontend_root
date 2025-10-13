@@ -185,6 +185,12 @@ const UserControl = () => {
             Today : {motionCnt} 건
           </p>
 
+          {/* 최근 감지됨 (새로운 클래스) */}
+          <div className={styles.recentDetection}>
+            <p className={styles.text}>최신 감지
+               </p>
+          </div>
+
           {/* 마지막 감지 시각 */}
           <div className={styles.motionTime}>
             {motionStats.lastDetected ? (
