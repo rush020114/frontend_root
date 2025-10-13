@@ -8,9 +8,10 @@
 .service > div{
   width: 100%;
   border-radius: 10px;
-  text-align: center;
   padding: 30px;
   transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
 }
 
 .service > div:hover{
@@ -18,37 +19,220 @@
 }
 
 .service h1{
-  font-size: 3rem;
+  font-size: 3.5rem;
 }
 
-.service p{
-  font-size: 1.5rem;
+.home_info{
+  font-size: 1.75rem;
+  margin-top: auto;
+  font-weight: 700;
+}
+
+.info_btn{
+  margin-top: 30px;
+  text-align: end;
+}
+
+.info_btn > button{
+  border-radius: 30px;
+  padding: 12px 20px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.info_btn > button:hover{
+  background-color: rgba(255, 255, 255, 0.4);
+}
+ 
+.info_btn > button:active{
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.service img{
+  width: 100%;
+  pointer-events: none;   
+  margin: 0 auto;
+  max-height: 350px;
 }
 
 .first_service{
-  background: linear-gradient(60deg, #e9f8c8, #b0e198);
-  color: #3e9145;
+  background: linear-gradient(135deg, #80CBC4, #B2DFDB);
+  color: #00695C;
+}
+
+.middle_service{
+  background: linear-gradient(135deg, #FFC107, #FFD54F);
+  color: #E65100;
 }
 
 .last_service{
-  background: linear-gradient(60deg, #6ccc91, #379c5f);
-  color: #b0e198;
+  background: linear-gradient(135deg, #6ccc91, #43A047);
+  color: #335734;
 }
 
 .content{
   display: flex;
-  justify-content: space-between;
-  height: 500px;
+  gap: 30px;
+  margin-top: 50px;
 }
 
-.admin_menu{
-  position: fixed;
-  right: 20px;
-  top: 200px;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.5);
-  border:1px solid rgba(245, 245, 245);
-  box-shadow: 0px 0px 10px 0px #eeeeee;
+.notice{
+  width: 70%;
+  border: 1px solid white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px #cccccc;
+  background-color: white;
+  padding: 20px 20px 10px 20px;
+}
+
+.notice_title{
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #cccccc;
+}
+
+.notice_span{
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  background-color: #eeeeee;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.notice_table{
+  width: 100%;
+}
+
+.notice_table td{
+  padding: 20px 5px;
+  border-bottom: 1px solid #cccccc;
+}
+
+.notice_table tr:hover{
+  background-color: #f7f7f7;
+  cursor: pointer;
+}
+
+.notice_table tr:last-child td{
+  border: none;
+}
+
+.noti{
+  background-color: #4dab28;
+  color: white;
   border-radius: 20px;
-  height: 500px;
+  padding: 7px 10px;
+  text-align: center;
+}
+
+.noti_title{
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.noti_date{
+  color: #555555;
+  font-weight: 700;
+  text-align: center;
+}
+
+.guide_div{
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.guide_div > h1{
+  font-size: 2.5rem;
+}
+
+.guide{
+  border: 1px solid #4dab28;
+  border-radius: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.guide_title{
+  display: flex;
+  padding: 20px;
+  position: relative;
+}
+
+.left_title{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.left_title > h2{
+  font-size: 2rem;
+}
+
+.left_title > span{
+  border-radius: 20px;
+  border: 1px solid #cccccc;
+  width: 80px;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #555555;
+}
+
+.strawberry{
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 20px;
+  right: 10px;
+}
+
+.strawberry > img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.guide_div2{
+  background-color: #f3f9f0;
+  flex: 1;
+  padding: 0px 20px;
+}
+
+.guide_table{
+  width: 100%;
+  height: 100%;
+}
+
+.guide_table td{
+  vertical-align: middle;
+}
+
+.guide_table td:first-child{
+  color: #555555;
+  font-size: 1.2rem;
+}
+
+.guide_table td:last-child{
+  color: #4dab28;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.guide_table td {
+  border-bottom: 1px solid #4dab28;
+}
+
+/* 마지막 tr의 td에는 border-bottom 제거 */
+.guide_table tr:last-child td {
+  border-bottom: none;
 }

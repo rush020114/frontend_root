@@ -1,0 +1,258 @@
+.container{
+  width: 100%;
+}
+.container > div{
+  margin-bottom: 15px;
+}
+.first_row{
+  display: flex;
+  gap: 15px;
+}
+.first_row > div{
+  background-color: white;
+  width: 100%;
+  height: 120px;
+  border: 1px solid rgb(215, 215, 215);
+  padding: 12px;
+  border-radius: 4px;
+  box-shadow: 0px 0px 5px 3px rgb(245, 245, 245); 
+}
+.first_row > div:last-child{
+  background: linear-gradient(60deg, #6dc95a, #37a029);
+  color: white;
+}
+.box{
+  display: flex;
+  flex-direction: column;
+}
+.box > span{
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+}
+.data{
+  display: flex;
+    /* 버튼을 오른쪽 끝으로 배치 */
+  justify-content: end;
+  align-items: flex-end;
+  gap: 8px;
+} 
+.data > i{
+  font-size: 1.3rem;
+  color: rgb(126, 199, 126);
+}
+.data > p{
+  font-size: 2rem;
+  font-weight: bold;
+}
+.second_row{
+  background-color: white;
+  border: 1px solid rgb(215, 215, 215);
+  width: 100%;
+  height: 360px;
+  border-radius: 4px;
+  padding: 12px;
+  box-shadow: 0px 0px 5px 3px rgb(245, 245, 245); 
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  padding-bottom: 35px;
+  padding-right: 20px;
+}
+
+.dashboard{
+  background-color: white;
+  width: 100%;
+  border: 1px solid rgb(215, 215, 215);
+  border-radius: 4px;
+  box-shadow: 0px 0px 5px 3px rgb(245, 245, 245); 
+  padding: 12px 20px;
+}
+
+.dashboard_title > p{
+  margin-bottom: 20px;
+}
+
+.dashboard_container{
+  display: flex;
+  gap: 15px;
+}
+
+.dashboard_info{
+  padding: 10px 15px;
+  width: 30%;
+  background-color: #fafafa;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard_info > div > p{
+  font-size: 1.5rem;
+  margin-bottom: 25px;
+}
+
+.dashboard_status{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.dashboard_status > div{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #cccccc;
+  padding-bottom: 10px;
+}
+
+.dashboard_status p{
+  font-size: 1.25rem;
+}
+
+.danger{
+  margin: 0 auto;
+  margin-top: auto;
+  width: 100%;
+  text-align: center;
+  padding: 20px 0px;
+  border-radius: 5px;
+}
+
+.dashboard_content{
+  width: 70%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.dashboard_content > div{
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fafafa;
+  border: 1px solid #cccccc;
+}
+
+.third_row{
+  display: flex;
+  gap: 15px;
+}
+
+.third_row > div:first-child{
+  background-color: white;
+  width: 40%;
+  height: 340px;
+  border: 1px solid rgb(215, 215, 215);
+  border-radius: 4px;
+  box-shadow: 0px 0px 5px 3px rgb(245, 245, 245); 
+}
+.third_row > div:nth-child(2){
+  background-color: white;
+  width: 30%;
+  height: 340px;
+  border: 1px solid rgb(225, 225, 225);
+
+  border-radius: 4px;
+  box-shadow: 0px 0px 5px 3px rgb(245, 245, 245); 
+}
+.third_row > div:last-child{
+  background-color: white;
+  width: 60%;
+  height: 340px;
+  border: 1px solid rgb(225, 225, 225);
+  padding: 12px;
+  border-radius: 4px;
+  box-shadow: 0px 0px 5px 4px rgb(245, 245, 245); 
+}
+
+.title{
+  display: flex;
+  flex-direction: column;
+} 
+.title > span{
+  margin-bottom: 13px;
+  padding: 12px 20px;
+}
+/* table 디자인 */
+.table > thead > tr > td{
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgb(216, 214, 214);
+  height: 40px;
+  font-size: 0.8rem;
+  text-align: center;
+  line-height: 40px;
+}
+/* tbody에 홀수짝수줄 디자인 주기 */
+.table > tbody > tr:nth-child(odd) > td{
+  background-color: rgb(255, 255, 255);
+  height: 35px;
+  text-align: center;  
+  line-height: 35px;
+  font-size: 0.8rem;
+}
+.table > tbody > tr:nth-child(even) > td{
+  background-color: rgb(240, 240, 240);
+  height: 35px;
+  text-align: center;  
+  line-height: 35px;
+  font-size: 0.8rem;
+}
+
+.table > tbody > tr, table > tbody > td:hover{
+  background-color: rgb(210, 210, 210);
+}
+
+.table > thead > tr > td:first-child {
+  text-align: left !important;
+  padding-left: 20px;
+}
+.table > thead > tr > td:last-child {
+  text-align: right !important;
+  padding-right: 17px;
+}
+.table > tbody > tr > td:first-child {
+  text-align: left !important;
+  padding-left: 20px;
+}
+.table > tbody > tr > td:last-child{
+  text-align: center !important;
+  padding-right: 15px;
+}
+
+/* 비즈니스 문의 */
+.qna{
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(216, 214, 214) ; 
+  display: flex;
+  flex-direction: column;
+}
+.memo{
+  font-size: 0.7rem;
+}
+.memo > p:first-child{
+  font-weight: bold;
+  color: rgb(91, 92, 91);
+}
+.memo > p:nth-child(2){
+  color: rgb(88, 88, 88);
+}
+.memo > p:last-child{
+  color: rgb(136, 136, 136);
+}
+
+.qna > span{
+  color : rgb(11, 177, 11);
+  font-weight: bold;
+  margin-bottom: 15px;
+  height: 65px;
+  border-bottom: 1px solid rgb(224, 223, 223) ;
+}
+.request{
+  display: flex;
+  gap : 10px
+
+}
+.request > i{
+  font-size: 2.5rem;
+  color: rgb(152, 209, 152);
+}

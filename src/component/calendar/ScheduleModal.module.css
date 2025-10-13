@@ -1,0 +1,68 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 500px;
+  max-width: 90%;
+}
+
+.modal h2 {
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form input,
+.form select,
+.form textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.buttons button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.buttons button:first-child {
+  background: #4dab28;
+  color: white;
+}
+
+.buttons button:last-child {
+  background: #ddd;
+}

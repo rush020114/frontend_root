@@ -7,9 +7,10 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { handleErrorMsg } from '../../utils/validation'
 
-const Login = () => {
-  // 회원 로그인 시, 입력하는 아이디와 비밀번호를 저장하는 state 변수
-  const [loginData, setLoginData] = useState({
+const Login = ({onLogin}) => {
+  //회원 로그인 시, 입력하는 아이디와 비밀번호를 저장하는 변수
+  const[loginData, setLoginData] = useState({
+
     'userId' : '',
     'userPw' : ''
   });
@@ -147,6 +148,8 @@ const Login = () => {
         
         // 메인 페이지로 이동
         nav('/')
+
+        onLogin();
       }
       else{
         alert('아이디 또는 비밀번호가 일치하지 않습니다.')

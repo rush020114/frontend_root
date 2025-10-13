@@ -1,0 +1,14 @@
+.content{
+  margin: 50px 0px;
+  display: flex;
+  padding: 0px 300px;
+  gap: 20px;
+}
+
+.mypage_menu{
+  width: 20%;
+}
+
+.content_div{
+  width: 80%;
+}
