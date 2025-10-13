@@ -1,25 +1,278 @@
 .container{
-  width: 800px;
-  margin: 0 auto;
+  width: 500px;
+  margin: 50px auto;
 }
 
-.form{
-  width: 100%;
-  border: 1px solid black;
-  border-radius: 10px;
-  padding: 40px;
+.container input, .container button, .container select{
+  padding: 12px !important;
+  font-size: 1rem; 
+  vertical-align: middle;
+  box-sizing: border-box;
+}
 
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+.container input:not([type="checkbox"]),
+.container select {
+  height: 45px !important;
+}
+
+.container input {
+  outline: 1px solid #777777;
+  outline-offset: -1px;
+}
+
+.container input:focus {
+  outline: 2px solid #1c1c1c !important;
 }
 
 Button:hover{
   cursor: pointer;
 }
 
+/* 에러 상태 Input */
+.input_error input {
+  outline: 2px solid #ff0000 !important;
+}
+
+.input_error input:focus {
+  outline: 2px solid #1c1c1c !important;
+}
+
+/* 에러 메시지 */
+.error {
+  height: 5px;
+  font-size: 0.8rem;
+  margin-top: 10px;
+
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.error i {
+  padding-right: 8px;
+  vertical-align: middle;
+}
+
+.form{
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  padding: 60px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.normal_login p {
+  margin-bottom: 8px;
+}
+
+.form_title{
+  font-weight: 600;
+}
+
+/* 비밀번호 */
+.pw_wrap {
+  position: relative;
+}
+
+.pw_icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+  font-size: 1.2rem;
+}
+
+.pw_icon:hover {
+  color: #333;
+}
+
+/* 아이디 저장 */
+.checkbox{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  vertical-align: middle;
+  
+  border: none !important;
+  outline: none !important;
+}
+
+.checkbox p {
+  margin: 0;
+  line-height: 1;
+}
+
+.link_wrap{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+}
+
+.link_wrap p{
+  color: #6a6a6a;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.link_wrap p:hover{
+  font-weight: 600;
+
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.link_wrap p:not(:last-child)::after {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 12px;
+  background-color: #aeaeae;
+  margin-left: 10px;
+  vertical-align: middle;
+  pointer-events: none;
+}
+
 .btn{
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  margin: 10px 0px;
 }
+
+.social_login button{
+  background-color: white !important;
+}
+
+.social_login button:nth-child(1){
+  border: 1px solid #f5ca2e;
+  color: #f5ca2e;
+}
+
+.social_login button:nth-child(2){
+  border: 1px solid #35b11e;
+  color: #35b11e;
+}
+
+.social_login button:nth-child(3){
+  border: 1px solid #606060;
+  color: #606060;
+}
+
+/* 탭 영역 (아이디/비밀번호 찾기) */
+.tab_area {
+  margin-bottom: 20px;
+}
+
+.tab_list {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.tab_list li {
+  flex: 1;
+}
+
+.btn_tab {
+  width: 100%;
+  padding: 15px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 16px;
+  color: #666;
+  transition: all 0.3s;
+}
+
+.btn_tab:hover {
+  color: #3c83f6;
+}
+
+.tab_list li.active .btn_tab {
+  color: #3c83f6;
+  border-bottom: 3px solid #3c83f6;
+  font-weight: bold;
+}
+
+.tab_conts_wrap {
+  padding: 15px 0;
+}
+
+.tab_conts > div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.tab_conts > div > button {
+  margin: 0 auto;
+}
+
+/* 결과 표시 영역 */
+.result {
+  text-align: center;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.result p {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.8;
+}
+
+.result strong {
+  font-size: 24px;
+  color: #3c83f6;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin: 0 5px;
+}
+
+/* .result > div {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 10px;
+} */
+
+.result_btn{
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.result_btn button:nth-child(2){
+  background-color: #6c757d !important;
+  color: white !important;
+}
+
+.result_btn button:nth-child(2):hover {
+  background-color: #5a6268 !important;
+}
+
+.result_btn button:nth-child(2):active {
+  background-color: #545b62 !important;
+}
+

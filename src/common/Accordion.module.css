@@ -1,0 +1,15 @@
+.accordion {
+  margin-bottom: 8px;
+}
+
+.header {
+  padding-top: 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content {
+  padding: 0px 15px 0px 30px;
+}
