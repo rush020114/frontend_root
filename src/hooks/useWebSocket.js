@@ -25,7 +25,7 @@ export const useWebSocket = (userId, isAdmin, onNotification, resetNotiCnt, upda
     const client = new Client({
       
       // SockJS로 WebSocket 연결 (fallback 지원)
-      webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+      webSocketFactory: () => new SockJS('http://192.168.30.79:8080/ws'),
       
       // 연결 성공 시 실행되는 함수
       onConnect: () => {

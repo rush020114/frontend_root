@@ -227,16 +227,16 @@ const NoticeDetail = () => {
                   <div
                     onClick={() => handleModalData(
                       true
-                      , `http://localhost:8080/upload_files/notice/${img.attachedImgName}`
+                      , `http://192.168.30.79:8080/upload_files/notice/${img.attachedImgName}`
                       , img.originImgName
                     )}
                   >
-                    <img src={`http://localhost:8080/upload_files/notice/${img.attachedImgName}`} />
+                    <img src={`http://192.168.30.79:8080/upload_files/notice/${img.attachedImgName}`} />
                   </div>
                   <p
                     onClick={() => handleModalData(
                       true
-                      , `http://localhost:8080/upload_files/notice/${img.attachedImgName}`
+                      , `http://192.168.30.79:8080/upload_files/notice/${img.attachedImgName}`
                       , img.originImgName
                     )}
                   >{img.originImgName}</p>
