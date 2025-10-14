@@ -209,7 +209,7 @@ const Home = () => {
                   </tr>
                   <tr>
                     <td>☀️ 조도</td>
-                    <td>10,000~30,000 Lux</td>
+                    <td>300~700 Lux</td>
                   </tr>
                 </tbody>
               </table>

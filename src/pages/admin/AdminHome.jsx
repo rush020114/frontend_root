@@ -304,7 +304,7 @@ const AdminHome = ({countCustomer, alerts, setAlerts}) => {
                   title="조도"
                   value={growingData[0]?.illumination || 0}
                   min={0}
-                  max={50000}
+                  max={1000}
                   hasAlert={hasAlert('조도')}
                 />
               </div>
