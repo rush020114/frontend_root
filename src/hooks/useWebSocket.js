@@ -3,6 +3,7 @@ import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { SERVER_URL } from '../constants/webConst';
 
 // userId: 사용자 ID, isAdmin: 관리자 여부
 export const useWebSocket = (userId, isAdmin, onNotification, resetNotiCnt, updateAlerts) => {
@@ -25,7 +26,7 @@ export const useWebSocket = (userId, isAdmin, onNotification, resetNotiCnt, upda
     const client = new Client({
       
       // SockJS로 WebSocket 연결 (fallback 지원)
-      webSocketFactory: () => new SockJS('http://192.168.30.79:8080/ws'),
+      webSocketFactory: () => new SockJS(`${SERVER_URL}/ws`),
       
       // 연결 성공 시 실행되는 함수
       onConnect: () => {

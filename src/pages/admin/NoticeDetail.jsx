@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Textarea from '../../common/Textarea';
 import Modal from '../../component/modal/Modal';
+import { SERVER_URL } from '../../constants/webConst';
 
 const NoticeDetail = () => {
 
@@ -227,16 +228,16 @@ const NoticeDetail = () => {
                   <div
                     onClick={() => handleModalData(
                       true
-                      , `http://192.168.30.79:8080/upload_files/notice/${img.attachedImgName}`
+                      , `${SERVER_URL}/upload_files/notice/${img.attachedImgName}`
                       , img.originImgName
                     )}
                   >
-                    <img src={`http://192.168.30.79:8080/upload_files/notice/${img.attachedImgName}`} />
+                    <img src={`${SERVER_URL}/upload_files/notice/${img.attachedImgName}`} />
                   </div>
                   <p
                     onClick={() => handleModalData(
                       true
-                      , `http://192.168.30.79:8080/upload_files/notice/${img.attachedImgName}`
+                      , `${SERVER_URL}/upload_files/notice/${img.attachedImgName}`
                       , img.originImgName
                     )}
                   >{img.originImgName}</p>

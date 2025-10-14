@@ -33,6 +33,7 @@ import Notice from './pages/admin/Notice'
 import RegNotice from './pages/admin/RegNotice'
 import NoticeDetail from './pages/admin/NoticeDetail'
 import axios from 'axios'
+import { SERVER_URL } from './constants/webConst'
 
 function App() {
 
@@ -106,7 +107,7 @@ function App() {
     페이지 로드 시 한 번만 실행
     */
   useEffect(() => {
-    axios.post(`http://192.168.30.79:8080/visitor/count`)
+    axios.post(`${SERVER_URL}/visitor/count`)
     .then(res => countCustomer.current = res.data)
     .catch(e => console.log(e));
   }, []);
