@@ -23,7 +23,7 @@ const GaugeChart = ({ title, value, min = 0, max = 100, unit = '', thresholds, h
 
   // ⭐ 색상 결정 - hasAlert 기준으로 변경
   const getColor = () => {
-    return hasAlert ? '#ef4444' : '#22c55e';  // 알림 있으면 빨강, 없으면 초록
+    return hasAlert ? '#ef4444' : '#78c469ff';  // 알림 있으면 빨강, 없으면 초록
   };
 
   return (
