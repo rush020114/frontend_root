@@ -193,7 +193,7 @@ const UserQnADetail = () => {
                   className={styles.img_info}
                 >
                   <div>
-                    <img src={`http://localhost:8080/upload_files/question/${img.attachedImgName}`} />
+                    <img src={`http://192.168.30.79:8080/upload_files/question/${img.attachedImgName}`} />
                   </div>
                   <p>{img.originImgName}</p>
                 </div>

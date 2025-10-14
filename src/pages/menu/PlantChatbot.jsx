@@ -9,7 +9,7 @@ const PlantChatbot = () => {
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  const API_BASE_URL = 'http://localhost:8080/api/chat';
+  const API_BASE_URL = 'http://192.168.30.79:8080/api/chat';
 
   // 컴포넌트 마운트 시 세션 생성
   useEffect(() => {
