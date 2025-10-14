@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import Textarea from '../../common/Textarea'
+import { SERVER_URL } from '../../constants/webConst'
 
 const UserQnADetail = () => {
   const nav = useNavigate();
@@ -193,7 +194,7 @@ const UserQnADetail = () => {
                   className={styles.img_info}
                 >
                   <div>
-                    <img src={`http://192.168.30.79:8080/upload_files/question/${img.attachedImgName}`} />
+                    <img src={`${SERVER_URL}/upload_files/question/${img.attachedImgName}`} />
                   </div>
                   <p>{img.originImgName}</p>
                 </div>
