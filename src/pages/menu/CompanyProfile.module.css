@@ -4,13 +4,15 @@
 .container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  /* width: 100%; */
   height: auto;
   overflow-x: hidden;
   position: relative;
   background: #000;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  margin: -50px -300px;
+  width: calc(100% + 600px);
 }
 .container::-webkit-scrollbar { display: none; }
 
@@ -26,7 +28,6 @@
   overflow: hidden;
 }
 
-/* 왼쪽 이미지 (라즈베리파이) */
 .imageBox {
   width: 33%;
   display: flex;
@@ -41,7 +42,6 @@
 }
 .pie { width: 80%; }
 
-/* 오른쪽 텍스트 박스 */
 .textBox {
   width: 67%;
   display: flex;
@@ -50,7 +50,6 @@
   align-items: center;
 }
 
-/* root 로고 */
 .companyName {
   font-size: 17rem;
   font-weight: bold;
@@ -66,7 +65,6 @@
   to { clip-path: inset(0 0 0 0); }
 }
 
-/* 키워드들 (도움, 성장, 기술...) */
 .words { display: flex; gap: 30px; margin-top: 4px; color: white; }
 .word {
   font-size: 1.8rem;
@@ -85,7 +83,6 @@
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* 하단 자동 스크롤 텍스트 */
 .abcd {
   font-size: 12rem;
   font-weight: bold;
@@ -113,7 +110,7 @@
 }
 
 /* =============================
-   섹션 2: 색상 변화 박스 (black→brown)
+   섹션 2: 색상 변화 박스
 ============================= */
 .sectionDark {
   width: 100%;
@@ -145,8 +142,6 @@
 /* =============================
    섹션 3: 라즈베리파이 소개 + GIF
 ============================= */
-
-/* 상단 farmer.png 배경 */
 .whiteBox {
   position: relative;
   width: 1200px;
@@ -165,7 +160,6 @@
   z-index: 1;
 }
 
-/* 오버레이 텍스트 */
 .focusText {
   position: relative;
   z-index: 2;
@@ -183,7 +177,6 @@
   animation: fadeUp 1s ease forwards;
 }
 
-/* 문단 애니메이션 */
 .typographyParagraph {
   opacity: 0;
   animation: fadeUp 1s ease forwards;
@@ -206,7 +199,6 @@
   padding-bottom: 100px;
 }
 
-/* 라즈베리파이 타이틀 영역 */
 .titleBox {
   width: 100%;
   max-width: 900px;
@@ -216,7 +208,6 @@
   z-index: 15;
 }
 
-/* r a s p b e r r y  P I */
 .raspberryTitle {
   font-size: 1.2rem;
   font-weight: 700;
@@ -230,7 +221,6 @@
   white-space: nowrap;
 }
 
-/* 작지만 강력한 두뇌 */
 .raspberrySubtitle {
   font-size: 2.1rem;
   font-weight: 700;
@@ -248,7 +238,6 @@
   white-space: nowrap;
 }
 
-/* 라즈베리파이 GIF */
 .gifContainer {
   position: relative;
   width: 1000px;
@@ -266,7 +255,6 @@
   transform-origin: center; 
 }
 
-/* 설명 텍스트 블록 (중앙 정렬) */
 .descBoxFirst {
   width: 100%;
   max-width: 900px;
@@ -279,7 +267,6 @@
   z-index: 10;
 }
 
-/* 문단 텍스트 */
 .descBoxFirst p {
   font-size: 1.4rem;
   color: rgba(255,255,255,0.85);
@@ -289,7 +276,6 @@
   animation: fadeUp 1s ease forwards;
 }
 
-/* modules.png 이미지 박스 */
 .moduleImageBox {
   width: 100%;
   max-width: 900px;
@@ -310,7 +296,6 @@
   animation: fadeUp 1s ease forwards;
 }
 
-/* 설명 텍스트 블록 (중앙 정렬) */
 .descBoxSecond {
   width: 100%;
   max-width: 900px;
@@ -323,7 +308,6 @@
   z-index: 10;
 }
 
-/* 문단 텍스트 */
 .descBoxSecond p {
   font-size: 1.4rem;
   color: rgba(255,255,255,0.85);
@@ -334,37 +318,41 @@
 }
 
 /* =============================
-   섹션 4, 5, 6: 흰색 배경 섹션들
+   섹션 4 5 6 공통 sectionWhite
 ============================= */
 .sectionWhite {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: 200vh;
   background: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 100px 20px;
+  justify-content: flex-start;
+  padding: 100px 0;
+  padding-bottom: 400px;
   z-index: 0;
+  overflow: visible;
 }
 
-/* 타이틀 영역 */
-.titleBoxWhite {
+/* =============================
+   섹션 4: 효율성
+============================= */
+.titleBoxFirst {
   width: 100%;
-  max-width: 900px;
+  max-width: 100%;
   margin-top: 80px;
   text-align: center;
   position: relative;
-  z-index: 15;
+  z-index: 25;
+  padding: 0 20px;
 }
 
-/* 영문 서브타이틀 */
-.efficiencySubtitle {
-  font-size: 1.2rem;
+.efficiencySubtitleFirst {
+  font-size: 1rem;
   font-weight: 700;
-  margin-left: -600px;
-  color: #333;
+  margin-left: -315px;
+  color: #110303;
   letter-spacing: -0.5px;
   opacity: 0;
   animation: fadeUp 1s ease forwards;
@@ -372,8 +360,7 @@
   white-space: nowrap;
 }
 
-/* 24 hours */
-.mainTitleFirst {
+.mainTitleHours {
   font-size: 250px;
   font-weight: 700;
   background: linear-gradient(130deg, #1859d3 35%, #ff00d4 55%, #ff00a6 55%, #ffa600 65%);
@@ -381,7 +368,6 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-top: 10px;
-  margin-left: -200px;
   letter-spacing: -0.5px;
   opacity: 0;
   animation: fadeUp 1s ease forwards;
@@ -389,8 +375,7 @@
   white-space: nowrap;
 }
 
-/* 연결의 힘. */
-.mainTitleSecond {
+.mainTitleSPower {
   font-size: 7rem;
   font-weight: 800;
   background: linear-gradient(90deg, #000000 35%, #3b393b 55%);
@@ -399,7 +384,7 @@
   background-clip: text;
   margin-top: 10px;
   margin-bottom: 150px;
-  margin-left: -65px;
+  margin-left: 25px;
   letter-spacing: -0.5px;
   opacity: 0;
   animation: fadeUp 1s ease forwards;
@@ -408,56 +393,18 @@
   white-space: nowrap; 
 }
 
-/* 스마트한 농업의 만남. */
-.smartTitle {
-  font-size: 6rem;
-  font-weight: bold;
-  background: #2672ff;
-  text-align: left;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-top: 10px;
-  margin-left: -130px;
-  letter-spacing: -0.5px;
-  opacity: 0;
-  animation: fadeUp 1s ease forwards;
-  margin-right: 8%;
-  animation-delay: 0.2s;
-  white-space: nowrap;
-}
-
-/* 지속가능한 미래를 위한 작은 기술. */
-.futureTitle {
-  font-size: 2.1rem;
-  font-weight: 700;
-  background: linear-gradient(130deg, #1859d3 35%, #ff00d4 55%, #ff00a6 55%, #ffa600 65%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-top: 10px;
-  margin-left: -130px;
-  letter-spacing: -0.5px;
-  opacity: 0;
-  animation: fadeUp 1s ease forwards;
-  margin-right: 8%;
-  animation-delay: 0.2s;
-  white-space: nowrap;
-}
-
-/* 효율성 텍스트 블록 */
-.descBoxThird {
-  margin-top: -50px;
-  width: 100%;
-  max-width: 900px;
-  margin-right: 300px;
+.introFirst {
+  margin-top: 20px;
+  margin-bottom: 100px;
+  margin-left: 620px;
+  width: 90%;
+  max-width: 100%;
   text-align: left;
   position: relative;
-  z-index: 10;
+  z-index: 30;
 }
 
-/* 문단 텍스트 (일반 스타일) */
-.descBoxThird p {
+.introFirst p {
   font-size: 2rem;
   color: rgba(0,0,0,0.85);
   margin: 24px 0;
@@ -466,21 +413,17 @@
   animation: fadeUp 1s ease forwards;
 }
 
-/* 강조 텍스트 */
-.descBoxThird p strong {
+.introFirst p strong {
   color: #000000;
   font-weight: 700;
 }
 
-/* 여기 */
-/* 클라우드 동기화 로더 애니메이션 */
 .loader {
   --cloud-color: #c562ff;
   --arrows-color: #83ff89;
   --time-animation: 2.5s;
   transform: scale(2);
   margin: 100px 0;
-
 }
 .cloudSvg {
   width: 400px;
@@ -510,38 +453,272 @@
   animation: cloudLines calc(var(--time-animation) / 1.33) linear infinite;
 }
 @keyframes cloudRotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(180deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
 }
 @keyframes cloudLines {
-  0% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(8px);
-  }
+  0% { transform: translateY(-10px); }
+  100% { transform: translateY(8px); }
 }
 @keyframes cloudMove {
-  0% {
-    cx: 20;
-    cy: 60;
-    r: 15;
-  }
-  50% {
-    cx: 50;
-    cy: 45;
-    r: 20;
-  }
-  100% {
-    cx: 80;
-    cy: 60;
-    r: 15;
-  }
+  0% { cx: 20; cy: 60; r: 15; }
+  50% { cx: 50; cy: 45; r: 20; }
+  100% { cx: 80; cy: 60; r: 15; }
+}
+
+/* =============================
+   섹션 5: 스마트한 농업
+============================= */
+.smartImg {
+  width: 900px;
+  height: 100%;
+  margin-left: 380px;
+  margin-top: -30px;
+  object-fit: cover;
+  display: block;
+}
+
+.farmTitle {
+  font-size: 5rem;
+  font-weight: 500;
+  background: #000000;
+  text-align: left;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-top: -10px;
+  margin-left: 430px;
+  letter-spacing: -0.5px;
+  opacity: 0;
+  animation: fadeUp 1s ease forwards;
+  margin-right: 160px;
+  animation-delay: 0.2s;
+  white-space: nowrap;
+}
+
+.introSecond {
+  margin-top: 120px;
+  margin-left: 1200px;
+  width: 90%;
+  max-width: 100%;
+  text-align: left;
+  position: relative;
+  z-index: 30;
+}
+
+.introSecond p {
+  font-size: 1.4rem;
+  color: rgba(0,0,0,0.85);
+  margin-top: 13px;
+  line-height: 2rem;
+  opacity: 0;
+  animation: fadeUp 1s ease forwards;
+}
+
+.introSecond p strong {
+  color: #000000;
+  font-weight: 700;
+}
+
+.staffImageWrapper {
+  position: absolute;
+  top: 90px;
+  left: 80px;
+  width: 500px;
+  height: 800px;
+  border-radius: 24px;
+  overflow: visible;
+  opacity: 0;
+  animation: fadeUp 1s ease forwards;
+  animation-delay: 0.3s;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  z-index: 20;
+}
+.staffImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 24px;
+}
+
+/* =============================
+   서비스 소개
+============================= */
+.transitionText {
+  width: 100%;
+  text-align: center;
+  background: #fff;
+  margin-top: -400px;
+  padding-bottom: 100px;
+  z-index: 20;
+}
+
+.transitionSubtitle {
+  font-size: 4rem;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+}
+
+.transitionTitle {
+  font-size: 4.9rem;
+  font-weight: 700;
+  color: #666666;
+  letter-spacing: -2px;
+}
+
+.slider {
+  width: 100%;
+  height: var(--height);
+  overflow: hidden;
+  margin-top: 50px;
+}
+
+.slider .list {
+  display: flex;
+  width: 100%;
+  min-width: calc(var(--width) * var(--quantity));
+  position: relative;
+}
+
+.slider .list .item {
+  width: var(--width);
+  height: var(--height);
+  position: absolute;
+  left: 100%;
+  animation: autoRun 50s linear infinite;
+  transition: filter 0.5s;
+  animation-delay: calc((50s / var(--quantity)) * (var(--position) - 1) - 50s) !important;
+}
+
+.slider .list .item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+@keyframes autoRun {
+  from { left: 100%; }
+  to { left: calc(var(--width) * -1); }
+}
+
+.slider:hover .item {
+  animation-play-state: paused !important;
+  filter: grayscale(1);
+}
+
+.slider .item:hover {
+  filter: grayscale(0);
+}
+
+/* =============================
+   섹션 6: 지속가능한 미래
+============================= */
+.titleBoxWhite {
+  width: 100%;
+  max-width: 100%;
+  text-align: center;
+  position: relative;
+  z-index: 25;
+  padding: 0 20px;
+}
+
+.efficiencySubtitleThird {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #110303;
+  letter-spacing: -0.5px;
+  opacity: 0;
+  animation: fadeUp 1s ease forwards;
+  white-space: nowrap;
+}
+
+.susImg {
+  width: 1600px;
+  height: auto;
+  margin: 0 auto;
+  margin-top: -700px;
+  margin-left: -310px;
+  margin-bottom: -80px;
+  object-fit: cover;
+  display: block;
+  z-index: 20;
+}
+
+.fuImg {
+  width: 1410px;
+  height: auto;
+  margin: 0 auto;
+  margin-top: -80px;
+  margin-bottom: -50px;
+  object-fit: cover;
+  display: block;
+  z-index: 20;
+}
+
+.futureTitleFirst {
+  font-size: 70px;
+  font-weight: 700;
+  background: #000000;
+  margin-left: -1000px;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-left: -840px;
+  margin-top: 300px;
+  letter-spacing: -0.5px;
+  opacity: 0;
+  animation: fadeUp 1s ease forwards;
+  animation-delay: 0.2s;
+  white-space: nowrap;
+}
+
+.futureTitleSecond {
+  font-size: 70px;
+  font-weight: 700;
+  background: #000000;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-top: 10px;
+  margin-left: -960px;
+  letter-spacing: -0.5px;
+  opacity: 0;
+  animation: fadeUp 1s ease forwards;
+  animation-delay: 0.3s;
+  white-space: nowrap;
+}
+
+.introThird {
+  margin-top: 50px;
+  margin-left: 330px;
+  margin-bottom: 300px;
+  width: 90%;
+  max-width: 100%;
+  text-align: left;
+  position: relative;
+  z-index: 30;
+}
+
+.introThird p {
+  font-size: 1.4rem;
+  color: rgba(0,0,0,0.85);
+  margin-top: 13px;
+  line-height: 2rem;
+  opacity: 0;
+  animation: fadeUp 1s ease forwards;
+}
+
+.introThird p strong {
+  color: #000000;
+  font-weight: 700;
+}
+
+.lastSection {
+  padding-bottom: 100px !important;  /* 400px에서 100px로 변경 */
+  min-height: auto !important;  /* 높이도 자동으로 */
 }

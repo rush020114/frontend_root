@@ -5,14 +5,16 @@ import styles from "./CompanyProfile.module.css";
 const clamp01 = (v) => Math.min(Math.max(v, 0), 1);
 
 const CompanyProfile = () => {
-  // 참조용 ref (전체, 섹션2, 섹션3)
+  // 참조용 ref (전체, 섹션2, 섹션3, 섹션5)
   const containerRef = useRef(null);
   const section2Ref = useRef(null);
   const section3Ref = useRef(null);
+  const section5Ref = useRef(null);
 
   // 각 섹션의 스크롤 진행 비율 (0~1)
   const [progress2, setProgress2] = useState(0);
   const [progress3, setProgress3] = useState(0);
+  const [progress5, setProgress5] = useState(0);
 
   // 스크롤 시 섹션별 위치를 계산해서 애니메이션 진행도 업데이트
   useEffect(() => {
@@ -24,13 +26,19 @@ const CompanyProfile = () => {
         const ratio = 1 - clamp01(rect.top / vh);
         setProgress2(ratio);
       }
-
       // === 섹션3 ===
       if (section3Ref.current) {
         const rect = section3Ref.current.getBoundingClientRect();
         const vh = window.innerHeight;
         const ratio = 1 - clamp01(rect.top / vh);
         setProgress3(ratio);
+      }
+      // === 섹션5 ===
+      if (section5Ref.current) {
+        const rect = section5Ref.current.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const ratio = 1 - clamp01(rect.top / vh);
+        setProgress5(ratio);
       }
     };
 
@@ -44,6 +52,7 @@ const CompanyProfile = () => {
 
   return (
     <div className={styles.container} ref={containerRef}>
+      {/* --------------------------------------------------------------- */}
       {/* 섹션 1: 브랜드 인트로 영역 */}
       <div className={styles.section}>
         {/* 왼쪽 */}
@@ -79,7 +88,7 @@ const CompanyProfile = () => {
           </h1>
         </div>
       </div>
-
+      {/* --------------------------------------------------------------- */}
       {/* 섹션 2 : 색상 박스 */}
       <div className={styles.sectionDark} ref={section2Ref}>
         <div className={styles.fourBox}>
@@ -96,7 +105,6 @@ const CompanyProfile = () => {
             <p>black</p>
             <p>rgb(0, 0, 0)</p>
           </div>
-
           {/* 2. grey */}
           <div
             className={`${styles.box} ${styles.middle}`}
@@ -110,7 +118,6 @@ const CompanyProfile = () => {
             <p>grey</p>
             <p>rgb(80, 86, 64)</p>
           </div>
-
           {/* 3. green */}
           <div
             className={`${styles.box} ${styles.extra}`}
@@ -124,7 +131,6 @@ const CompanyProfile = () => {
             <p>green</p>
             <p>rgb(114, 168, 79)</p>
           </div>
-
           {/* 4. brown */}
           <div
             className={`${styles.box} ${styles.right}`}
@@ -140,7 +146,7 @@ const CompanyProfile = () => {
           </div>
         </div>
       </div>
-
+      {/* --------------------------------------------------------------- */}
       {/* 섹션 3 : 이미지 박스 + 소개 + 라즈베리파이 GIF */}
       <div className={styles.sectionGif} ref={section3Ref}>
         {/* 상단 : 이미지 박스 + 간단 소개 */}
@@ -164,7 +170,6 @@ const CompanyProfile = () => {
             </p>
           </div>
         </div>
-
         {/* 라즈베리파이 타이틀 */}
         <div className={styles.titleBox}>
           <h2 className={styles.raspberryTitle}>
@@ -172,50 +177,45 @@ const CompanyProfile = () => {
           </h2>
           <h1 className={styles.raspberrySubtitle}>작지만 강력한 두뇌</h1>
         </div>
-
         {/* 라즈베리파이 GIF */}
         <div className={styles.gifContainer}>
           <img
             src="/pie.gif"
             alt="raspberry 360 gif"
             className={styles.gifImg}
-          />
+            />
         </div>
-
         {/* 소개 문단 */}
         <div className={styles.descBoxFirst}>
-          <p>root의 중심에는 <strong>Raspberry P I</strong> 가 탑재 되어있습니다.</p>
+          <p>root의 중심에는 <strong>Raspberry <span style={{letterSpacing : 3}}>PI</span></strong> 가 탑재 되어있습니다.</p>
           <p><strong>손바닥만 한</strong> 크기 속에 <strong>4 코어 </strong> CPU, 고성능 <strong>GPU</strong>, 저전력 시스템이 </p>
           <p>집약되어 농장의 데이터를 <strong>순간 단위</strong> 로 처리합니다.</p>
         </div>
-
         {/* modules.png 이미지 */}
         <div className={styles.moduleImageBox}>
           <img src="/modules.png" alt="modules" className={styles.moduleImg} />
         </div>
-
         <div className={styles.descBoxSecond}>
           <p>센서에서 수집된 온도·습도·조도·토양 수분 값은 </p>
           <p>이 작은 컴퓨터를 거쳐 maria DB로 전송되며 기능을 실행합니다.</p>
         </div>
       </div>
-
+      {/* --------------------------------------------------------------- */}
       {/* 섹션 4 : 효율성 (흰색 배경) */}
       <div className={styles.sectionWhite}>
-        <div className={styles.titleBoxWhite}>
-          <h2 className={styles.efficiencySubtitle}>
+        <div className={styles.titleBoxFirst}>
+          <h2 className={styles.efficiencySubtitleFirst}>
             <strong>M a r i a &nbsp;D B&nbsp;&nbsp;-&nbsp;&nbsp;S p r i n g&nbsp; B o o t</strong>
           </h2>
-          <h1 className={styles.mainTitleFirst}>24 hours</h1>
-          <h1 className={styles.mainTitleSecond}>연결의 힘.</h1>
+          <h1 className={styles.mainTitleHours}>24 hours</h1>
+          <h1 className={styles.mainTitleSPower}>연결의 힘.</h1>
         </div>
-
-        <div className={styles.descBoxThird}>
+        <div className={styles.introFirst}>
           <p><strong>모듈</strong>을 내장한 보드는 각 센서 모듈 <strong>데이터베이스 서버</strong>와</p>
           <p> 즉각적으로 통신합니다. 데이터는 <strong>MariaDB</strong>로 <strong>24h 실시간</strong> 동기화</p>
           <p> 되고, <strong>Spring Boot</strong>를 거쳐 <strong>React</strong> 대시보드로 <strong>시각화 </strong>됩니다.</p>
         </div>
-          {/* -------------------------------------------------------- */}
+        {/* -------------------------------------------------------- */}
           {/* 클라우드 동기화 로더 애니메이션 */}
           <div className={styles.loader}>
             <svg className={styles.cloudSvg} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
@@ -271,37 +271,87 @@ const CompanyProfile = () => {
               </g>
             </svg>
           </div>
-          {/* -------------------------------------------------------- */}
       </div>
-
+      {/* -------------------------------------------------------- */}
       {/* 섹션 5 : 스마트한 농업 (흰색 배경) */}
-      <div className={styles.sectionWhite}>
-        <div className={styles.titleBoxWhite}>
-          <h2 className={styles.efficiencySubtitle}>
-            <strong>S M A R T &nbsp;F A R M I N G</strong>
-          </h2>
-          <h1 className={styles.smartTitle}>스마트한</h1>
-          <h1 className={styles.smartTitle}>농업의 만남.</h1>
+      <div className={styles.sectionWhite} ref={section5Ref}>
+        {/* -------------------------------------------------------- */}
+        {/* staff.png (직원 이미지) */}
+        <div 
+          className={styles.staffImageWrapper}
+          style={{
+            width: `${300 + progress5 * 250}px`,
+            height: `${100 + progress5 * 700}px`,
+          }}
+        >
+          <img src="/staff.png" alt="staff" className={styles.staffImg} />
         </div>
-        <div className={styles.descBoxThird}>
+      {/* -------------------------------------------------------- */}
+        <div className={styles.titleBoxSecond}>
+          <h2 className={styles.efficiencySubtitleSecond}>
+            {/* <strong>S M A R T &nbsp;F A R M I N G</strong> */}
+          </h2>
+          <img src="/smart.png" alt="smart" className={styles.smartImg} />
+          <h1 className={styles.farmTitle}>농장의 등장</h1>
+        </div>
+        <div className={styles.introSecond}>
+          <p><strong> | Root Lab Engineering Specialist | @ David</strong></p>
+          <br />
           <p><strong>root</strong> 의 라즈베리파이는 단순한 수집 장비가 아닙니다.</p>
-          <p>입력된 코드와 모듈을 통해, 누구든 손쉽게</p>
+          <p>입력된 코드와 모듈을 통해 누구든 손쉽게</p>
           <p><strong>웹사이트</strong>에서 <strong>토양 수분 측정</strong>, <strong>온습도 조도 측정</strong>,</p>
           <p><strong>이상움직임 감지</strong> 등의 작물의 상태를 관찰하고</p>
           <p><strong>App</strong>에서 원격으로 <strong>자동 물 펌프 기능</strong> 등을 제어할 수 있습니다.</p>
           <p>작지만 스마트한 두뇌가 <strong>'생각하는 농장'</strong>을 만드는 것이죠.</p>
         </div>
       </div>
-
-      {/* 섹션 6 : 지속가능한 미래 (흰색 배경) */}
+      {/* -------------------------------------------------------- */}
+      {/* 서비스 소개 (카피문구) */}
+      <div className={styles.transitionText}>
+        <h2 className={styles.transitionSubtitle}>어떤 곳에서든, 한번에 가능 하니까</h2>
+        <h1 className={styles.transitionTitle}>스마트한 ROOT 경험</h1>
+      </div>
+      {/* -------------------------------------------------------- */}
+      {/* 서비스 소개 (애니메이션) */}
       <div className={styles.sectionWhite}>
-        <div className={styles.titleBoxWhite}>
-          <h2 className={styles.efficiencySubtitle}>
-            <strong>S U S T A I N A B L E &nbsp;F U T U R E</strong>
-          </h2>
-          <h1 className={styles.futureTitle}>지속가능한 미래를 위한 작은 기술.</h1>
+        {/* 이미지 슬라이더 */}
+        <div 
+          className={styles.slider} 
+          style={{
+            '--width': '1000px', 
+            '--height': '700px', 
+            '--quantity': 8
+          }}
+        >
+          <div className={styles.list}>
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
+              <div 
+                key={num} 
+                className={styles.item} 
+                style={{'--position': num}}
+              >
+                <img 
+                  src={`/intro${num}.png`} 
+                  alt={`service ${num}`} 
+                />
+              </div>
+            ))}
+          </div>
         </div>
-        <div className={styles.descBoxThird}>
+      </div>
+      {/* -------------------------------------------------------- */}
+      {/* 섹션 6 : 지속가능한 미래 (흰색 배경) */}
+      <div className={`${styles.sectionWhite} ${styles.lastSection}`}>
+        <div className={styles.titleBoxWhite}>
+          <h2 className={styles.efficiencySubtitleThird}>
+            {/* <strong>S U S T A I N A B L E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F U T U R E</strong> */}
+          </h2>
+          <img src="/sus.png" alt="sus" className={styles.susImg} />
+          <img src="/fu.png" alt="fu" className={styles.fuImg} />
+          <h1 className={styles.futureTitleFirst}>지속가능한 미래를</h1>
+          <h1 className={styles.futureTitleSecond}>위한 작은 기술</h1>
+        </div>
+        <div className={styles.introThird}>
           <p>기술이 모두를 이롭게 할 때, 그것은 가장 <strong>강력한 힘</strong>이 됩니다.</p>
           <p>작지만 <strong>효율적</strong>이고, 단순하지만 <strong>지능적</strong>이며, <strong>무한한 확장성</strong>을 지닌 기술.</p>
           <p><strong>root</strong> 의 철학은 단순합니다.</p>
