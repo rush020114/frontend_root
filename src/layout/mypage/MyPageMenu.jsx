@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import styles from './MyPageMenu.module.css'
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const MyPageMenu = ({notiCnt, onResetCnt}) => {
   const location = useLocation();
+
+  const nav = useNavigate();
+
+  // 로그인 정보를 저장할 state 변수
+  const loginInfo = sessionStorage.getItem('loginInfo');
+
+  // 로그인 정보 객체화
+  const loginData = JSON.parse(loginInfo);
+
+  // 서비스 신청자인지 판단할 state 변수
+  const [isApplicant, setIsApplicant] = useState(null);
 
   // 경로와 메뉴 이름 매핑
   const getMenuNameByPath = (pathname) => {
@@ -29,6 +41,24 @@ const MyPageMenu = ({notiCnt, onResetCnt}) => {
   useEffect(() => {
     setMenuName(getMenuNameByPath(location.pathname));
   }, [location.pathname]);
+
+  // 서비스 신청 여부를 판단할 useEffect
+  useEffect(() => {
+    axios.get(`/api/applications/${loginData.userId}`)
+    .then(res => setIsApplicant(res.data.apprDate))
+    .catch(e => console.log(e));
+  }, []);
+
+  const handleServiceClick = e => {
+    if(loginData.userRole !== 'ADMIN'){
+      if(!isApplicant){
+        alert('서비스 신청 후 이용해주십시오.');
+        e.preventDefault();
+        nav('/service');
+        return;
+      };
+    };
+  };
 
   return (
     <div className={styles.container}>
@@ -60,30 +90,35 @@ const MyPageMenu = ({notiCnt, onResetCnt}) => {
             <NavLink
               to={'/user/bar-chart'}
               className={({isActive}) => isActive ? styles.active : null}
+              onClick={(e) => handleServiceClick(e)}
             >마이팜</NavLink>
           </li>
           <li onClick={() => setMenuName('온도')}>
             <NavLink
               to={'/user/temp'}
               className={({isActive}) => isActive ? styles.active : null}
+              onClick={(e) => handleServiceClick(e)}
             >온도</NavLink>
           </li>
           <li onClick={() => setMenuName('습도')}>
             <NavLink
               to={'/user/hum'}
               className={({isActive}) => isActive ? styles.active : null}
+              onClick={(e) => handleServiceClick(e)}
             >습도</NavLink>
           </li>
           <li onClick={() => setMenuName('토양습도')}>
             <NavLink
               to={'/user/soilHum'}
               className={({isActive}) => isActive ? styles.active : null}
+              onClick={(e) => handleServiceClick(e)}
             >토양습도</NavLink>
           </li>
           <li onClick={() => setMenuName('조도')}>
             <NavLink
               to={'/user/illum'}
               className={({isActive}) => isActive ? styles.active : null}
+              onClick={(e) => handleServiceClick(e)}
             >조도</NavLink>
           </li>
           <li onClick={() => setMenuName('문의')}>
