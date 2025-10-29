@@ -19,6 +19,9 @@ const RegService = () => {
   // 로그인 정보 객체화
   const loginData = JSON.parse(loginInfo);
 
+  // 회원 정보를 받아올 state 변수
+  const [userInfo, setUserInfo] = useState({});
+
   // 약관 체크박스 데이터를 저장할 state 변수
   const[checkData, setCheckData] = useState([]);
 
@@ -37,6 +40,13 @@ const RegService = () => {
     , addrDetail: ''
     , applContent: ''
   });
+  
+  // 회원 정보를 받아올 useEffect
+  useEffect(() => {
+    axios.get(`/api/users/userInfo/${loginData.userId}`)
+    .then(res => setUserInfo(res.data))
+    .catch(e => console.log(e));
+  }, []);
 
   // 서비스 신청 등록 데이터를 세팅할 함수
   const handleService = e => {
@@ -110,6 +120,7 @@ const RegService = () => {
     });
   }
 
+  console.log(userInfo)
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -134,19 +145,19 @@ const RegService = () => {
                 <tbody>
                   <tr>
                     <td>이름</td>
-                    <td>홍길동</td>
+                    <td>{userInfo.userName}</td>
                   </tr>
                   <tr>
                     <td>아이디</td>
-                    <td>hong1234</td>
+                    <td>{userInfo.userId}</td>
                   </tr>
                   <tr>
                     <td>이메일</td>
-                    <td>hong1234@gmail.com</td>
+                    <td>{userInfo.userEmail}</td>
                   </tr>
                   <tr>
                     <td>연락처</td>
-                    <td>010-1234-1234</td>
+                    <td>{userInfo.userTel}</td>
                   </tr>
                 </tbody>
               </table>
